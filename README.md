@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `yarn`
+### `yarn install`
 
 After cloning the repository, run this to get the dependencies.
 
@@ -43,9 +43,21 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+### `yarn coverage`
+
+Launches the test runner in the interactive watch mode and creates a code coverage report. The html-formatted report can be found in `coverage` folder and viewed in the browser.
+
+To see a textual report in different format in the terminal, you can try with
+
+`CI=true yarn test --coverage --coverageReporters="text-summary"`
+
 ### `yarn lint`
 
 Lints all .ts and .tsx files in the `src` folder.
+
+### `yarn fix`
+
+Lints all .ts and .tsx files in the `src` folder and automatically fixes problems.
 
 ### `yarn format`
 

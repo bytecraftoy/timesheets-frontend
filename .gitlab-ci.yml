@@ -19,7 +19,7 @@ build:
     - merge_requests
     - master
   artifacts:
-    expire_in: 30 seconds
+    expire_in: 5 minutes
     paths:
       - node_modules
 

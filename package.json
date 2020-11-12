@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
@@ -21,8 +21,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
-    "format": "prettier --write src/**/*.ts{,x}"
+    "coverage": "react-scripts test --coverage --watchAll=false",
+    "fix": "tsc --noEmit && eslint src/**/*.ts{,x} --fix",
+    "format": "prettier --write src/**/*.{ts,tsx,css}",
+    "lint": "tsc --noEmit && eslint src/**/*.ts{,x}"
   },
   "browserslist": {
     "production": [
@@ -36,7 +38,15 @@
       "last 1 safari version"
     ]
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "devDependencies": {
+    "@types/testing-library__jest-dom": "^5.9.5",
+    "@types/testing-library__react": "^10.2.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "eslint-config-airbnb-typescript": "6.3.2",
@@ -47,7 +57,8 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.4"
   },
   "jest": {
     "coverageReporters": [
