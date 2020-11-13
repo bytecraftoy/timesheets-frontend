@@ -1,0 +1,46 @@
+image: node:lts
+
+stages:
+  - build
+  - test
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+build:
+  stage: build
+  before_script:
+    - yarn install
+  script:
+    - echo "Start building App"
+    - yarn build
+    - echo "Build successful!"
+  only: 
+    - merge_requests
+    - master
+  artifacts:
+    expire_in: 30 seconds
+    paths:
+      - node_modules
+
+test:
+  stage: test
+  script: 
+    - echo "Testing App"
+    - CI=true yarn test --coverage --coverageReporters="text" --coverageReporters="cobertura"
+    - echo "Test succesful!"
+  only: 
+    - merge_requests
+    - master
+  artifacts:
+    reports:
+      cobertura: coverage/cobertura-coverage.xml
+
+code_quality:
+  stage: test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"' # Run code quality job in merge request pipelines
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'      # Run code quality job in pipelines on the master branch (but not in other branch pipelines)
+  artifacts:
+    reports: 
+      codequality: gl-code-quality-report.json
