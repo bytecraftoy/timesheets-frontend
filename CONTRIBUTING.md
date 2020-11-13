@@ -6,7 +6,7 @@
 
 e.g. `git commit -m "FIX/US-4: fix form validation in add new project form"
 
-A commit title should be short and precice, no more than 80 characters (it's okay to estimate). 
+A commit title should be short and precise, no more than 80 characters (it's okay to estimate). 
 
 A commit title must start with a type. 
 
@@ -17,7 +17,7 @@ A commit title must start with a type.
 **FIX**: A bug fix
 **PERF**: A code change that improves performance
 **STYLE**: Formatting, missing semi colons, ...
-**REFACTOR**: A code change that neither fixes a bug nor adds a feature but it does more than just changes styling.
+**REFACTOR**: A code change that neither fixes a bug nor adds a feature, but it does more than just changes styling.
 **TEST**: Adding missing tests or correcting existing tests
 **CHORE**: Anything else
 
@@ -29,7 +29,7 @@ The commit title should include a short summary of the commit.
 * no period in the end
 
 A commit body is not mandatory, but you may add one if you think that it's necessary. You may write in full sentences but
-try to be precice.
+try to be precise.
 
 ## Branch names
 
