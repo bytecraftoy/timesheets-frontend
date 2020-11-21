@@ -1,0 +1,28 @@
+{
+    "projects": [
+        {
+            "id": 1,
+            "name": "Bytecraft Timesheets project",
+            "client": "Bytecraft",
+            "owner": "A",
+            "created": "1605900437",
+            "billable": true
+        },
+        {
+            "id": 2,
+            "name": "Software project course",
+            "client": "Aalto",
+            "owmner": "B",
+            "created": "1605960437",
+            "billable": true
+        },
+        {
+            "id": 3,
+            "name": "Random project",
+            "client": "Random client",
+            "owner": "Random owner",
+            "created": "1605963437",
+            "billable": false
+        }
+    ]
+}
