@@ -35,6 +35,7 @@
   "rules": {
     "@typescript-eslint/camelcase": "off",
     "camelcase": [2, {"properties": "always"}],
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "react/prop-types": 0
   }
 }
