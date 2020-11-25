@@ -213,5 +213,15 @@
             "lastEdited": 200000000030,
             "lastEditor": "Another manager"
         }
+    ],
+    "managers": [
+        { "id": "1", "username": "manager1", "firstName": "Another", "lastName": "Manager" },
+        { "id": "2", "username": "manager2", "firstName": "Some", "lastName": "Manager" },
+        { "id": "3", "username": "manager3", "firstName": "Other", "lastName": "Manager" }
+    ],
+    "clients": [
+        { "id": "1", "name": "Client 1" },
+        { "id": "2", "name": "Client 2" },
+        { "id": "3", "name": "Client 3" }
     ]
 }
