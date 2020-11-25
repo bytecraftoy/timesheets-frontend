@@ -106,6 +106,100 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
+const TitleBar: React.FC<{ open: boolean; handleDrawerOpen: () => void }> = ({
+  open,
+  handleDrawerOpen,
+}) => {
+  const classes = useStyles()
+  const { t } = useTranslation()
+
+  return (
+    <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <Toolbar className={classes.toolbar}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" className={classes.title}>
+          {t('appTitle')}
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  )
+}
+
+// Navigation links in side bar menu go here.
+const NavList: React.FC = () => {
+  const { t } = useTranslation()
+
+  return (
+    <div>
+      <ListItem button component={Link} to="/">
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItem>
+      <ListItem button component={Link} to="/projects">
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary={t('projectsTitle')} />
+      </ListItem>
+    </div>
+  )
+}
+
+const SideBar: React.FC<{ open: boolean; handleDrawerClose: () => void }> = ({
+  open,
+  handleDrawerClose,
+}) => {
+  const classes = useStyles()
+  return (
+    <Drawer
+      variant="permanent"
+      classes={{
+        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+      }}
+      open={open}
+    >
+      <div className={classes.toolbarIcon}>
+        <IconButton onClick={handleDrawerClose}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </div>
+      <Divider />
+      <NavList />
+    </Drawer>
+  )
+}
+
+// Routes to different content go here inside Switch component.
+const Content: React.FC = () => {
+  const classes = useStyles()
+
+  return (
+    <main className={classes.content}>
+      <div className={classes.appBarSpacer} />
+      <Container maxWidth="lg" className={classes.container}>
+        <Switch>
+          <Route path="/projects">
+            <ProjectsView />
+          </Route>
+          <Route path="/">
+            <Dashboard />
+          </Route>
+        </Switch>
+      </Container>
+    </main>
+  )
+}
+
 const App: React.FC = () => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
@@ -118,64 +212,10 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Timesheets
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <TitleBar open={open} handleDrawerOpen={handleDrawerOpen} />
       <Router>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <div>
-            <ListItem button component={Link} to="/">
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button component={Link} to="/projects">
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Projects" />
-            </ListItem>
-          </div>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Switch>
-              <Route path="/projects">
-                <ProjectsView />
-              </Route>
-              <Route path="/">
-                <Dashboard />
-              </Route>
-            </Switch>
-          </Container>
-        </main>
+        <SideBar open={open} handleDrawerClose={handleDrawerClose} />
+        <Content />
       </Router>
     </div>
   )

@@ -45,16 +45,7 @@ const ProjectsTable: React.FC = () => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Project name</TableCell>
-            <TableCell align="right">Client</TableCell>
-            <TableCell align="center">Owner</TableCell>
-            <TableCell align="center">Tags</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
+        <ProjectsTableHead />
         <TableBody>
           {projects.map((project: Project) => (
             <ProjectInfo key={project.id} project={project} />
