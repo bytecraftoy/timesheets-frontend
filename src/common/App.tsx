@@ -1,6 +1,8 @@
 import React from 'react'
 import clsx from 'clsx'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   AppBar,

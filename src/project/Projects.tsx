@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
   Paper,
@@ -66,10 +67,11 @@ const ProjectsTable: React.FC = () => {
 
 const ProjectsView: React.FC = () => {
   const { path, url } = useRouteMatch()
+  const { t } = useTranslation()
 
   return (
     <div>
-      <Typography variant="h2">Projects</Typography>
+      <Typography variant="h2">{t('projectsTitle')}</Typography>
       <Switch>
         <Route exact path={path}>
           <Button variant="outlined" color="primary" component={Link} to={`${url}/new-project`}>
