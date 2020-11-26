@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect, Link as RouterLink } from 'react-router-dom'
 import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Grid,
   InputLabel,
+  MenuItem,
   Select,
   Switch,
-  Button,
   TextField,
-  MenuItem,
-  Grid,
+  Typography,
   makeStyles,
-  FormControlLabel,
-  FormControl,
 } from '@material-ui/core'
 import { useFormik } from 'formik'
-import axios from 'axios'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
-import { Client, Manager } from '../common/types'
+import { Client, Manager, ProjectFormValues } from '../common/types'
+import { getAll, create } from './ProjectService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProjectForm: React.FC = () => {
+  const classes = useStyles()
+
   const [isLoading, setLoading] = useState(true)
   const [clients, setClients] = useState<Client[]>([])
   const [managers, setManagers] = useState<Manager[]>([])
@@ -44,30 +47,29 @@ const ProjectForm: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      projectName: '',
-      clientName: '',
-      managerName: '',
+      name: '',
+      description: '',
+      client: '',
+      owner: '',
       billable: true,
     },
     onSubmit: (values) => {
-      axios.post('http://localhost:8080/add_project', values)
+      create<ProjectFormValues>(values)
       setToNext(true)
     },
   })
 
   const fetchManagerAndClients = async () => {
-    const clientPromise = axios.get('http://localhost:8080/clients')
-    const managerResponse = await axios.get('http://localhost:8080/managers')
-    const clientResponse = await clientPromise
-    setClients(clientResponse.data)
-    setManagers(managerResponse.data)
+    const clientResponse = await getAll<Client[]>('clients')
+    const managerResponse = await getAll<Manager[]>('managers')
+    setClients(clientResponse)
+    setManagers(managerResponse)
     setLoading(false)
   }
 
   useEffect(() => {
     fetchManagerAndClients()
   }, [])
-  const classes = useStyles()
 
   if (isLoading) {
     return (
@@ -78,90 +80,103 @@ const ProjectForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={formik.handleSubmit} className={classes.root}>
-      <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
-        <Grid item>
-          <TextField
-            id="projectName"
-            name="projectName"
-            label="Project's Name"
-            value={formik.values.projectName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-        </Grid>
-
-        <Grid item>
-          <FormControl className={classes.formControl}>
-            <InputLabel>Client</InputLabel>
-            <Select
-              id="clientName"
-              name="clientName"
-              value={formik.values.clientName}
+    <>
+      <Typography variant="h6">Create new project</Typography>
+      <form onSubmit={formik.handleSubmit} className={classes.root}>
+        <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
+          <Grid item>
+            <TextField
+              id="name"
+              name="name"
+              label="Project's Name"
+              value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            >
-              {clients.map((client) => {
-                return (
-                  <MenuItem key={client.id} value={client.name}>
-                    {client.name}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel>Manager</InputLabel>
-            <Select
-              id="managerName"
-              name="managerName"
-              value={formik.values.managerName}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="description"
+              name="description"
+              label="Description"
+              value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            >
-              {managers.map((manager) => {
-                return (
-                  <MenuItem key={manager.id} value={manager.username}>
-                    {manager.firstName} {manager.lastName}
-                  </MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl>
-        </Grid>
+            />
+          </Grid>
 
-        <Grid item>
-          <FormControlLabel
-            control={
-              <Switch
-                id="billable"
-                name="billable"
-                checked={formik.values.billable}
+          <Grid item>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Client</InputLabel>
+              <Select
+                id="client"
+                name="client"
+                value={formik.values.client}
                 onChange={formik.handleChange}
-                color="primary"
-                inputProps={{ 'aria-label': 'primary checkbox' }}
-              />
-            }
-            label="Is billable"
-          />
-        </Grid>
+                onBlur={formik.handleBlur}
+              >
+                {clients.map((client) => {
+                  return (
+                    <MenuItem key={client.id} value={client.name}>
+                      {client.name}
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Owner</InputLabel>
+              <Select
+                id="owner"
+                name="owner"
+                value={formik.values.owner}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              >
+                {managers.map((manager) => {
+                  return (
+                    <MenuItem key={manager.id} value={manager.id}>
+                      {manager.firstName} {manager.lastName}
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
 
-        {toNext && <Redirect to="/projects" />}
-        <Grid item>
-          <Button className={classes.button} variant="contained" type="submit" color="primary">
-            Create
-          </Button>
-          <Button
-            className={classes.button}
-            variant="contained"
-            component={RouterLink}
-            to="/projects"
-          >
-            Cancel
-          </Button>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Switch
+                  id="billable"
+                  name="billable"
+                  checked={formik.values.billable}
+                  onChange={formik.handleChange}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                />
+              }
+              label="Is billable"
+            />
+          </Grid>
+
+          {toNext && <Redirect to="/projects" />}
+          <Grid item>
+            <Button className={classes.button} variant="contained" type="submit" color="primary">
+              Create
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              component={RouterLink}
+              to="/projects"
+            >
+              Cancel
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </form>
+      </form>
+    </>
   )
 }
 

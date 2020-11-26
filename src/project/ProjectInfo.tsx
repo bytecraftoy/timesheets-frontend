@@ -49,8 +49,13 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
-  const created = new Date(project.creationTimestamp).toString()
-  const edited = new Date(project.lastEdited).toString()
+  let projectOwner: string
+  if (project.owner.firstName) {
+    projectOwner = project.owner.firstName.charAt(0)
+    projectOwner += project.owner.lastName.charAt(0)
+  } else {
+    projectOwner = 'n/a'
+  }
 
   return (
     <>
@@ -65,10 +70,7 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
         </TableCell>
         <TableCell align="right">{project.client}</TableCell>
         <TableCell align="center">
-          <Avatar>
-            {project.owner.firstName.charAt(0)}
-            {project.owner.lastName.charAt(0)}
-          </Avatar>
+          <Avatar>{projectOwner}</Avatar>
         </TableCell>
         <Tags tags={project.tags} />
         <TableCell align="right">
@@ -97,17 +99,13 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
                 <TableBody>
                   <TableRow>
                     <TableCell>Created</TableCell>
-                    <TableCell>{created}</TableCell>
-                    <TableCell>
-                      {project.creator.firstName} {project.creator.lastName}
-                    </TableCell>
+                    <TableCell>26.11.2020</TableCell>
+                    <TableCell>creators name</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Last modified</TableCell>
-                    <TableCell>{edited}</TableCell>
-                    <TableCell>
-                      {project.lastEditor.firstName} {project.lastEditor.lastName}
-                    </TableCell>
+                    <TableCell>27.11.2020</TableCell>
+                    <TableCell>editors name</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

@@ -32,3 +32,11 @@ export interface Project {
   lastEdited: number
   lastEditor: Manager
 }
+
+export interface ProjectFormValues {
+  name: string
+  description: string
+  client: string
+  owner: string
+  billable: boolean
+}

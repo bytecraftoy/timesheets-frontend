@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
   Paper,
@@ -13,25 +14,40 @@ import {
   Typography,
 } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
+
 import { Project } from '../common/types'
 import ProjectInfo from './ProjectInfo'
 import ProjectForm from './ProjectForm'
+import { getAll } from './ProjectService'
+
+const ProjectsTableHead: React.FC = () => {
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell />
+        <TableCell>Project name</TableCell>
+        <TableCell align="right">Client</TableCell>
+        <TableCell align="center">Owner</TableCell>
+        <TableCell align="center">Tags</TableCell>
+        <TableCell align="right">Actions</TableCell>
+      </TableRow>
+    </TableHead>
+  )
+}
 
 const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
 
-  let backend = process.env.REACT_APP_BACKEND_URL
-  if (backend != null) {
-    backend += '/projects'
+  const getAllProjects = async () => {
+    const result = await getAll<Project[]>('projects')
+    setProjects(result)
   }
 
   useEffect(() => {
-    axios.get(backend || 'http://localhost:9000/projects').then((response) => {
-      setProjects(response.data)
-      setLoading(false)
-    })
-  })
+    getAllProjects()
+    setLoading(false)
+  }, [])
 
   if (isLoading) {
     return (
@@ -44,16 +60,7 @@ const ProjectsTable: React.FC = () => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Project name</TableCell>
-            <TableCell align="right">Client</TableCell>
-            <TableCell align="center">Owner</TableCell>
-            <TableCell align="center">Tags</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
+        <ProjectsTableHead />
         <TableBody>
           {projects.map((project: Project) => (
             <ProjectInfo key={project.id} project={project} />
@@ -66,10 +73,11 @@ const ProjectsTable: React.FC = () => {
 
 const ProjectsView: React.FC = () => {
   const { path, url } = useRouteMatch()
+  const { t } = useTranslation()
 
   return (
     <div>
-      <Typography variant="h2">Projects</Typography>
+      <Typography variant="h2">{t('projectsTitle')}</Typography>
       <Switch>
         <Route exact path={path}>
           <Button variant="outlined" color="primary" component={Link} to={`${url}/new-project`}>
