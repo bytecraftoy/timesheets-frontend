@@ -3,6 +3,7 @@ image: node:lts
 stages:
   - build
   - test
+  - staging
 
 include:
   - template: Code-Quality.gitlab-ci.yml
@@ -44,3 +45,18 @@ code_quality:
   artifacts:
     reports: 
       codequality: gl-code-quality-report.json
+
+staging:
+  type: deploy
+  stage: staging
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+  environment:  
+    name: staging
+    url: https://$HEROKU_FRONT_END_APP_NAME.herokuapp.com/
+  only:
+    - master

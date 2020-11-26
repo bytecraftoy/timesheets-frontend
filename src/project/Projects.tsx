@@ -20,12 +20,17 @@ const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
 
+  let backend = process.env.REACT_APP_BACKEND_URL
+  if (backend != null) {
+    backend += '/projects'
+  }
+
   useEffect(() => {
-    axios.get('http://localhost:8080/projects').then((response) => {
+    axios.get(backend || 'http://localhost:9000/projects').then((response) => {
       setProjects(response.data)
       setLoading(false)
     })
-  }, [])
+  })
 
   if (isLoading) {
     return (
