@@ -1,13 +1,20 @@
 export interface Manager {
   id: number
+  username: string
   firstName: string
   lastName: string
 }
 
 export interface Employee {
   id: number
+  username: string
   firstName: string
   lastName: string
+}
+
+export interface Client {
+  id: number
+  name: string
 }
 
 export interface Project {

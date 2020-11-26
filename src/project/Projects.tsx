@@ -15,6 +15,7 @@ import {
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Project } from '../common/types'
 import ProjectInfo from './ProjectInfo'
+import ProjectForm from './ProjectForm'
 
 const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
@@ -76,9 +77,8 @@ const ProjectsView: React.FC = () => {
           </Button>
           <ProjectsTable />
         </Route>
-        {/* TODO: linkitä project form tähän */}
         <Route path={`${path}/new-project`}>
-          <p>Add new project here</p>
+          <ProjectForm />
         </Route>
       </Switch>
     </div>
