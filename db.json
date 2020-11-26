@@ -1,247 +1,300 @@
 {
-    "projects": [
+  "projects": [
+    {
+      "id": 1,
+      "name": "Bytecraft Timesheets project",
+      "description": "Bytecraft Timesheets project",
+      "owner": {
+        "id": "5",
+        "username": "A",
+        "firstName": "A",
+        "lastName": "A"
+      },
+      "creator": {
+        "id": "5",
+        "username": "A",
+        "firstName": "A",
+        "lastName": "A"
+      },
+      "managers": [
         {
-            "id": 1,
-            "name": "Bytecraft Timesheets project",
-            "description": "Bytecraft Timesheets project",
-            "owner": {
-                "id": "5",
-                "firstName": "A",
-                "lastName": "A"
-            },
-            "creator": {
-                "id": "5",
-                "firstName": "A",
-                "lastName": "A"
-            },
-            "managers": [
-                {
-                    "id": 1,
-                    "firstName": "Some",
-                    "lastName": "Manager"
-                },
-                {
-                    "id": 2,
-                    "firstName": "Another",
-                    "lastName": "Manager"
-                }
-            ],
-            "client": "Bytecraft",
-            "billable": true,
-            "employees": [
-                {
-                    "id": 3,
-                    "firstName": "Some",
-                    "lastName": "Developer"
-                },
-                {
-                    "id": 4,
-                    "firstName": "Another",
-                    "lastName": "Developer"
-                }
-            ],
-            "tags": [
-                "Back-end",
-                "Front-end",
-                "Fullstack",
-                "Planning"
-            ],
-            "creationTimestamp": 100000010000,
-            "lastEdited": 100000010010,
-            "lastEditor": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            }
+          "id": 2,
+          "username": "manager2",
+          "firstName": "Some",
+          "lastName": "Manager"
         },
         {
-            "id": 2,
-            "name": "Software project course",
-            "description": "Software project course",
-            "owner": {
-                "id": 2,
-                "firstName": "Another",
-                "lastName": "Manager"
-            },
-            "creator": {
-                "id": 2,
-                "firstName": "Another",
-                "lastName": "Manager"
-            },
-            "managers": [
-                {
-                    "id": 2,
-                    "firstName": "Another",
-                    "lastName": "Manager"
-                }
-            ],
-            "client": "Aalto",
-            "billable": true,
-            "employees": [
-                {
-                    "id": 4,
-                    "firstName": "Another",
-                    "lastName": "Developer"
-                }
-            ],
-            "creationTimestamp": 200000000100,
-            "lastEdited": 200000000130,
-            "lastEditor": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            }
-        },
-        {
-            "id": 3,
-            "name": "Random project",
-            "description": "Random random project",
-            "owner": {
-                "id": 2,
-                "firstName": "Another",
-                "lastName": "Manager"
-            },
-            "creator": {
-                "id": 2,
-                "firstName": "Another",
-                "lastName": "Manager"
-            },
-            "managers": [
-                {
-                    "id": 2,
-                    "firstName": "Another",
-                    "lastName": "Manager"
-                }
-            ],
-            "client": "Random client",
-            "billable": false,
-            "employees": [
-                {
-                    "id": 3,
-                    "firstName": "Some",
-                    "lastName": "Developer"
-                },
-                {
-                    "id": 4,
-                    "firstName": "Another",
-                    "lastName": "Developer"
-                }
-            ],
-            "creationTimestamp": 100000051000,
-            "lastEdited": 100000051010,
-            "lastEditor": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            }
-        },
-        {
-            "id": 1000,
-            "name": "Dummy",
-            "description": "This is a dummy project.",
-            "owner": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            },
-            "creator": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            },
-            "managers": [
-                {
-                    "id": 1,
-                    "firstName": "Some",
-                    "lastName": "Manager"
-                },
-                {
-                    "id": 2,
-                    "firstName": "Another",
-                    "lastName": "Manager"
-                }
-            ],
-            "client": "Some client",
-            "billable": false,
-            "employees": [
-                {
-                    "id": 3,
-                    "firstName": "Some",
-                    "lastName": "Developer"
-                },
-                {
-                    "id": 4,
-                    "firstName": "Another",
-                    "lastName": "Developer"
-                }
-            ],
-            "tags": [
-                "Back-end",
-                "Front-end",
-                "Fullstack",
-                "Planning"
-            ],
-            "creationTimestamp": 100000000000,
-            "lastEdited": 100000000010,
-            "lastEditor": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            }
-        },
-        {
-            "id": 1001,
-            "name": "Another dummy",
-            "description": "This is another dummy project.",
-            "owner": {
-                "id": 2,
-                "firstName": "Another",
-                "lastName": "Manager"
-            },
-            "creator": {
-                "id": 2,
-                "firstName": "Another",
-                "lastName": "Manager"
-            },
-            "managers": [
-                {
-                    "id": 2,
-                    "firstName": "Another",
-                    "lastName": "Manager"
-                }
-            ],
-            "client": "Some client",
-            "billable": true,
-            "employees": [
-                {
-                    "id": 4,
-                    "firstName": "Another",
-                    "lastName": "Developer"
-                }
-            ],
-            "tags": [
-                "Back-end",
-                "Front-end",
-                "Fullstack",
-                "Planning"
-            ],
-            "creationTimestamp": 200000000000,
-            "lastEdited": 200000000030,
-            "lastEditor": {
-                "id": 1,
-                "firstName": "Some",
-                "lastName": "Manager"
-            }
+          "id": 1,
+          "username": "manager1",
+          "firstName": "Another",
+          "lastName": "Manager"
         }
-    ],
-    "managers": [
-        { "id": "1", "username": "manager1", "firstName": "Another", "lastName": "Manager" },
-        { "id": "2", "username": "manager2", "firstName": "Some", "lastName": "Manager" },
-        { "id": "3", "username": "manager3", "firstName": "Other", "lastName": "Manager" }
-    ],
-    "clients": [
-        { "id": "1", "name": "Client 1" },
-        { "id": "2", "name": "Client 2" },
-        { "id": "3", "name": "Client 3" }
-    ]
+      ],
+      "client": "Bytecraft",
+      "billable": true,
+      "employees": [
+        {
+          "id": 3,
+          "username": "employee3",
+          "firstName": "Some",
+          "lastName": "Developer"
+        },
+        {
+          "id": 4,
+          "username": "employee4",
+          "firstName": "Another",
+          "lastName": "Developer"
+        }
+      ],
+      "tags": [
+        "Back-end",
+        "Front-end",
+        "Fullstack",
+        "Planning"
+      ],
+      "creationTimestamp": 100000010000,
+      "lastEdited": 100000010010,
+      "lastEditor": {
+        "id": 1,
+        "firstName": "Some",
+        "lastName": "Manager"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Software project course",
+      "description": "Software project course",
+      "owner": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Another",
+        "lastName": "Manager"
+      },
+      "creator": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Another",
+        "lastName": "Manager"
+      },
+      "managers": [
+        {
+          "id": 1,
+          "username": "manager1",
+          "firstName": "Another",
+          "lastName": "Manager"
+        }
+      ],
+      "client": "Aalto",
+      "billable": true,
+      "employees": [
+        {
+          "id": 4,
+          "username": "employee4",
+          "firstName": "Another",
+          "lastName": "Developer"
+        }
+      ],
+      "creationTimestamp": 200000000100,
+      "lastEdited": 200000000130,
+      "lastEditor": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Some",
+        "lastName": "Manager"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Random project",
+      "description": "Random random project",
+      "owner": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Another",
+        "lastName": "Manager"
+      },
+      "creator": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Another",
+        "lastName": "Manager"
+      },
+      "managers": [
+        {
+          "id": 1,
+          "username": "manager1",
+          "firstName": "Another",
+          "lastName": "Manager"
+        }
+      ],
+      "client": "Random client",
+      "billable": false,
+      "employees": [
+        {
+          "id": 3,
+          "username": "employee3",
+          "firstName": "Some",
+          "lastName": "Developer"
+        },
+        {
+          "id": 4,
+          "username": "employee4",
+          "firstName": "Another",
+          "lastName": "Developer"
+        }
+      ],
+      "creationTimestamp": 100000051000,
+      "lastEdited": 100000051010,
+      "lastEditor": {
+        "id": 2,
+        "username": "manager2",
+        "firstName": "Some",
+        "lastName": "Manager"
+      }
+    },
+    {
+      "id": 1000,
+      "name": "Dummy",
+      "description": "This is a dummy project.",
+      "owner": {
+        "id": 2,
+        "username": "manager2",
+        "firstName": "Some",
+        "lastName": "Manager"
+      },
+      "creator": {
+        "id": 2,
+        "username": "manager2",
+        "firstName": "Some",
+        "lastName": "Manager"
+      },
+      "managers": [
+        {
+          "id": 2,
+          "username": "manager2",
+          "firstName": "Some",
+          "lastName": "Manager"
+        },
+        {
+          "id": 1,
+          "username": "manager1",
+          "firstName": "Another",
+          "lastName": "Manager"
+        }
+      ],
+      "client": "Some client",
+      "billable": false,
+      "employees": [
+        {
+          "id": 3,
+          "username": "employee3",
+          "firstName": "Some",
+          "lastName": "Developer"
+        },
+        {
+          "id": 4,
+          "username": "employee4",
+          "firstName": "Another",
+          "lastName": "Developer"
+        }
+      ],
+      "tags": [
+        "Back-end",
+        "Front-end",
+        "Fullstack",
+        "Planning"
+      ],
+      "creationTimestamp": 100000000000,
+      "lastEdited": 100000000010,
+      "lastEditor": {
+        "id": 2,
+        "username": "manager2",
+        "firstName": "Some",
+        "lastName": "Manager"
+      }
+    },
+    {
+      "id": 1001,
+      "name": "Another dummy",
+      "description": "This is another dummy project.",
+      "owner": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Another",
+        "lastName": "Manager"
+      },
+      "creator": {
+        "id": 1,
+        "username": "manager1",
+        "firstName": "Another",
+        "lastName": "Manager"
+      },
+      "managers": [
+        {
+          "id": 1,
+          "username": "manager1",
+          "firstName": "Another",
+          "lastName": "Manager"
+        }
+      ],
+      "client": "Some client",
+      "billable": true,
+      "employees": [
+        {
+          "id": 4,
+          "username": "employee4",
+          "firstName": "Another",
+          "lastName": "Developer"
+        }
+      ],
+      "tags": [
+        "Back-end",
+        "Front-end",
+        "Fullstack",
+        "Planning"
+      ],
+      "creationTimestamp": 200000000000,
+      "lastEdited": 200000000030,
+      "lastEditor": {
+        "id": 2,
+        "username": "manager2",
+        "firstName": "Some",
+        "lastName": "Manager"
+      }
+    }
+  ],
+  "managers": [
+    {
+      "id": "1",
+      "username": "manager1",
+      "firstName": "Another",
+      "lastName": "Manager"
+    },
+    {
+      "id": "2",
+      "username": "manager2",
+      "firstName": "Some",
+      "lastName": "Manager"
+    },
+    {
+      "id": "3",
+      "username": "manager3",
+      "firstName": "Other",
+      "lastName": "Manager"
+    }
+  ],
+  "clients": [
+    {
+      "id": "1",
+      "name": "Client 1"
+    },
+    {
+      "id": "2",
+      "name": "Client 2"
+    },
+    {
+      "id": "3",
+      "name": "Client 3"
+    }
+  ]
 }
