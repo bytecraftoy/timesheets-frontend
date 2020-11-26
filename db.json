@@ -48,7 +48,11 @@
             ],
             "creationTimestamp": 100000010000,
             "lastEdited": 100000010010,
-            "lastEditor": "Some manager"
+            "lastEditor": {
+                "id": 1,
+                "firstName": "Some",
+                "lastName": "Manager"
+            }
         },
         {
             "id": 2,
@@ -82,7 +86,11 @@
             ],
             "creationTimestamp": 200000000100,
             "lastEdited": 200000000130,
-            "lastEditor": "Another manager"
+            "lastEditor": {
+                "id": 1,
+                "firstName": "Some",
+                "lastName": "Manager"
+            }
         },
         {
             "id": 3,
@@ -121,7 +129,11 @@
             ],
             "creationTimestamp": 100000051000,
             "lastEdited": 100000051010,
-            "lastEditor": "Some manager"
+            "lastEditor": {
+                "id": 1,
+                "firstName": "Some",
+                "lastName": "Manager"
+            }
         },
         {
             "id": 1000,
@@ -171,7 +183,11 @@
             ],
             "creationTimestamp": 100000000000,
             "lastEdited": 100000000010,
-            "lastEditor": "Some manager"
+            "lastEditor": {
+                "id": 1,
+                "firstName": "Some",
+                "lastName": "Manager"
+            }
         },
         {
             "id": 1001,
@@ -211,7 +227,11 @@
             ],
             "creationTimestamp": 200000000000,
             "lastEdited": 200000000030,
-            "lastEditor": "Another manager"
+            "lastEditor": {
+                "id": 1,
+                "firstName": "Some",
+                "lastName": "Manager"
+            }
         }
     ]
 }

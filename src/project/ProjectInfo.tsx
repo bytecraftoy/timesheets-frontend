@@ -105,7 +105,9 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
                   <TableRow>
                     <TableCell>Last modified</TableCell>
                     <TableCell>{edited}</TableCell>
-                    <TableCell>{project.lastEditor}</TableCell>
+                    <TableCell>
+                      {project.lastEditor.firstName} {project.lastEditor.lastName}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

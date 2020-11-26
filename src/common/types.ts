@@ -23,5 +23,5 @@ export interface Project {
   tags?: string[]
   creationTimestamp: number
   lastEdited: number
-  lastEditor: string
+  lastEditor: Manager
 }
