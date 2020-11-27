@@ -54,8 +54,7 @@ const ProjectForm: React.FC = () => {
       billable: true,
     },
     onSubmit: (values) => {
-      create<ProjectFormValues>(values)
-      setToNext(true)
+      create<ProjectFormValues>(values).then(() => setToNext(true))
     },
   })
 
