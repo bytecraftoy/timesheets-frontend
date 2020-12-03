@@ -16,7 +16,7 @@ build:
     - echo "Start building App"
     - yarn build
     - echo "Build successful!"
-  only: 
+  only:
     - merge_requests
     - master
   artifacts:
@@ -26,13 +26,12 @@ build:
 
 test:
   stage: test
-  script: 
+  script:
     - echo "Testing App"
     - CI=true yarn test --coverage --coverageReporters="text" --coverageReporters="cobertura"
     - echo "Test succesful!"
-  only: 
+  only:
     - merge_requests
-    - master
   artifacts:
     reports:
       cobertura: coverage/cobertura-coverage.xml
@@ -41,9 +40,8 @@ code_quality:
   stage: test
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"' # Run code quality job in merge request pipelines
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'      # Run code quality job in pipelines on the master branch (but not in other branch pipelines)
   artifacts:
-    reports: 
+    reports:
       codequality: gl-code-quality-report.json
 
 staging:
@@ -55,7 +53,7 @@ staging:
     - apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-  environment:  
+  environment:
     name: staging
     url: https://$HEROKU_FRONT_END_APP_NAME.herokuapp.com/
   only:
