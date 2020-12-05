@@ -40,3 +40,10 @@ export interface ProjectFormValues {
   owner: string
   billable: boolean
 }
+
+export type Severity = 'error' | 'success' | 'info' | 'warning' | undefined
+
+export interface NotificationMessage {
+  message: string | null
+  severity: Severity
+}

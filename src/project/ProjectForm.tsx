@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
+
 import {
   Button,
   FormControl,
@@ -18,6 +20,7 @@ import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Client, Manager, ProjectFormValues } from '../common/types'
 import { getAll, create } from './ProjectService'
+import notificationState from '../common/atoms'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +49,7 @@ const ProjectForm: React.FC = () => {
   const [managers, setManagers] = useState<Manager[]>([])
   const [toNext, setToNext] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
+  const setNotification = useSetRecoilState(notificationState)
 
   const formik = useFormik({
     initialValues: {
@@ -55,9 +59,19 @@ const ProjectForm: React.FC = () => {
       owner: '',
       billable: true,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setSubmitting(true)
-      create<ProjectFormValues>(values).then(() => setToNext(true))
+      try {
+        const response = await create<ProjectFormValues>(values)
+        setNotification({
+          message: `${response.name} created succesfully!`,
+          severity: 'success',
+        })
+      } catch (error) {
+        setNotification({ message: error, severity: 'error' })
+      } finally {
+        setToNext(true)
+      }
     },
     validate: (values) => {
       const errors = []

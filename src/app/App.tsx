@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { RecoilRoot, useRecoilValue } from 'recoil'
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
@@ -22,6 +23,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 
 import ProjectsView from '../project/Projects'
 import Dashboard from '../dashboard/Dashboard'
+import notificationState from '../common/atoms'
+import Toast from '../toast/Toast'
 
 const drawerWidth = 240
 
@@ -200,6 +203,12 @@ const Content: React.FC = () => {
   )
 }
 
+const Notification: React.FC = () => {
+  const notification = useRecoilValue(notificationState)
+
+  return <>{notification.message && <Toast />}</>
+}
+
 const App: React.FC = () => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
@@ -209,14 +218,16 @@ const App: React.FC = () => {
   const handleDrawerClose = () => {
     setOpen(false)
   }
-
   return (
     <div className={classes.root}>
-      <TitleBar open={open} handleDrawerOpen={handleDrawerOpen} />
-      <Router>
-        <SideBar open={open} handleDrawerClose={handleDrawerClose} />
-        <Content />
-      </Router>
+      <RecoilRoot>
+        <Notification />
+        <TitleBar open={open} handleDrawerOpen={handleDrawerOpen} />
+        <Router>
+          <SideBar open={open} handleDrawerClose={handleDrawerClose} />
+          <Content />
+        </Router>
+      </RecoilRoot>
     </div>
   )
 }
