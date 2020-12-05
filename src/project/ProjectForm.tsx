@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect, Link as RouterLink } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import {
   Button,
   FormControl,
@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
   makeStyles,
+  FormHelperText,
 } from '@material-ui/core'
 import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: '25ch',
+    width: '55ch',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -44,6 +45,7 @@ const ProjectForm: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([])
   const [managers, setManagers] = useState<Manager[]>([])
   const [toNext, setToNext] = useState(false)
+  const [isSubmitting, setSubmitting] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -54,7 +56,21 @@ const ProjectForm: React.FC = () => {
       billable: true,
     },
     onSubmit: (values) => {
+      setSubmitting(true)
       create<ProjectFormValues>(values).then(() => setToNext(true))
+    },
+    validate: (values) => {
+      const errors = []
+      if (values.name === '') {
+        errors.push({ name: 'Project must have a name.' })
+      }
+      if (values.client === '') {
+        errors.push({ client: 'You must choose a client.' })
+      }
+      if (values.owner === '') {
+        errors.push({ owner: 'You must choose an owner.' })
+      }
+      return Object.assign({}, ...errors)
     },
   })
 
@@ -91,10 +107,13 @@ const ProjectForm: React.FC = () => {
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              error={Boolean(formik.errors.name && formik.touched.name)}
+              helperText={formik.errors.name && formik.touched.name && formik.errors.name}
             />
           </Grid>
           <Grid item>
             <TextField
+              className={classes.textField}
               id="description"
               name="description"
               label="Description"
@@ -113,6 +132,7 @@ const ProjectForm: React.FC = () => {
                 value={formik.values.client}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={Boolean(formik.errors.client && formik.touched.client)}
               >
                 {clients.map((client) => {
                   return (
@@ -122,6 +142,9 @@ const ProjectForm: React.FC = () => {
                   )
                 })}
               </Select>
+              <FormHelperText>
+                {formik.errors.client && formik.touched.client && formik.errors.client}
+              </FormHelperText>
             </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel>Owner</InputLabel>
@@ -131,6 +154,7 @@ const ProjectForm: React.FC = () => {
                 value={formik.values.owner}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={Boolean(formik.errors.owner && formik.touched.owner)}
               >
                 {managers.map((manager) => {
                   return (
@@ -140,6 +164,9 @@ const ProjectForm: React.FC = () => {
                   )
                 })}
               </Select>
+              <FormHelperText>
+                {formik.errors.owner && formik.touched.owner && formik.errors.owner}
+              </FormHelperText>
             </FormControl>
           </Grid>
 
@@ -161,14 +188,20 @@ const ProjectForm: React.FC = () => {
 
           {toNext && <Redirect to="/projects" />}
           <Grid item>
-            <Button className={classes.button} variant="contained" type="submit" color="primary">
+            <Button
+              className={classes.button}
+              disabled={isSubmitting}
+              variant="contained"
+              type="submit"
+              color="primary"
+            >
               Create
             </Button>
             <Button
               className={classes.button}
+              disabled={isSubmitting}
               variant="contained"
-              component={RouterLink}
-              to="/projects"
+              onClick={() => setToNext(true)}
             >
               Cancel
             </Button>
