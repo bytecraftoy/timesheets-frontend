@@ -46,18 +46,18 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Typography variant="h2">Input hours</Typography>
-      <Grid container direction="row" justify="space-between" alignItems="center">
-        <Grid item xs={2}>
+      <Grid container spacing={4} direction="row" justify="space-between" alignItems="center">
+        <Grid item xs={1}>
           <IconButton color="primary" className={classes.button}>
             <ArrowBackIosIcon />
           </IconButton>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={2}>
           <Typography align="center" variant="h5">
             Week
           </Typography>
         </Grid>
-        <Grid container xs={2} justify="flex-end">
+        <Grid item xs={1}>
           <IconButton color="primary" className={classes.button}>
             <ArrowForwardIosIcon />
           </IconButton>
