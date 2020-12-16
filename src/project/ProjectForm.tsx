@@ -2,25 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  TextField,
-  Typography,
-  makeStyles,
-  FormHelperText,
-} from '@material-ui/core'
+import { Button, FormControlLabel, Grid, Switch, Typography, makeStyles } from '@material-ui/core'
 import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Client, Manager, ProjectFormValues } from '../common/types'
 import { getAll, create } from './ProjectService'
 import notificationState from '../common/atoms'
+import { ProjectFormTextField } from './ProjectFormTextField'
+import {
+  clientToProjectFormSelectItem,
+  managerToProjectFormSelectItem,
+  ProjectFormSelect,
+} from './ProjectFormSelect'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
+  },
+  textFieldWide: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: '55ch',
   },
   formControl: {
@@ -37,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 240,
   },
   button: {
-    margin: 8,
+    margin: theme.spacing(1),
   },
 }))
 
@@ -78,6 +75,12 @@ const ProjectForm: React.FC = () => {
       if (values.name === '') {
         errors.push({ name: 'Project must have a name.' })
       }
+      if (values.name.length > 100) {
+        errors.push({ name: "Project's name cannot be over 100 letters long." })
+      }
+      if (values.description.length > 400) {
+        errors.push({ description: "Project's description cannot be over 400 letters long." })
+      }
       if (values.client === '') {
         errors.push({ client: 'You must choose a client.' })
       }
@@ -114,76 +117,53 @@ const ProjectForm: React.FC = () => {
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
           <Grid item>
-            <TextField
-              id="name"
+            <ProjectFormTextField
+              className={classes.textField}
               name="name"
               label="Project's Name"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
               value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={Boolean(formik.errors.name && formik.touched.name)}
-              helperText={formik.errors.name && formik.touched.name && formik.errors.name}
+              errors={formik.errors.name}
+              touched={formik.touched.name}
             />
           </Grid>
           <Grid item>
-            <TextField
-              className={classes.textField}
-              id="description"
+            <ProjectFormTextField
+              className={classes.textFieldWide}
               name="description"
               label="Description"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
               value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              errors={formik.errors.description}
+              touched={formik.touched.description}
             />
           </Grid>
-
           <Grid item>
-            <FormControl className={classes.formControl}>
-              <InputLabel>Client</InputLabel>
-              <Select
-                id="client"
-                name="client"
-                value={formik.values.client}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={Boolean(formik.errors.client && formik.touched.client)}
-              >
-                {clients.map((client) => {
-                  return (
-                    <MenuItem key={client.id} value={client.name}>
-                      {client.name}
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-              <FormHelperText>
-                {formik.errors.client && formik.touched.client && formik.errors.client}
-              </FormHelperText>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <InputLabel>Owner</InputLabel>
-              <Select
-                id="owner"
-                name="owner"
-                value={formik.values.owner}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={Boolean(formik.errors.owner && formik.touched.owner)}
-              >
-                {managers.map((manager) => {
-                  return (
-                    <MenuItem key={manager.id} value={manager.id}>
-                      {manager.firstName} {manager.lastName}
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-              <FormHelperText>
-                {formik.errors.owner && formik.touched.owner && formik.errors.owner}
-              </FormHelperText>
-            </FormControl>
+            <ProjectFormSelect
+              objects={clientToProjectFormSelectItem(clients)}
+              className={classes.formControl}
+              name="client"
+              label="Client"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.client}
+              errors={formik.errors.client}
+              touched={formik.touched.client}
+            />
+            <ProjectFormSelect
+              objects={managerToProjectFormSelectItem(managers)}
+              className={classes.formControl}
+              name="owner"
+              label="Owner"
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.owner}
+              errors={formik.errors.owner}
+              touched={formik.touched.owner}
+            />
           </Grid>
-
           <Grid item>
             <FormControlLabel
               control={
@@ -193,13 +173,12 @@ const ProjectForm: React.FC = () => {
                   checked={formik.values.billable}
                   onChange={formik.handleChange}
                   color="primary"
-                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                  inputProps={{ 'aria-label': 'billable' }}
                 />
               }
               label="Is billable"
             />
           </Grid>
-
           {toNext && <Redirect to="/projects" />}
           <Grid item>
             <Button
