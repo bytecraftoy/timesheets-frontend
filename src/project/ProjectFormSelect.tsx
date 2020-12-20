@@ -29,14 +29,16 @@ const ProjectFormSelect: React.FC<ProjectFormSelectProps> = ({
 }) => {
   return (
     <FormControl className={className}>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel id={`mui-component-select-${name}`}>{label}</InputLabel>
       <Select
-        id={name}
-        name={name}
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
         error={Boolean(errors && touched)}
+        inputProps={{
+          id: name,
+          name,
+        }}
       >
         {objects.map((obj) => {
           return (
