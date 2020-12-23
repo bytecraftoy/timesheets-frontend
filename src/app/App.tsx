@@ -152,7 +152,7 @@ const NavList: React.FC = () => {
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary={t('projectsTitle')} />
+        <ListItemText data-testid="projects-link" primary={t('projectsTitle')} />
       </ListItem>
     </div>
   )
