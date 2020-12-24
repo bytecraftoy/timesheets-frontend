@@ -24,7 +24,7 @@ export interface Project {
   owner: Manager
   creator: Manager
   managers: Manager[]
-  client: string
+  client: Client
   billable: boolean
   employees: Employee[]
   tags?: string[]
