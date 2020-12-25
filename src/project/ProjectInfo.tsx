@@ -65,7 +65,7 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
         <TableCell component="th" scope="row">
           {project.name}
         </TableCell>
-        <TableCell align="right">{project.client}</TableCell>
+        <TableCell align="right">{project.client.name}</TableCell>
         <TableCell align="center">
           <Avatar>{projectOwner}</Avatar>
         </TableCell>

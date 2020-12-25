@@ -5,7 +5,7 @@ import translations from './locales/en_translation.json'
 i18n.use(initReactI18next).init({
   resources: { en: { translations } },
   lng: 'en',
-  debug: true,
+  debug: false,
   ns: ['translations'],
   defaultNS: 'translations',
   interpolation: {

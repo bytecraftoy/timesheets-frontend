@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
-
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  TextField,
-  Typography,
-  makeStyles,
-  FormHelperText,
-} from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
+import { Button, FormControlLabel, Grid, Switch, Typography, makeStyles } from '@material-ui/core'
 import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Client, Manager, ProjectFormValues } from '../common/types'
 import { getAll, create } from './ProjectService'
 import notificationState from '../common/atoms'
+import { ProjectFormTextField } from './ProjectFormTextField'
+import {
+  clientToProjectFormSelectItem,
+  managerToProjectFormSelectItem,
+  ProjectFormSelect,
+} from './ProjectFormSelect'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
+  },
+  textFieldWide: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: '55ch',
   },
   formControl: {
@@ -37,11 +34,12 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 240,
   },
   button: {
-    margin: 8,
+    margin: theme.spacing(1),
   },
 }))
 
 const ProjectForm: React.FC = () => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
   const [isLoading, setLoading] = useState(true)
@@ -76,13 +74,19 @@ const ProjectForm: React.FC = () => {
     validate: (values) => {
       const errors = []
       if (values.name === '') {
-        errors.push({ name: 'Project must have a name.' })
+        errors.push({ name: t('projectFormEmptyNameErrorText') })
+      }
+      if (values.name.length > 100) {
+        errors.push({ name: t('projectFormTooLongNameErrorText') })
+      }
+      if (values.description.length > 400) {
+        errors.push({ description: t('projectFormTooLongDescriptionErrorText') })
       }
       if (values.client === '') {
-        errors.push({ client: 'You must choose a client.' })
+        errors.push({ client: t('projectFormEmptyClientErrorText') })
       }
       if (values.owner === '') {
-        errors.push({ owner: 'You must choose an owner.' })
+        errors.push({ owner: t('projectFormEmptyOwnerErrorText') })
       }
       return Object.assign({}, ...errors)
     },
@@ -110,80 +114,57 @@ const ProjectForm: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h6">Create new project</Typography>
+      <Typography variant="h6">{t('projectFormHeading')}</Typography>
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
           <Grid item>
-            <TextField
-              id="name"
-              name="name"
-              label="Project's Name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={Boolean(formik.errors.name && formik.touched.name)}
-              helperText={formik.errors.name && formik.touched.name && formik.errors.name}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
+            <ProjectFormTextField
               className={classes.textField}
-              id="description"
-              name="description"
-              label="Description"
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              name="name"
+              label={t('projectFormNameLabel')}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.name}
+              errors={formik.errors.name}
+              touched={formik.touched.name}
             />
           </Grid>
-
           <Grid item>
-            <FormControl className={classes.formControl}>
-              <InputLabel>Client</InputLabel>
-              <Select
-                id="client"
-                name="client"
-                value={formik.values.client}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={Boolean(formik.errors.client && formik.touched.client)}
-              >
-                {clients.map((client) => {
-                  return (
-                    <MenuItem key={client.id} value={client.name}>
-                      {client.name}
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-              <FormHelperText>
-                {formik.errors.client && formik.touched.client && formik.errors.client}
-              </FormHelperText>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <InputLabel>Owner</InputLabel>
-              <Select
-                id="owner"
-                name="owner"
-                value={formik.values.owner}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={Boolean(formik.errors.owner && formik.touched.owner)}
-              >
-                {managers.map((manager) => {
-                  return (
-                    <MenuItem key={manager.id} value={manager.id}>
-                      {manager.firstName} {manager.lastName}
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-              <FormHelperText>
-                {formik.errors.owner && formik.touched.owner && formik.errors.owner}
-              </FormHelperText>
-            </FormControl>
+            <ProjectFormTextField
+              className={classes.textFieldWide}
+              name="description"
+              label={t('projectFormDescriptionLabel')}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.description}
+              errors={formik.errors.description}
+              touched={formik.touched.description}
+            />
           </Grid>
-
+          <Grid item>
+            <ProjectFormSelect
+              objects={clientToProjectFormSelectItem(clients)}
+              className={classes.formControl}
+              name="client"
+              label={t('projectFormClientLabel')}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.client}
+              errors={formik.errors.client}
+              touched={formik.touched.client}
+            />
+            <ProjectFormSelect
+              objects={managerToProjectFormSelectItem(managers)}
+              className={classes.formControl}
+              name="owner"
+              label={t('projectFormOwnerLabel')}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              value={formik.values.owner}
+              errors={formik.errors.owner}
+              touched={formik.touched.owner}
+            />
+          </Grid>
           <Grid item>
             <FormControlLabel
               control={
@@ -193,13 +174,12 @@ const ProjectForm: React.FC = () => {
                   checked={formik.values.billable}
                   onChange={formik.handleChange}
                   color="primary"
-                  inputProps={{ 'aria-label': 'primary checkbox' }}
+                  inputProps={{ 'aria-label': 'billable' }}
                 />
               }
-              label="Is billable"
+              label={t('projectFormBillableLabel')}
             />
           </Grid>
-
           {toNext && <Redirect to="/projects" />}
           <Grid item>
             <Button
@@ -208,8 +188,9 @@ const ProjectForm: React.FC = () => {
               variant="contained"
               type="submit"
               color="primary"
+              data-testid="projectFormSubmit"
             >
-              Create
+              {t('projectFormCreateButtonText')}
             </Button>
             <Button
               className={classes.button}
@@ -217,7 +198,7 @@ const ProjectForm: React.FC = () => {
               variant="contained"
               onClick={() => setToNext(true)}
             >
-              Cancel
+              {t('projectFormCancelButtonText')}
             </Button>
           </Grid>
         </Grid>
