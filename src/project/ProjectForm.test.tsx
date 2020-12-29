@@ -6,9 +6,9 @@ import axios from 'axios'
 import { RecoilRoot } from 'recoil'
 import { I18nextProvider } from 'react-i18next'
 import { t } from '../testUtils'
+import * as projectTestUtils from '../projectTestUtils'
 import i18n from '../i18n'
 import ProjectForm from './ProjectForm'
-import { Client, Manager } from '../common/types'
 
 jest.mock('axios')
 
@@ -17,49 +17,6 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 let component: RenderResult
 
 describe('add project form', () => {
-  const selectClient = async (client: Client): Promise<void> => {
-    const clientSelect = component.getByLabelText(t('projectFormClientLabel'))
-    let listbox: HTMLElement
-    await act(async () => {
-      fireEvent.mouseDown(clientSelect)
-      listbox = await component.findByText(client.name)
-    })
-    await act(async () => {
-      fireEvent.click(listbox)
-      await component.findByText(client.name)
-    })
-  }
-
-  const selectManager = async (manager: Manager): Promise<void> => {
-    const ownerSelect = component.getByLabelText(t('projectFormOwnerLabel'))
-    const value = `${manager.firstName} ${manager.lastName}`
-    let listbox: HTMLElement
-    await act(async () => {
-      fireEvent.mouseDown(ownerSelect)
-      listbox = await component.findByText(value)
-    })
-    await act(async () => {
-      fireEvent.click(listbox)
-      await component.findByText(value)
-    })
-  }
-
-  const changeNameInput = async (value: string): Promise<void> => {
-    const nameInput = component.getByLabelText(t('projectFormNameLabel'))
-    await act(async () => {
-      fireEvent.change(nameInput, { target: { value } })
-      await component.findByDisplayValue(value)
-    })
-  }
-
-  const changeDesciptionInput = async (value: string): Promise<void> => {
-    const desciptionInput = component.getByLabelText(t('projectFormDescriptionLabel'))
-    await act(async () => {
-      fireEvent.change(desciptionInput, { target: { value } })
-      await component.findByDisplayValue(value)
-    })
-  }
-
   const pressSubmitButton = async (): Promise<void> => {
     const submitButton = component.getByTestId('projectFormSubmit')
     await act(async () => {
@@ -67,49 +24,14 @@ describe('add project form', () => {
     })
   }
 
-  const clients: Client[] = [
-    {
-      id: 1,
-      name: 'Client 1',
-    },
-    {
-      id: 2,
-      name: 'Client 2',
-    },
-    {
-      id: 3,
-      name: 'Client 3',
-    },
-  ]
-  const managers: Manager[] = [
-    {
-      id: 1,
-      username: 'manager1',
-      firstName: 'Another',
-      lastName: 'Manager',
-    },
-    {
-      id: 2,
-      username: 'manager2',
-      firstName: 'Some',
-      lastName: 'Manager',
-    },
-    {
-      id: 3,
-      username: 'manager3',
-      firstName: 'Other',
-      lastName: 'Manager',
-    },
-  ]
-
   describe('empty form', () => {
     beforeEach(async () => {
       mockedAxios.get.mockImplementation((url: string) => {
         if (url.includes('clients')) {
-          return Promise.resolve({ data: clients })
+          return Promise.resolve({ data: projectTestUtils.clients })
         }
         if (url.includes('managers')) {
-          return Promise.resolve({ data: managers })
+          return Promise.resolve({ data: projectTestUtils.managers })
         }
         return Promise.reject(new Error('not found'))
       })
@@ -147,11 +69,11 @@ describe('add project form', () => {
         fireEvent.mouseDown(ownerSelect)
       })
 
-      clients.forEach((client) => {
+      projectTestUtils.clients.forEach((client) => {
         expect(component.getByText(client.name)).toBeInTheDocument()
       })
 
-      managers.forEach((manager) => {
+      projectTestUtils.managers.forEach((manager) => {
         expect(component.getByText(`${manager.firstName} ${manager.lastName}`)).toBeInTheDocument()
       })
     })
@@ -161,10 +83,10 @@ describe('add project form', () => {
     beforeEach(async () => {
       mockedAxios.get.mockImplementation((url: string) => {
         if (url.includes('clients')) {
-          return Promise.resolve({ data: clients })
+          return Promise.resolve({ data: projectTestUtils.clients })
         }
         if (url.includes('managers')) {
-          return Promise.resolve({ data: managers })
+          return Promise.resolve({ data: projectTestUtils.managers })
         }
         return Promise.reject(new Error('not found'))
       })
@@ -181,8 +103,8 @@ describe('add project form', () => {
 
     describe('with empty values', () => {
       it('displays validation error name field cannot be empty', async () => {
-        await selectClient(clients[0])
-        await selectManager(managers[0])
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
 
         await pressSubmitButton()
         await waitFor(
@@ -193,8 +115,8 @@ describe('add project form', () => {
       })
 
       it('displays validation error client select cannot be empty', async () => {
-        await selectManager(managers[0])
-        await changeNameInput('a')
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+        await projectTestUtils.changeNameInput(component, 'a')
 
         await pressSubmitButton()
         await waitFor(
@@ -204,8 +126,8 @@ describe('add project form', () => {
       })
 
       it('displays validation error owner select cannot be empty', async () => {
-        await selectClient(clients[0])
-        await changeNameInput('a')
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.changeNameInput(component, 'a')
 
         await pressSubmitButton()
         await waitFor(
@@ -217,9 +139,9 @@ describe('add project form', () => {
 
     describe('with too long values', () => {
       it('displays validation error name field cannot be over 100 characters', async () => {
-        await selectClient(clients[0])
-        await selectManager(managers[0])
-        await changeNameInput('a'.repeat(101))
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+        await projectTestUtils.changeNameInput(component, 'a'.repeat(101))
 
         await pressSubmitButton()
         await waitFor(
@@ -229,10 +151,10 @@ describe('add project form', () => {
       })
 
       it('displays validation error description field cannot be over 400 characters', async () => {
-        await selectClient(clients[0])
-        await selectManager(managers[0])
-        await changeNameInput('a')
-        await changeDesciptionInput('a'.repeat(401))
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+        await projectTestUtils.changeNameInput(component, 'a')
+        await projectTestUtils.changeDesciptionInput(component, 'a'.repeat(401))
 
         await pressSubmitButton()
         await waitFor(
@@ -247,18 +169,18 @@ describe('add project form', () => {
     const newTestProjectJson = {
       name: 'a',
       description: 'a',
-      client: clients[0].id,
-      owner: managers[0].id,
+      client: projectTestUtils.clients[0].id,
+      owner: projectTestUtils.managers[0].id,
       billable: true,
     }
 
     beforeEach(async () => {
       mockedAxios.get.mockImplementation((url: string) => {
         if (url.includes('clients')) {
-          return Promise.resolve({ data: clients })
+          return Promise.resolve({ data: projectTestUtils.clients })
         }
         if (url.includes('managers')) {
-          return Promise.resolve({ data: managers })
+          return Promise.resolve({ data: projectTestUtils.managers })
         }
         return Promise.reject(new Error('not found'))
       })
@@ -284,10 +206,10 @@ describe('add project form', () => {
         await component.findByText(t('projectFormHeading'))
       })
 
-      await selectClient(clients[0])
-      await selectManager(managers[0])
-      await changeNameInput(newTestProjectJson.name)
-      await changeDesciptionInput(newTestProjectJson.description)
+      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+      await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+      await projectTestUtils.changeNameInput(component, newTestProjectJson.name)
+      await projectTestUtils.changeDesciptionInput(component, newTestProjectJson.description)
 
       await pressSubmitButton()
       await component.findByText('Redirect')

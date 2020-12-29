@@ -4,83 +4,14 @@ import axios from 'axios'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
 import { t } from '../testUtils'
-
+import * as projectTestUtils from '../projectTestUtils'
 import App from './App'
-import { Client, Manager, Project } from '../common/types'
 
 jest.mock('axios')
 
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
 let app: RenderResult
-
-const projects: Project[] = [
-  {
-    id: 1000,
-    name: 'Projekti',
-    description: '',
-    client: { id: 1, name: 'Client 1' },
-    owner: { id: 1, firstName: 'A', lastName: 'A', username: 'x' },
-    creator: { id: 1, firstName: 'A', lastName: 'A', username: 'x' },
-    managers: [{ id: 1, firstName: 'A', lastName: 'A', username: 'x' }],
-    billable: true,
-    employees: [],
-    tags: ['front-end'],
-    creationTimestamp: 1608652437257,
-    lastEdited: 1608652437257,
-    lastEditor: { id: 1, firstName: 'A', lastName: 'A', username: 'x' },
-  },
-]
-
-const clients: Client[] = [
-  {
-    id: 1,
-    name: 'Client 1',
-  },
-]
-const managers: Manager[] = [
-  {
-    id: 1,
-    username: 'manager1',
-    firstName: 'Another',
-    lastName: 'Manager',
-  },
-]
-
-const selectClient = async (client: Client): Promise<void> => {
-  const clientSelect = app.getByLabelText(t('projectFormClientLabel'))
-  let listbox: HTMLElement
-  await act(async () => {
-    fireEvent.mouseDown(clientSelect)
-    listbox = await app.findByText(client.name)
-  })
-  await act(async () => {
-    fireEvent.click(listbox)
-    await app.findByText(client.name)
-  })
-}
-
-const selectManager = async (manager: Manager): Promise<void> => {
-  const ownerSelect = app.getByLabelText(t('projectFormOwnerLabel'))
-  const value = `${manager.firstName} ${manager.lastName}`
-  let listbox: HTMLElement
-  await act(async () => {
-    fireEvent.mouseDown(ownerSelect)
-    listbox = await app.findByText(value)
-  })
-  await act(async () => {
-    fireEvent.click(listbox)
-    await app.findByText(value)
-  })
-}
-
-const changeNameInput = async (value: string): Promise<void> => {
-  const nameInput = app.getByLabelText(t('projectFormNameLabel'))
-  await act(async () => {
-    fireEvent.change(nameInput, { target: { value } })
-    await app.findByDisplayValue(value)
-  })
-}
 
 describe('app', () => {
   beforeEach(() => {
@@ -106,13 +37,13 @@ describe('projects', () => {
   beforeEach(async () => {
     mockedAxios.get.mockImplementation((url: string) => {
       if (url.includes('clients')) {
-        return Promise.resolve({ data: clients })
+        return Promise.resolve({ data: projectTestUtils.clients })
       }
       if (url.includes('managers')) {
-        return Promise.resolve({ data: managers })
+        return Promise.resolve({ data: projectTestUtils.managers })
       }
       if (url.includes('projects')) {
-        return Promise.resolve({ data: projects })
+        return Promise.resolve({ data: projectTestUtils.projects })
       }
       return Promise.reject(new Error('not found'))
     })
@@ -138,7 +69,7 @@ describe('projects', () => {
     })
 
     it("should display user's projects", () => {
-      expect(app.getByText(projects[0].name)).toBeInTheDocument()
+      expect(app.getByText(projectTestUtils.projects[0].name)).toBeInTheDocument()
     })
 
     describe('when adding a project', () => {
@@ -160,9 +91,9 @@ describe('projects', () => {
         await app.findByText(/create new project/i)
 
         await act(async () => {
-          await changeNameInput(newProjectName)
-          await selectClient(clients[0])
-          await selectManager(managers[0])
+          await projectTestUtils.changeNameInput(app, newProjectName)
+          await projectTestUtils.selectClient(app, projectTestUtils.clients[0])
+          await projectTestUtils.selectManager(app, projectTestUtils.managers[0])
 
           const submitButton = app.getByText(t('projectFormCreateButtonText'))
           fireEvent.click(submitButton)
