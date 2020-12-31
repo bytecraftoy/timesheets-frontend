@@ -46,7 +46,6 @@ const ProjectForm: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([])
   const [managers, setManagers] = useState<Manager[]>([])
   const [toNext, setToNext] = useState(false)
-  const [isSubmitting, setSubmitting] = useState(false)
   const setNotification = useSetRecoilState(notificationState)
 
   const formik = useFormik({
@@ -58,7 +57,6 @@ const ProjectForm: React.FC = () => {
       billable: true,
     },
     onSubmit: async (values) => {
-      setSubmitting(true)
       try {
         const response = await create<ProjectFormValues>(values)
         setNotification({
@@ -184,7 +182,7 @@ const ProjectForm: React.FC = () => {
           <Grid item>
             <Button
               className={classes.button}
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               variant="contained"
               type="submit"
               color="primary"
@@ -194,7 +192,7 @@ const ProjectForm: React.FC = () => {
             </Button>
             <Button
               className={classes.button}
-              disabled={isSubmitting}
+              disabled={formik.isSubmitting}
               variant="contained"
               onClick={() => setToNext(true)}
             >
