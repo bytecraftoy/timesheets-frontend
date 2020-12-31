@@ -1,101 +1,59 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import {
-  IconButton,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@material-ui/core'
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-
-const useStyles = makeStyles({
-  button: {
-    margin: 8,
-  },
-  table: {
-    minWidth: 650,
-  },
-})
-
-function getWeek(): string[] {
-  const curr = new Date()
-  const week = []
-  const weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-  for (let i = 1; i <= 7; i += 1) {
-    const first = curr.getDate() - curr.getDay() + i
-    const day = new Date(curr.setDate(first))
-    const dayString = `${weekdays[day.getDay()]} ${day.getDate()}.${day.getMonth()}.`
-    week.push(dayString)
-  }
-  return week
-}
+import React, { useEffect, useState } from 'react'
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
+import { Typography } from '@material-ui/core'
+import { ProjectWithTimeInputs } from '../common/types'
+import { getCurrentWeek, getProjects } from './DashboardService'
+import HoursWeekInputs from './HoursWeekInputs'
 
 const Dashboard: React.FC = () => {
-  const classes = useStyles()
+  const [projects, setProjects] = useState<ProjectWithTimeInputs[]>([])
+  const [isLoading, setLoading] = useState(true)
+  const [week, setWeek] = useState<Date[]>([])
 
-  const hours = [7.5, 6, 5.75, 9, 8]
+  const fetchProjectsAndGetWeek = async () => {
+    const projectsPromise = getProjects()
+    setWeek(getCurrentWeek())
+    setProjects(
+      (await projectsPromise).map((project) => {
+        return {
+          id: project.id,
+          name: project.name,
+          inputs: {
+            mondayInput: '',
+            tuesdayInput: '',
+            wednesdayInput: '',
+            thursdayInput: '',
+            fridayInput: '',
+            saturdayInput: '',
+            sundayInput: '',
+          },
+        }
+      })
+    )
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchProjectsAndGetWeek()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div>
+        <HourglassEmptyIcon />
+      </div>
+    )
+  }
 
   return (
     <>
       <Typography variant="h2">Input hours</Typography>
-      <Grid container spacing={4} direction="row" justify="space-between" alignItems="center">
-        <Grid item xs={1}>
-          <IconButton color="primary" className={classes.button}>
-            <ArrowBackIosIcon />
-          </IconButton>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography align="center" variant="h5">
-            Week
-          </Typography>
-        </Grid>
-        <Grid item xs={1}>
-          <IconButton color="primary" className={classes.button}>
-            <ArrowForwardIosIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
-
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Project</TableCell>
-              {getWeek().map((day: string) => (
-                <TableCell key={day} align="right">
-                  {day}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>Timesheets project</TableCell>
-              {hours.map((time: number) => (
-                <TableCell key={time} align="right">
-                  {time}
-                </TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell>Another project</TableCell>
-              {hours.map((time: number) => (
-                <TableCell key={time} align="right">
-                  {time}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <HoursWeekInputs
+        projects={projects}
+        setProjects={setProjects}
+        week={week}
+        debounceMs={1000}
+      />
     </>
   )
 }
