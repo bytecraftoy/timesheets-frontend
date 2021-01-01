@@ -37,7 +37,7 @@ describe('single project', () => {
         lastName: 'Manager',
       },
     ],
-    client: 'Bytecraft',
+    client: { id: 1, name: 'Bytecraft' },
     billable: true,
     employees: [
       {
@@ -79,6 +79,6 @@ describe('single project', () => {
   })
 
   test('renders client name', () => {
-    expect(component.container).toHaveTextContent(project.client)
+    expect(component.container).toHaveTextContent(project.client.name)
   })
 })

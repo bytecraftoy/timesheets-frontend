@@ -1751,6 +1751,11 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/just-debounce-it@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/just-debounce-it/-/just-debounce-it-1.1.0.tgz#9cc45455c1c1fd9da4c70ab36fb10b6e073436ad"
+  integrity sha512-TyGi8O02lh99xYXljp7GAMkyK7GOhA+OXQbmpEjZh/QKWA8JH5mow7t515VUYkpeaZR6uBmUGic3XUHs9Eq2Ug==
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -4167,6 +4172,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-fns@^2.16.1:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
+  integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
 
 debug@*:
   version "4.3.1"
@@ -7515,6 +7525,11 @@ jsx-ast-utils@^2.4.1:
   dependencies:
     array-includes "^3.1.1"
     object.assign "^4.1.1"
+
+just-debounce-it@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/just-debounce-it/-/just-debounce-it-1.1.0.tgz#8e92578effc155358a44f458c52ffbee66983bef"
+  integrity sha512-87Nnc0qZKgBZuhFZjYVjSraic0x7zwjhaTMrCKlj0QYKH6lh0KbFzVnfu6LHan03NO7J8ygjeBeD0epejn5Zcg==
 
 keyv@^3.0.0:
   version "3.1.0"

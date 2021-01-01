@@ -14,12 +14,27 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 let app: RenderResult
 
 describe('app', () => {
-  beforeEach(() => {
-    app = render(
-      <I18nextProvider i18n={i18n}>
-        <App />
-      </I18nextProvider>
-    )
+  beforeEach(async () => {
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('clients')) {
+        return Promise.resolve({ data: projectTestUtils.clients })
+      }
+      if (url.includes('managers')) {
+        return Promise.resolve({ data: projectTestUtils.managers })
+      }
+      if (url.includes('projects')) {
+        return Promise.resolve({ data: projectTestUtils.projects })
+      }
+      return Promise.reject(new Error('not found'))
+    })
+
+    await act(async () => {
+      app = render(
+        <I18nextProvider i18n={i18n}>
+          <App />
+        </I18nextProvider>
+      )
+    })
   })
 
   it('should display timesheets title', () => {

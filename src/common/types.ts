@@ -41,6 +41,22 @@ export interface ProjectFormValues {
   billable: boolean
 }
 
+export interface ProjectWithTimeInputs {
+  id: number
+  name: string
+  inputs: weekInputs
+}
+
+export interface weekInputs {
+  mondayInput: string
+  tuesdayInput: string
+  wednesdayInput: string
+  thursdayInput: string
+  fridayInput: string
+  saturdayInput: string
+  sundayInput: string
+}
+
 export type Severity = 'error' | 'success' | 'info' | 'warning' | undefined
 
 export interface NotificationMessage {
