@@ -8,6 +8,7 @@ interface Hours {
   input: string
   date: string
   project: number
+  employee: number
 }
 
 const updateHours = async (
@@ -24,6 +25,8 @@ const updateHours = async (
           date: format(week[j], 'yyyy-MM-dd'),
           input: projects[i].inputs[key],
           project: projects[i].id,
+          // TODO: decide how employee is passed to the server
+          employee: 3,
         })
       }
     })
