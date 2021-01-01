@@ -134,7 +134,14 @@ const HoursWeekInputs: React.FC<{
           <FieldArray name="projects" validateOnChange={false}>
             {() =>
               formik.values.projects.map((project, i) => (
-                <ProjectRow key={project.id} i={i} project={project} />
+                <ProjectRow
+                  key={project.id}
+                  i={i}
+                  project={project}
+                  handleChange={formik.handleChange}
+                  handleBlur={formik.handleBlur}
+                  errors={formik.errors}
+                />
               ))
             }
           </FieldArray>
