@@ -1,9 +1,31 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
-import { FastField } from 'formik'
+import { Grid, TextField } from '@material-ui/core'
+import { FastField, getIn, FormikErrors } from 'formik'
 import { ProjectWithTimeInputs, weekInputs } from '../common/types'
 
-const ProjectRow: React.FC<{ i: number; project: ProjectWithTimeInputs }> = ({ i, project }) => {
+const validate = (value: string): string | undefined => {
+  let error: string | undefined
+  if (Number.isNaN(Number(value))) {
+    error = 'Value must be a number'
+  }
+  return error
+}
+
+interface ProjectRowProps {
+  i: number
+  project: ProjectWithTimeInputs
+  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  errors: FormikErrors<{ projects: ProjectWithTimeInputs[] }>
+}
+
+const ProjectRow: React.FC<ProjectRowProps> = ({
+  i,
+  project,
+  handleChange,
+  handleBlur,
+  errors,
+}) => {
   return (
     <Grid
       item
@@ -21,7 +43,20 @@ const ProjectRow: React.FC<{ i: number; project: ProjectWithTimeInputs }> = ({ i
         const name = `projects[${i}].inputs.${key}`
         return (
           <Grid item xs={1} key={key}>
-            <FastField id={name} name={name} />
+            <FastField name={name} validate={validate}>
+              {() => (
+                <TextField
+                  id={name}
+                  name={name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={project.inputs[key]}
+                  error={Boolean(getIn(errors, name))}
+                  variant="outlined"
+                  size="small"
+                />
+              )}
+            </FastField>
           </Grid>
         )
       })}
