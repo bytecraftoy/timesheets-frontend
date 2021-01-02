@@ -71,6 +71,23 @@ const HoursWeekInputs: React.FC<{
     setDisableWeekChange(true)
     const newWeek = currentWeek.map((date) => change(date))
     setCurrentWeek(newWeek)
+    const resetProjects = projects.map((project) => {
+      return {
+        id: project.id,
+        name: project.name,
+        inputs: {
+          mondayInput: '',
+          tuesdayInput: '',
+          wednesdayInput: '',
+          thursdayInput: '',
+          fridayInput: '',
+          saturdayInput: '',
+          sundayInput: '',
+        },
+      }
+    })
+    setProjects(resetProjects)
+    formik.resetForm()
     setDisableWeekChange(false)
   }
 
@@ -141,6 +158,7 @@ const HoursWeekInputs: React.FC<{
                   handleChange={formik.handleChange}
                   handleBlur={formik.handleBlur}
                   errors={formik.errors}
+                  disable={disableWeekChange}
                 />
               ))
             }

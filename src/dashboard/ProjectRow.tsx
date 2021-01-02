@@ -17,6 +17,7 @@ interface ProjectRowProps {
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   errors: FormikErrors<{ projects: ProjectWithTimeInputs[] }>
+  disable: boolean
 }
 
 const ProjectRow: React.FC<ProjectRowProps> = ({
@@ -25,6 +26,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
   handleChange,
   handleBlur,
   errors,
+  disable,
 }) => {
   return (
     <Grid
@@ -54,6 +56,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
                   error={Boolean(getIn(errors, name))}
                   variant="outlined"
                   size="small"
+                  disabled={disable}
                 />
               )}
             </FastField>
