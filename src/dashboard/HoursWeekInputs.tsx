@@ -4,7 +4,7 @@ import { useFormik, FieldArray, FormikProvider } from 'formik'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import { addDays, subDays } from 'date-fns'
+import { addDays, subDays, getISOWeek } from 'date-fns'
 import { makeStyles } from '@material-ui/core/styles'
 import { updateHours, getWeekDays } from './DashboardService'
 import ProjectRow from './ProjectRow'
@@ -96,6 +96,10 @@ const HoursWeekInputs: React.FC<{
 
   const changeWeekForward = () => changeWeek((a) => addDays(a, 7))
 
+  const getWeekNumber = (): number => {
+    return getISOWeek(currentWeek[0])
+  }
+
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
@@ -113,7 +117,7 @@ const HoursWeekInputs: React.FC<{
           </Grid>
           <Grid item xs={2}>
             <Typography align="center" variant="h5">
-              Week
+              {`Week ${getWeekNumber()}`}
             </Typography>
           </Grid>
           <Grid item xs={1}>
@@ -144,7 +148,9 @@ const HoursWeekInputs: React.FC<{
             {getWeekDays(currentWeek).map((day) => {
               return (
                 <Grid item key={day} xs={1}>
-                  {day}
+                  <Typography align="center" variant="overline" noWrap>
+                    <strong>{day}</strong>
+                  </Typography>
                 </Grid>
               )
             })}
