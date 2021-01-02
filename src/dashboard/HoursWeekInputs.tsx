@@ -1,14 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react'
 import debounce from 'just-debounce-it'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
+import { useSetRecoilState } from 'recoil'
+import { addDays, subDays, getISOWeek } from 'date-fns'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import { addDays, subDays, getISOWeek } from 'date-fns'
 import { makeStyles } from '@material-ui/core/styles'
 import { updateHours, getWeekDays } from './DashboardService'
 import ProjectRow from './ProjectRow'
 import { ProjectWithTimeInputs } from '../common/types'
+import notificationState from '../common/atoms'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -20,12 +22,13 @@ const HoursWeekInputs: React.FC<{
   projects: ProjectWithTimeInputs[]
   setProjects: React.Dispatch<React.SetStateAction<ProjectWithTimeInputs[]>>
   week: Date[]
+  setWeek: React.Dispatch<React.SetStateAction<Date[]>>
   debounceMs: number
-}> = ({ projects, setProjects, week, debounceMs }) => {
+}> = ({ projects, setProjects, week, setWeek, debounceMs }) => {
   const classes = useStyles()
 
   const [disableWeekChange, setDisableWeekChange] = useState(false)
-  const [currentWeek, setCurrentWeek] = useState<Date[]>(week)
+  const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
 
   const formik = useFormik({
@@ -34,8 +37,12 @@ const HoursWeekInputs: React.FC<{
       projects,
     },
     onSubmit: async (values) => {
-      await updateHours(values.projects, projects, currentWeek)
-      setProjects(values.projects)
+      try {
+        await updateHours(values.projects, projects, week)
+        setProjects(values.projects)
+      } catch (error) {
+        setNotification({ message: error, severity: 'error' })
+      }
     },
   })
 
@@ -70,25 +77,8 @@ const HoursWeekInputs: React.FC<{
       return
     }
     setDisableWeekChange(true)
-    const newWeek = currentWeek.map((date) => change(date))
-    setCurrentWeek(newWeek)
-    const resetProjects = projects.map((project) => {
-      return {
-        id: project.id,
-        name: project.name,
-        inputs: {
-          mondayInput: '',
-          tuesdayInput: '',
-          wednesdayInput: '',
-          thursdayInput: '',
-          fridayInput: '',
-          saturdayInput: '',
-          sundayInput: '',
-        },
-      }
-    })
-    setProjects(resetProjects)
-    formik.resetForm()
+    const newWeek = week.map((date) => change(date))
+    setWeek(newWeek)
     setDisableWeekChange(false)
   }
 
@@ -97,7 +87,7 @@ const HoursWeekInputs: React.FC<{
   const changeWeekForward = () => changeWeek((a) => addDays(a, 7))
 
   const getWeekNumber = (): number => {
-    return getISOWeek(currentWeek[0])
+    return getISOWeek(week[0])
   }
 
   return (
@@ -145,7 +135,7 @@ const HoursWeekInputs: React.FC<{
             <Grid item xs={1}>
               Project
             </Grid>
-            {getWeekDays(currentWeek).map((day) => {
+            {getWeekDays(week).map((day) => {
               return (
                 <Grid item key={day} xs={1}>
                   <Typography align="center" variant="overline" noWrap>

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { startOfWeek, addDays, format } from 'date-fns'
-import { Project, ProjectWithTimeInputs, weekInputs } from '../common/types'
+import { startOfWeek, addDays, format, isEqual } from 'date-fns'
+import { Project, ProjectWithTimeInputs, WeekInputs, TimeInput } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -50,7 +50,7 @@ const formatTranslations = [
   },
 ]
 
-const InputStringToNumber = (value: string): number => {
+const inputStringToNumber = (value: string): number => {
   if (!Number.isNaN(Number(value))) {
     return hoursToMinutes(value)
   }
@@ -76,13 +76,13 @@ const updateHours = async (
   week: Date[]
 ): Promise<void> => {
   const hoursToSend: Hours[] = []
-  const keys = Object.keys(projects[0].inputs) as Array<keyof weekInputs>
+  const keys = Object.keys(projects[0].inputs) as Array<keyof WeekInputs>
   for (let i = 0; i < projects.length; i += 1) {
     keys.forEach((key, j) => {
       if (projects[i].inputs[key] !== savedProjects[i].inputs[key]) {
         hoursToSend.push({
           date: format(week[j], 'yyyy-MM-dd'),
-          input: InputStringToNumber(projects[i].inputs[key]),
+          input: inputStringToNumber(projects[i].inputs[key]),
           project: projects[i].id,
           // TODO: decide how employee is passed to the server
           employee: 3,
@@ -93,6 +93,17 @@ const updateHours = async (
   if (hoursToSend.length > 0) {
     await Promise.all(hoursToSend.map((hour) => axios.post(`${baseUrl}/hours`, hour)))
   }
+}
+
+const getProjectHours = async (projectId: number, start: Date, end: Date): Promise<TimeInput[]> => {
+  const { data } = await axios.get(`${baseUrl}/projects/${projectId}/hours`, {
+    params: {
+      userId: 3,
+      startDate: format(start, 'yyyy-MM-dd'),
+      endDate: format(end, 'yyyy-MM-dd'),
+    },
+  })
+  return data as TimeInput[]
 }
 
 const getProjects = async (): Promise<Project[]> => {
@@ -113,4 +124,41 @@ const getCurrentWeek = (): Date[] => {
   return week
 }
 
-export { getProjects, updateHours, getWeekDays, getCurrentWeek, InputStringToNumber }
+const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekInputs => {
+  const defaultEmptyTimeInput: string[] = Array(7).fill('')
+  const timeInputs = defaultEmptyTimeInput
+  const timeInputValues = Object.values(timeinputs)
+
+  for (let i = 0; i < week.length; i += 1) {
+    for (let j = 0; j < timeInputValues.length; j += 1) {
+      const [year, month, day] = timeInputValues[j].date.split('-')
+      const inputDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10))
+
+      if (isEqual(week[i], inputDate)) {
+        timeInputs[i] = (timeInputValues[j].input / 60).toString()
+      }
+    }
+  }
+
+  const inputs: WeekInputs = {
+    mondayInput: timeInputs[0],
+    tuesdayInput: timeInputs[1],
+    wednesdayInput: timeInputs[2],
+    thursdayInput: timeInputs[3],
+    fridayInput: timeInputs[4],
+    saturdayInput: timeInputs[5],
+    sundayInput: timeInputs[6],
+  }
+
+  return inputs
+}
+
+export {
+  getProjects,
+  getProjectHours,
+  updateHours,
+  getWeekDays,
+  getCurrentWeek,
+  inputStringToNumber,
+  inputsToWeekInputsObject,
+}
