@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
         projects={projects}
         setProjects={setProjects}
         week={week}
-        debounceMs={1000}
+        debounceMs={2000}
       />
     </>
   )

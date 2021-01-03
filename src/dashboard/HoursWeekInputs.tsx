@@ -29,6 +29,7 @@ const HoursWeekInputs: React.FC<{
   const isMounted = useRef(true)
 
   const formik = useFormik({
+    validateOnChange: false,
     initialValues: {
       projects,
     },

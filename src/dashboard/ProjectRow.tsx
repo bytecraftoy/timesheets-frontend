@@ -2,11 +2,17 @@ import React from 'react'
 import { Grid, TextField } from '@material-ui/core'
 import { FastField, getIn, FormikErrors } from 'formik'
 import { ProjectWithTimeInputs, weekInputs } from '../common/types'
+import { InputStringToNumber } from './DashboardService'
 
 const validate = (value: string): string | undefined => {
   let error: string | undefined
-  if (Number.isNaN(Number(value))) {
-    error = 'Value must be a number'
+  const number = InputStringToNumber(value)
+  if (Number.isNaN(number)) {
+    error = 'Number must be formated correctly'
+  } else if (number < 0) {
+    error = 'Number cannot be negative'
+  } else if (number > 24) {
+    error = 'Number cannot be over 24 hours'
   }
   return error
 }
