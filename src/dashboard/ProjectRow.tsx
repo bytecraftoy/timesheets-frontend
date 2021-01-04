@@ -11,7 +11,7 @@ const validate = (value: string): string | undefined => {
     error = 'Number must be formated correctly'
   } else if (number < 0) {
     error = 'Number cannot be negative'
-  } else if (number > 24) {
+  } else if (number > 1440) {
     error = 'Number cannot be over 24 hours'
   }
   return error
