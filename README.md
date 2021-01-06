@@ -68,3 +68,26 @@ Formats all .ts and .tsx files in the `src` folder with Prettier.
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# Documentation
+
+## Supported formats for inputting hours
+
+Most formats also allow spaces in between the different parts for example '1h25m' can also be writen this way: '  1 h   25  m   '.
+
+* 1.2
+* 1,2
+* 1.2h
+* 1,2h
+* 110m
+* 110min
+* 1h 25
+* 1h 25m
+* 1h 25min
+* 5:30
+
+## Shortcuts for the hours inputting form
+
+Up and down arrow keys can be used to move between different rows.
+
+Tab and shift + tab keys can be used to move forward or backward between different text boxes. Pressing tab at the end of a row will change the focused text box to be the first text box on the next row. Pressing shift + tab at the first text box of a row works the same way but in reverse.
