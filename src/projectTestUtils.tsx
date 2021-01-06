@@ -1,6 +1,64 @@
 import { RenderResult, fireEvent, act } from '@testing-library/react'
-import { Client, Manager, Project } from './common/types'
+import { addDays, format, subDays, toDate } from 'date-fns'
+import { Client, Manager, Project, TimeInput } from './common/types'
 import { t } from './testUtils'
+
+const project: Project = {
+  id: 1,
+  name: 'Bytecraft Timesheets project',
+  description: 'Bytecraft Timesheets project',
+  owner: {
+    id: 5,
+    username: 'A',
+    firstName: 'A',
+    lastName: 'A',
+  },
+  creator: {
+    id: 5,
+    username: 'A',
+    firstName: 'A',
+    lastName: 'A',
+  },
+  managers: [
+    {
+      id: 1,
+      username: 'Manager1',
+      firstName: 'Some',
+      lastName: 'Manager',
+    },
+    {
+      id: 2,
+      username: 'Manager2',
+      firstName: 'Another',
+      lastName: 'Manager',
+    },
+  ],
+  client: { id: 1, name: 'Bytecraft' },
+  billable: true,
+  employees: [
+    {
+      id: 3,
+      username: 'dev3',
+      firstName: 'Some',
+      lastName: 'Developer',
+    },
+    {
+      id: 4,
+      username: 'dev4',
+      firstName: 'Another',
+      lastName: 'Developer',
+    },
+  ],
+  tags: ['Back-end', 'Front-end', 'Fullstack', 'Planning'],
+  creationTimestamp: 100000010000,
+  lastEdited: 100000010010,
+  lastEditor: {
+    id: 1,
+    username: 'Manager1',
+    firstName: 'Some',
+    lastName: 'Manager',
+  },
+}
 
 const projects: Project[] = [
   {
@@ -56,6 +114,30 @@ const managers: Manager[] = [
   },
 ]
 
+const timeInputs: TimeInput[] = [
+  {
+    id: 1,
+    input: 7.5,
+    date: format(subDays(toDate(Date.now()), 1), 'yyyy-MM-dd'),
+    creationTimestamp: 100000000000,
+    lastEdited: 100000000000,
+  },
+  {
+    id: 2,
+    input: 7.5,
+    date: format(toDate(Date.now()), 'yyyy-MM-dd'),
+    creationTimestamp: 100000000000,
+    lastEdited: 100000000000,
+  },
+  {
+    id: 3,
+    input: 7.5,
+    date: format(addDays(toDate(Date.now()), 1), 'yyyy-MM-dd'),
+    creationTimestamp: 100000000000,
+    lastEdited: 100000000000,
+  },
+]
+
 const selectClient = async (component: RenderResult, client: Client): Promise<void> => {
   const clientSelect = component.getByLabelText(t('projectFormClientLabel'))
   let listbox: HTMLElement
@@ -100,6 +182,7 @@ const changeDesciptionInput = async (component: RenderResult, value: string): Pr
 }
 
 export {
+  project,
   projects,
   managers,
   clients,
@@ -107,4 +190,5 @@ export {
   selectManager,
   changeNameInput,
   changeDesciptionInput,
+  timeInputs,
 }

@@ -33,6 +33,13 @@ export interface Project {
   lastEditor: Manager
 }
 
+export interface Hours {
+  input: number
+  date: string
+  project: number
+  employee: number
+}
+
 export interface ProjectFormValues {
   name: string
   description: string

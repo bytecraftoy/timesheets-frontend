@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { startOfWeek, addDays, format, isEqual } from 'date-fns'
-import { Project, ProjectWithTimeInputs, WeekInputs, TimeInput } from '../common/types'
+import { Project, ProjectWithTimeInputs, WeekInputs, TimeInput, Hours } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -61,13 +61,6 @@ const inputStringToNumber = (value: string): number => {
     }
   }
   return Number.NaN
-}
-
-interface Hours {
-  input: number
-  date: string
-  project: number
-  employee: number
 }
 
 const updateHours = async (

@@ -22,6 +22,9 @@ describe('app', () => {
       if (url.includes('managers')) {
         return Promise.resolve({ data: projectTestUtils.managers })
       }
+      if (url.includes('hours')) {
+        return Promise.resolve({ data: projectTestUtils.timeInputs })
+      }
       if (url.includes('projects')) {
         return Promise.resolve({ data: projectTestUtils.projects })
       }
@@ -56,6 +59,9 @@ describe('projects', () => {
       }
       if (url.includes('managers')) {
         return Promise.resolve({ data: projectTestUtils.managers })
+      }
+      if (url.includes('hours')) {
+        return Promise.resolve({ data: projectTestUtils.timeInputs })
       }
       if (url.includes('projects')) {
         return Promise.resolve({ data: projectTestUtils.projects })
