@@ -63,6 +63,9 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
                   variant="outlined"
                   size="small"
                   disabled={disable}
+                  inputProps={{
+                    className: 'mousetrap',
+                  }}
                 />
               )}
             </FastField>

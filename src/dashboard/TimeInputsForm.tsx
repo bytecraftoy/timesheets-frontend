@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import debounce from 'just-debounce-it'
+import Mousetrap from 'mousetrap'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
 import { useSetRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
@@ -41,6 +42,27 @@ const TimeInputsForm: React.FC<{
     }, debounceMs)
   )
 
+  const focusDifferentRow = (rowsToChange: number) => {
+    const elem = document.activeElement
+    if (elem !== null) {
+      if (elem.hasAttribute('name')) {
+        const name = elem.getAttribute('name') as string
+        if (/^projects\[\d+\]\.inputs\.[\w\D]+$/.test(name)) {
+          const index = parseInt((name.match(/\d+/) as RegExpMatchArray)[0], 10) + rowsToChange
+          if (index < projects.length && index >= 0) {
+            ;(document.querySelector(
+              `input[name='${name.replace(/\d+/, index.toString())}']`
+            ) as HTMLInputElement).focus()
+          }
+        }
+      }
+    }
+  }
+
+  const focusNextRow = useRef(() => focusDifferentRow(1))
+
+  const focusLastRow = useRef(() => focusDifferentRow(-1))
+
   useEffect(() => {
     debouncedSubmit.current = debounce(() => {
       if (isMounted.current) {
@@ -54,8 +76,12 @@ const TimeInputsForm: React.FC<{
   }, [debouncedSubmit, formik.values])
 
   useEffect(() => {
+    Mousetrap.bind('down', focusNextRow.current)
+    Mousetrap.bind('up', focusLastRow.current)
     return () => {
       isMounted.current = false
+      Mousetrap.unbind('down')
+      Mousetrap.unbind('up')
     }
   }, [])
 
