@@ -4,6 +4,16 @@ import { Project, ProjectWithTimeInputs, weekInputs } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
+const hoursToMinutes = (hours: string) => Math.round(Number(hours) * 60)
+
+const hourAndMinuteInputToMinutes = (hoursString: string, minuteString: string) => {
+  const minutes = Number(minuteString)
+  if (minutes > 59) {
+    return Number.NaN
+  }
+  return Number(hoursString) * 60 + minutes
+}
+
 const formats = [
   /^\s*\d+,\d+\s*$/,
   /^\s*\d+(\.\d+)?\s*h\s*$/i,
@@ -17,53 +27,32 @@ const formats = [
 ]
 
 const formatTranslations = [
-  (x: string) => Number(x.replace(',', '.')),
-  (x: string) => Number(x.replace(/h/i, '')),
-  (x: string) => Number(x.replace(/h/i, '').replace(',', '.')),
-  (x: string) => Number(x.replace(/m/i, '')) / 60,
-  (x: string) => Number(x.replace(/min/i, '')) / 60,
+  (x: string) => hoursToMinutes(x.replace(',', '.')),
+  (x: string) => hoursToMinutes(x.replace(/h/i, '')),
+  (x: string) => hoursToMinutes(x.replace(/h/i, '').replace(',', '.')),
+  (x: string) => Number(x.replace(/m/i, '')),
+  (x: string) => Number(x.replace(/min/i, '')),
   (x: string) => {
     const split = x.split(/h/i)
-    const hours = Number(split[0])
-    const minutes = Number(split[1])
-    if (minutes > 59) {
-      return Number.NaN
-    }
-    return hours + minutes / 60
+    return hourAndMinuteInputToMinutes(split[0], split[1])
   },
   (x: string) => {
     const split = x.split(/h/i)
-    const hours = Number(split[0])
-    const minutes = Number(split[1].replace(/m/i, ''))
-    if (minutes > 59) {
-      return Number.NaN
-    }
-    return hours + minutes / 60
+    return hourAndMinuteInputToMinutes(split[0], split[1].replace(/m/i, ''))
   },
   (x: string) => {
     const split = x.split(/h/i)
-    const hours = Number(split[0])
-    const minutes = Number(split[1].replace(/min/i, ''))
-    if (minutes > 59) {
-      return Number.NaN
-    }
-    return hours + minutes / 60
+    return hourAndMinuteInputToMinutes(split[0], split[1].replace(/min/i, ''))
   },
   (x: string) => {
     const split = x.split(':')
-    const hours = Number(split[0])
-    const minutes = Number(split[1])
-    if (minutes > 59) {
-      return Number.NaN
-    }
-    return hours + minutes / 60
+    return hourAndMinuteInputToMinutes(split[0], split[1])
   },
 ]
 
 const InputStringToNumber = (value: string): number => {
-  const n = Number(value)
-  if (!Number.isNaN(n)) {
-    return n
+  if (!Number.isNaN(Number(value))) {
+    return hoursToMinutes(value)
   }
 
   for (let i = 0; i < formats.length; i += 1) {
