@@ -26,7 +26,7 @@ interface ProjectRowProps {
   disable: boolean
 }
 
-const ProjectRow: React.FC<ProjectRowProps> = ({
+const TimeInputsRow: React.FC<ProjectRowProps> = ({
   i,
   project,
   handleChange,
@@ -73,4 +73,4 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
   )
 }
 
-export default ProjectRow
+export default TimeInputsRow
