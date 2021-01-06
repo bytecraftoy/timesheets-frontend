@@ -1,41 +1,51 @@
 import React, { useEffect, useState } from 'react'
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Typography } from '@material-ui/core'
-import { ProjectWithTimeInputs } from '../common/types'
-import { getCurrentWeek, getProjects } from './DashboardService'
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
+import { ProjectWithTimeInputs, Project } from '../common/types'
+
+import {
+  getCurrentWeek,
+  getProjects,
+  getProjectHours,
+  inputsToWeekInputsObject,
+} from './DashboardService'
 import HoursWeekInputs from './HoursWeekInputs'
 
 const Dashboard: React.FC = () => {
-  const [projects, setProjects] = useState<ProjectWithTimeInputs[]>([])
+  const [projects, setProjecst] = useState<Project[]>([])
+  const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectWithTimeInputs[]>([])
   const [isLoading, setLoading] = useState(true)
-  const [week, setWeek] = useState<Date[]>([])
-
-  const fetchProjectsAndGetWeek = async () => {
-    const projectsPromise = getProjects()
-    setWeek(getCurrentWeek())
-    setProjects(
-      (await projectsPromise).map((project) => {
-        return {
-          id: project.id,
-          name: project.name,
-          inputs: {
-            mondayInput: '',
-            tuesdayInput: '',
-            wednesdayInput: '',
-            thursdayInput: '',
-            fridayInput: '',
-            saturdayInput: '',
-            sundayInput: '',
-          },
-        }
-      })
-    )
-    setLoading(false)
-  }
+  const [week, setWeek] = useState<Date[]>(getCurrentWeek())
 
   useEffect(() => {
-    fetchProjectsAndGetWeek()
+    const fetchProjects = async () => {
+      const projectsPromise = await getProjects()
+      setProjecst(projectsPromise)
+    }
+    fetchProjects()
   }, [])
+
+  useEffect(() => {
+    const fetchTimeInputs = async () => {
+      setLoading(true)
+      const timeIntervalStartDate = week[0]
+      const timeIntervalEndDate = week[week.length - 1]
+
+      const projectsWithInputs = await Promise.all(
+        projects.map(async (project) => ({
+          id: project.id,
+          name: project.name,
+          inputs: inputsToWeekInputsObject(
+            await getProjectHours(project.id, timeIntervalStartDate, timeIntervalEndDate),
+            week
+          ),
+        }))
+      )
+      setProjectsAndInputs(projectsWithInputs)
+      setLoading(false)
+    }
+    fetchTimeInputs()
+  }, [projects, week])
 
   if (isLoading) {
     return (
@@ -49,9 +59,10 @@ const Dashboard: React.FC = () => {
     <>
       <Typography variant="h2">Input hours</Typography>
       <HoursWeekInputs
-        projects={projects}
-        setProjects={setProjects}
+        projects={projectsAndInputs}
+        setProjects={setProjectsAndInputs}
         week={week}
+        setWeek={setWeek}
         debounceMs={2000}
       />
     </>

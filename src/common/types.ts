@@ -33,6 +33,13 @@ export interface Project {
   lastEditor: Manager
 }
 
+export interface Hours {
+  input: number
+  date: string
+  project: number
+  employee: number
+}
+
 export interface ProjectFormValues {
   name: string
   description: string
@@ -41,13 +48,19 @@ export interface ProjectFormValues {
   billable: boolean
 }
 
+export interface UsersProjectsWithTimeInputs {
+  id: number
+  username: string
+  projects: ProjectWithTimeInputs
+}
+
 export interface ProjectWithTimeInputs {
   id: number
   name: string
-  inputs: weekInputs
+  inputs: WeekInputs
 }
 
-export interface weekInputs {
+export interface WeekInputs {
   mondayInput: string
   tuesdayInput: string
   wednesdayInput: string
@@ -55,6 +68,14 @@ export interface weekInputs {
   fridayInput: string
   saturdayInput: string
   sundayInput: string
+}
+
+export interface TimeInput {
+  id: number
+  input: number
+  date: string
+  creationTimestamp: number
+  lastEdited: number
 }
 
 export type Severity = 'error' | 'success' | 'info' | 'warning' | undefined

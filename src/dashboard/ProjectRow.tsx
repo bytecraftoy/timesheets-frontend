@@ -1,12 +1,12 @@
 import React from 'react'
 import { Grid, TextField } from '@material-ui/core'
 import { FastField, getIn, FormikErrors } from 'formik'
-import { ProjectWithTimeInputs, weekInputs } from '../common/types'
-import { InputStringToNumber } from './DashboardService'
+import { ProjectWithTimeInputs, WeekInputs } from '../common/types'
+import { inputStringToNumber } from './DashboardService'
 
 const validate = (value: string): string | undefined => {
   let error: string | undefined
-  const number = InputStringToNumber(value)
+  const number = inputStringToNumber(value)
   if (Number.isNaN(number)) {
     error = 'Number must be formated correctly'
   } else if (number < 0) {
@@ -47,7 +47,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
       <Grid item xs={1}>
         {project.name}
       </Grid>
-      {(Object.keys(project.inputs) as Array<keyof weekInputs>).map((key) => {
+      {(Object.keys(project.inputs) as Array<keyof WeekInputs>).map((key) => {
         const name = `projects[${i}].inputs.${key}`
         return (
           <Grid item xs={1} key={key}>
