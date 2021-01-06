@@ -1,12 +1,7 @@
 import React from 'react'
 import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from '@material-ui/core'
 import { ProjectFormTextFieldProps } from './ProjectFormTextField'
-import { Client, Manager } from '../common/types'
-
-interface ProjectFormSelectItem {
-  id: number
-  name: string
-}
+import { Client, Manager, ProjectFormSelectItem } from '../common/types'
 
 interface ProjectFormSelectProps extends Omit<ProjectFormTextFieldProps, 'handleChange'> {
   handleChange: (

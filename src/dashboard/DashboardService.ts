@@ -78,7 +78,7 @@ const updateHours = async (
           input: inputStringToNumber(projects[i].inputs[key]),
           project: projects[i].id,
           // TODO: decide how employee is passed to the server
-          employee: 3,
+          employee: 'a3f4e844-4199-439d-a463-2f07e87c6ca4',
         })
       }
     })
@@ -88,10 +88,10 @@ const updateHours = async (
   }
 }
 
-const getProjectHours = async (projectId: number, start: Date, end: Date): Promise<TimeInput[]> => {
+const getProjectHours = async (projectId: string, start: Date, end: Date): Promise<TimeInput[]> => {
   const { data } = await axios.get(`${baseUrl}/projects/${projectId}/hours`, {
     params: {
-      userId: 3,
+      userId: 'a3f4e844-4199-439d-a463-2f07e87c6ca4',
       startDate: format(start, 'yyyy-MM-dd'),
       endDate: format(end, 'yyyy-MM-dd'),
     },
@@ -124,6 +124,7 @@ const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekIn
 
   for (let i = 0; i < week.length; i += 1) {
     for (let j = 0; j < timeInputValues.length; j += 1) {
+      if (!timeInputValues[j].date) break
       const [year, month, day] = timeInputValues[j].date.split('-')
       const inputDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10))
 

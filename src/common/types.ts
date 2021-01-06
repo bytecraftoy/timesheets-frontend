@@ -1,24 +1,24 @@
 export interface Manager {
-  id: number
+  id: string
   username: string
   firstName: string
   lastName: string
 }
 
 export interface Employee {
-  id: number
+  id: string
   username: string
   firstName: string
   lastName: string
 }
 
 export interface Client {
-  id: number
+  id: string
   name: string
 }
 
 export interface Project {
-  id: number
+  id: string
   name: string
   description: string
   owner: Manager
@@ -36,8 +36,13 @@ export interface Project {
 export interface Hours {
   input: number
   date: string
-  project: number
-  employee: number
+  project: string
+  employee: string
+}
+
+export interface ProjectFormSelectItem {
+  id: string
+  name: string
 }
 
 export interface ProjectFormValues {
@@ -49,13 +54,13 @@ export interface ProjectFormValues {
 }
 
 export interface UsersProjectsWithTimeInputs {
-  id: number
+  id: string
   username: string
   projects: ProjectWithTimeInputs
 }
 
 export interface ProjectWithTimeInputs {
-  id: number
+  id: string
   name: string
   inputs: WeekInputs
 }
@@ -71,7 +76,7 @@ export interface WeekInputs {
 }
 
 export interface TimeInput {
-  id: number
+  id: string
   input: number
   date: string
   creationTimestamp: number
