@@ -1,6 +1,5 @@
 import { RenderResult, fireEvent, act } from '@testing-library/react'
-import { addDays, format, subDays, toDate } from 'date-fns'
-import { Client, Manager, Project, TimeInput } from './common/types'
+import { Client, Manager, Project } from '../common/types'
 import { t } from './testUtils'
 
 const project: Project = {
@@ -114,30 +113,6 @@ const managers: Manager[] = [
   },
 ]
 
-const timeInputs: TimeInput[] = [
-  {
-    id: '1',
-    input: 150,
-    date: format(subDays(toDate(Date.now()), 1), 'yyyy-MM-dd'),
-    creationTimestamp: 100000000000,
-    lastEdited: 100000000000,
-  },
-  {
-    id: '2',
-    input: 450,
-    date: format(toDate(Date.now()), 'yyyy-MM-dd'),
-    creationTimestamp: 100000000000,
-    lastEdited: 100000000000,
-  },
-  {
-    id: '3',
-    input: 300,
-    date: format(addDays(toDate(Date.now()), 1), 'yyyy-MM-dd'),
-    creationTimestamp: 100000000000,
-    lastEdited: 100000000000,
-  },
-]
-
 const selectClient = async (component: RenderResult, client: Client): Promise<void> => {
   const clientSelect = component.getByLabelText(t('projectFormClientLabel'))
   let listbox: HTMLElement
@@ -190,5 +165,4 @@ export {
   selectManager,
   changeNameInput,
   changeDesciptionInput,
-  timeInputs,
 }

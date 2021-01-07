@@ -45,6 +45,7 @@ const WeekRow: React.FC<{
           className={classes.button}
           onClick={changeWeekBackwards}
           disabled={disableWeekChange}
+          data-testid="previousWeek"
         >
           <ArrowBackIosIcon />
         </IconButton>
@@ -60,6 +61,7 @@ const WeekRow: React.FC<{
           className={classes.button}
           onClick={changeWeekForward}
           disabled={disableWeekChange}
+          data-testid="nextWeek"
         >
           <ArrowForwardIosIcon />
         </IconButton>
