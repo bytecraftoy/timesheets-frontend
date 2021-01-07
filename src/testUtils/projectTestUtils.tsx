@@ -1,5 +1,5 @@
 import { RenderResult, fireEvent, act } from '@testing-library/react'
-import { Client, Manager, Project } from './common/types'
+import { Client, Manager, Project } from '../common/types'
 import { t } from './testUtils'
 
 const project: Project = {

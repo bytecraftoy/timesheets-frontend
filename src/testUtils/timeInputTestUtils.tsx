@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { TimeInput } from './common/types'
+import { TimeInput } from '../common/types'
 
 const week: Date[] = [
   new Date(2021, 0, 4),

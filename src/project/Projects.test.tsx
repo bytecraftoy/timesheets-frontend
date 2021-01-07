@@ -2,7 +2,7 @@ import React from 'react'
 import { render, RenderResult } from '@testing-library/react'
 
 import ProjectInfo from './ProjectInfo'
-import { project } from '../projectTestUtils'
+import { project } from '../testUtils/projectTestUtils'
 
 let component: RenderResult
 

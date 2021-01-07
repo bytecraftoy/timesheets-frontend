@@ -4,9 +4,9 @@ import axios from 'axios'
 import { I18nextProvider } from 'react-i18next'
 import { getISOWeek, addWeeks, subWeeks, format } from 'date-fns'
 import i18n from '../i18n'
-import { t } from '../testUtils'
-import { projects } from '../projectTestUtils'
-import { week, timeInputs } from '../timeInputTestUtils'
+import { t } from '../testUtils/testUtils'
+import { projects } from '../testUtils/projectTestUtils'
+import { week, timeInputs } from '../testUtils/timeInputTestUtils'
 import Dashboard from './Dashboard'
 
 jest.mock('axios')

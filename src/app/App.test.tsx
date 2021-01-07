@@ -3,9 +3,9 @@ import { render, RenderResult, fireEvent, act } from '@testing-library/react'
 import axios from 'axios'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
-import { t } from '../testUtils'
-import * as projectTestUtils from '../projectTestUtils'
-import * as timeInputTestUtils from '../timeInputTestUtils'
+import { t } from '../testUtils/testUtils'
+import * as projectTestUtils from '../testUtils/projectTestUtils'
+import * as timeInputTestUtils from '../testUtils/timeInputTestUtils'
 import App from './App'
 
 jest.mock('axios')
