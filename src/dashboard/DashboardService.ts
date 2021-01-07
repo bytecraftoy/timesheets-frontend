@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { startOfWeek, addDays, format, isEqual } from 'date-fns'
 import { Project, ProjectWithTimeInputs, WeekInputs, TimeInput, Hours } from '../common/types'
+import weekdays from '../common/contants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -105,7 +106,6 @@ const getProjects = async (): Promise<Project[]> => {
 }
 
 const getWeekDays = (dates: Date[]): string[] => {
-  const weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   return dates.map((day) => `${weekdays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}.`)
 }
 
