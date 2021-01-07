@@ -2,17 +2,25 @@ import React from 'react'
 import { Grid, TextField } from '@material-ui/core'
 import { FastField, getIn, FormikErrors } from 'formik'
 import { ProjectWithTimeInputs, WeekInputs } from '../common/types'
-import { inputStringToNumber } from './DashboardService'
+import { timeStringToNumber } from './DashboardService'
 
-const validate = (value: string): string | undefined => {
+const validateTime = (value: string): string | undefined => {
   let error: string | undefined
-  const number = inputStringToNumber(value)
+  const number = timeStringToNumber(value)
   if (Number.isNaN(number)) {
     error = 'Number must be formated correctly'
   } else if (number < 0) {
     error = 'Number cannot be negative'
   } else if (number > 1440) {
     error = 'Number cannot be over 24 hours'
+  }
+  return error
+}
+
+const validateDescription = (value: string): string | undefined => {
+  let error: string | undefined
+  if (value.length > 100) {
+    error = 'Description cannot be longer than 100 characters'
   }
   return error
 }
@@ -24,6 +32,7 @@ interface ProjectRowProps {
   handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   errors: FormikErrors<{ projects: ProjectWithTimeInputs[] }>
   disable: boolean
+  showDescription: boolean
 }
 
 const TimeInputsRow: React.FC<ProjectRowProps> = ({
@@ -33,6 +42,7 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
   handleBlur,
   errors,
   disable,
+  showDescription,
 }) => {
   return (
     <Grid
@@ -48,18 +58,19 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
         {project.name}
       </Grid>
       {(Object.keys(project.inputs) as Array<keyof WeekInputs>).map((key) => {
-        const name = `projects[${i}].inputs.${key}`
+        const timeName = `projects[${i}].inputs.${key}.time`
+        const descriptionName = `projects[${i}].inputs.${key}.description`
         return (
           <Grid item xs={1} key={key}>
-            <FastField name={name} validate={validate}>
+            <FastField name={timeName} validate={validateTime}>
               {() => (
                 <TextField
-                  id={name}
-                  name={name}
+                  id={timeName}
+                  name={timeName}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={project.inputs[key]}
-                  error={Boolean(getIn(errors, name))}
+                  value={project.inputs[key].time}
+                  error={Boolean(getIn(errors, timeName))}
                   variant="outlined"
                   size="small"
                   disabled={disable}
@@ -69,6 +80,26 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
                 />
               )}
             </FastField>
+            {showDescription && (
+              <FastField name={descriptionName} validate={validateDescription}>
+                {() => (
+                  <TextField
+                    id={descriptionName}
+                    name={descriptionName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={project.inputs[key].description}
+                    error={Boolean(getIn(errors, descriptionName))}
+                    variant="outlined"
+                    size="small"
+                    disabled={disable}
+                    inputProps={{
+                      className: 'mousetrap',
+                    }}
+                  />
+                )}
+              </FastField>
+            )}
           </Grid>
         )
       })}
