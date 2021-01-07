@@ -81,7 +81,7 @@ const ProjectsView: React.FC = () => {
       <Switch>
         <Route exact path={path}>
           <Button variant="outlined" color="primary" component={Link} to={`${url}/new-project`}>
-            Add project
+            {t('addProjectButton')}
           </Button>
           <ProjectsTable />
         </Route>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { startOfWeek, addDays, format, isEqual } from 'date-fns'
 import { Project, ProjectWithTimeInputs, WeekInputs, TimeInput, Hours } from '../common/types'
+import weekdays from '../common/contants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -105,7 +106,6 @@ const getProjects = async (): Promise<Project[]> => {
 }
 
 const getWeekDays = (dates: Date[]): string[] => {
-  const weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   return dates.map((day) => `${weekdays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}.`)
 }
 
@@ -129,7 +129,13 @@ const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekIn
       const inputDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10))
 
       if (isEqual(week[i], inputDate)) {
-        timeInputs[i] = (timeInputValues[j].input / 60).toString()
+        const minutes = timeInputValues[j].input
+        const hours = minutes / 60
+        const roundedHours = Math.floor(hours)
+        const minutesLeft = (hours - roundedHours) * 60
+        const roundedMinutes = Math.floor(minutesLeft)
+        timeInputs[i] =
+          roundedMinutes === 0 ? `${roundedHours}h` : `${roundedHours}h ${roundedMinutes}m`
       }
     }
   }
