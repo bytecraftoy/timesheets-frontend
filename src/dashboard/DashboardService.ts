@@ -1,6 +1,13 @@
 import axios from 'axios'
 import { startOfWeek, addDays, format, isEqual } from 'date-fns'
-import { Project, ProjectWithTimeInputs, WeekInputs, TimeInput, Hours } from '../common/types'
+import {
+  Project,
+  ProjectWithTimeInputs,
+  WeekInputs,
+  TimeInput,
+  Hours,
+  Input,
+} from '../common/types'
 import weekdays from '../common/contants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
@@ -51,7 +58,7 @@ const formatTranslations = [
   },
 ]
 
-const inputStringToNumber = (value: string): number => {
+const timeStringToNumber = (value: string): number => {
   if (!Number.isNaN(Number(value))) {
     return hoursToMinutes(value)
   }
@@ -76,7 +83,8 @@ const updateHours = async (
       if (projects[i].inputs[key] !== savedProjects[i].inputs[key]) {
         hoursToSend.push({
           date: format(week[j], 'yyyy-MM-dd'),
-          input: inputStringToNumber(projects[i].inputs[key]),
+          input: timeStringToNumber(projects[i].inputs[key].time),
+          desciption: projects[i].inputs[key].description,
           project: projects[i].id,
           // TODO: decide how employee is passed to the server
           employee: 'a3f4e844-4199-439d-a463-2f07e87c6ca4',
@@ -118,7 +126,7 @@ const getCurrentWeek = (): Date[] => {
 }
 
 const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekInputs => {
-  const defaultEmptyTimeInput: string[] = Array(7).fill('')
+  const defaultEmptyTimeInput: Input[] = Array(7).fill({ time: '', description: '' })
   const timeInputs = defaultEmptyTimeInput
   const timeInputValues = Object.values(timeinputs)
 
@@ -134,8 +142,9 @@ const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekIn
         const roundedHours = Math.floor(hours)
         const minutesLeft = (hours - roundedHours) * 60
         const roundedMinutes = Math.floor(minutesLeft)
-        timeInputs[i] =
+        timeInputs[i].time =
           roundedMinutes === 0 ? `${roundedHours}h` : `${roundedHours}h ${roundedMinutes}m`
+        timeInputs[i].description = timeInputValues[j].description
       }
     }
   }
@@ -159,6 +168,6 @@ export {
   updateHours,
   getWeekDays,
   getCurrentWeek,
-  inputStringToNumber,
+  timeStringToNumber,
   inputsToWeekInputsObject,
 }

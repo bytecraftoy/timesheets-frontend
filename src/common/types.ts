@@ -35,6 +35,7 @@ export interface Project {
 
 export interface Hours {
   input: number
+  desciption: string
   date: string
   project: string
   employee: string
@@ -65,19 +66,25 @@ export interface ProjectWithTimeInputs {
   inputs: WeekInputs
 }
 
+export interface Input {
+  time: string
+  description: string
+}
+
 export interface WeekInputs {
-  mondayInput: string
-  tuesdayInput: string
-  wednesdayInput: string
-  thursdayInput: string
-  fridayInput: string
-  saturdayInput: string
-  sundayInput: string
+  mondayInput: Input
+  tuesdayInput: Input
+  wednesdayInput: Input
+  thursdayInput: Input
+  fridayInput: Input
+  saturdayInput: Input
+  sundayInput: Input
 }
 
 export interface TimeInput {
   id: string
   input: number
+  description: string
   date: string
   creationTimestamp: number
   lastEdited: number

@@ -15,6 +15,7 @@ const timeInputs: TimeInput[] = [
   {
     id: '1',
     input: 150,
+    description: '',
     date: format(week[0], 'yyyy-MM-dd'),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
@@ -22,6 +23,7 @@ const timeInputs: TimeInput[] = [
   {
     id: '2',
     input: 450,
+    description: '',
     date: format(week[1], 'yyyy-MM-dd'),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
@@ -29,6 +31,7 @@ const timeInputs: TimeInput[] = [
   {
     id: '3',
     input: 300,
+    description: '',
     date: format(week[3], 'yyyy-MM-dd'),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,

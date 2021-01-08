@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { IconButton } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import { getProjectHours, inputsToWeekInputsObject } from './DashboardService'
 import TimeInputsForm from './TimeInputsForm'
 import { Project, ProjectWithTimeInputs } from '../common/types'
@@ -15,6 +18,7 @@ const WeeklyView: React.FC<{
   const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectWithTimeInputs[]>([])
   const [disableWeekChange, setDisableWeekChange] = useState(false)
   const [isLoading, setLoading] = useState(true)
+  const [showDescription, setShowDescription] = useState(false)
 
   useEffect(() => {
     const fetchTimeInputs = async () => {
@@ -38,8 +42,13 @@ const WeeklyView: React.FC<{
     fetchTimeInputs()
   }, [projects, week])
 
+  const toggleShowDescription = () => setShowDescription(!showDescription)
+
   return (
     <>
+      <IconButton onClick={toggleShowDescription} disabled={isLoading || disableWeekChange}>
+        {showDescription ? <RemoveCircleOutlineIcon /> : <AddCircleOutlineIcon />}
+      </IconButton>
       <WeekRow
         week={week}
         setWeek={setWeek}
@@ -60,6 +69,7 @@ const WeeklyView: React.FC<{
           week={week}
           debounceMs={debounceMs}
           disableWeekChange={disableWeekChange}
+          showDescription={showDescription}
         />
       )}
     </>

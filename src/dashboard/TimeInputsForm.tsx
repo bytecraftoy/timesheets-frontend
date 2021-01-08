@@ -15,7 +15,8 @@ const TimeInputsForm: React.FC<{
   week: Date[]
   debounceMs: number
   disableWeekChange: boolean
-}> = ({ projects, setProjects, week, debounceMs, disableWeekChange }) => {
+  showDescription: boolean
+}> = ({ projects, setProjects, week, debounceMs, disableWeekChange, showDescription }) => {
   const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
 
@@ -101,6 +102,7 @@ const TimeInputsForm: React.FC<{
                   handleBlur={formik.handleBlur}
                   errors={formik.errors}
                   disable={disableWeekChange}
+                  showDescription={showDescription}
                 />
               ))
             }
