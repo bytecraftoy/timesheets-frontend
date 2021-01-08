@@ -35,7 +35,7 @@ export interface Project {
 
 export interface Hours {
   input: number
-  desciption: string
+  description: string
   date: string
   project: string
   employee: string

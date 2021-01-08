@@ -84,7 +84,7 @@ const updateHours = async (
         hoursToSend.push({
           date: format(week[j], 'yyyy-MM-dd'),
           input: timeStringToNumber(projects[i].inputs[key].time),
-          desciption: projects[i].inputs[key].description,
+          description: projects[i].inputs[key].description,
           project: projects[i].id,
           // TODO: decide how employee is passed to the server
           employee: 'a3f4e844-4199-439d-a463-2f07e87c6ca4',
