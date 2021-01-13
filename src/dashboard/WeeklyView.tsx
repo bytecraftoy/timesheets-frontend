@@ -3,7 +3,7 @@ import { IconButton } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import { getProjectHours, inputsToWeekInputsObject } from './DashboardService'
+import { getProjectHours, inputsToWeekInputsObject, getCurrentWeek } from './DashboardService'
 import TimeInputsForm from './TimeInputsForm'
 import { Project, ProjectWithTimeInputs } from '../common/types'
 import WeekRow from './WeekRow'
@@ -11,14 +11,13 @@ import WeekdaysRow from './WeekdaysRow'
 
 const WeeklyView: React.FC<{
   projects: Project[]
-  week: Date[]
-  setWeek: React.Dispatch<React.SetStateAction<Date[]>>
   debounceMs: number
-}> = ({ projects, week, setWeek, debounceMs }) => {
+}> = ({ projects, debounceMs }) => {
   const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectWithTimeInputs[]>([])
   const [disableWeekChange, setDisableWeekChange] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const [showDescription, setShowDescription] = useState(false)
+  const [week, setWeek] = useState<Date[]>(getCurrentWeek())
 
   useEffect(() => {
     const fetchTimeInputs = async () => {
