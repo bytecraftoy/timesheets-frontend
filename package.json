@@ -42,7 +42,8 @@
     "fix": "tsc --noEmit && eslint src/**/*.ts{,x} --fix",
     "format": "prettier --write src/**/*.{ts,tsx,css}",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
-    "server": "json-server -p 8080 --watch db.json"
+    "server": "json-server -p 8080 --watch db.json",
+    "test-cy": "yarn run cypress open"
   },
   "browserslist": {
     "production": [
