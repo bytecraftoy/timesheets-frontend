@@ -1,0 +1,10 @@
+{
+    "extends": [
+      "plugin:cypress/recommended"
+    ],
+    "rules": {
+      "jest/expect-expect": "off",
+      "jest/valid-expect": "off",
+      "jest/valid-expect-in-promise": "off"
+    }
+  }
