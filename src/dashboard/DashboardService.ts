@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { startOfWeek, addDays, format, isEqual } from 'date-fns'
+import { startOfWeek, addDays, format, isSameDay } from 'date-fns'
 import {
   Project,
   ProjectWithTimeInputs,
@@ -126,7 +126,10 @@ const getCurrentWeek = (): Date[] => {
 }
 
 const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekInputs => {
-  const defaultEmptyTimeInput: Input[] = Array(7).fill({ time: '', description: '' })
+  const defaultEmptyTimeInput: Input[] = []
+  for (let i = 0; i < week.length; i += 1) {
+    defaultEmptyTimeInput.push({ time: '', description: '' })
+  }
   const timeInputs = defaultEmptyTimeInput
   const timeInputValues = Object.values(timeinputs)
 
@@ -136,7 +139,7 @@ const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekIn
       const [year, month, day] = timeInputValues[j].date.split('-')
       const inputDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10))
 
-      if (isEqual(week[i], inputDate)) {
+      if (isSameDay(week[i], inputDate)) {
         const minutes = timeInputValues[j].input
         const hours = minutes / 60
         const roundedHours = Math.floor(hours)
