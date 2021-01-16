@@ -17,7 +17,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 let component: RenderResult
 const monday: Date = week[0]
 
-describe.skip('weekly view', () => {
+describe('weekly view', () => {
   beforeEach(async () => {
     mockedAxios.get.mockImplementation((url: string) => {
       if (url.includes('hours')) {
