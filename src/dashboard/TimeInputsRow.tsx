@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, TextField } from '@material-ui/core'
+import { Grid, TextField, makeStyles } from '@material-ui/core'
 import { FastField, getIn, FormikErrors } from 'formik'
 import { ProjectWithTimeInputs, WeekInputs } from '../common/types'
 import { timeStringToNumber } from './DashboardService'
@@ -25,6 +25,20 @@ const validateDescription = (value: string): string | undefined => {
   return error
 }
 
+const useStyles = makeStyles((theme) => ({
+  descriptionField: {
+    backgroundColor: 'white',
+    width: '100%',
+    transition: theme.transitions.create('width'),
+    [theme.breakpoints.up('sm')]: {
+      '&:focus-within': {
+        width: '24ch',
+        zIndex: '1',
+      },
+    },
+  },
+}))
+
 interface ProjectRowProps {
   i: number
   project: ProjectWithTimeInputs
@@ -44,6 +58,7 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
   disable,
   showDescription,
 }) => {
+  const classes = useStyles()
   return (
     <Grid
       item
@@ -84,6 +99,7 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
               <FastField name={descriptionName} validate={validateDescription}>
                 {() => (
                   <TextField
+                    className={classes.descriptionField}
                     id={descriptionName}
                     name={descriptionName}
                     onChange={handleChange}
