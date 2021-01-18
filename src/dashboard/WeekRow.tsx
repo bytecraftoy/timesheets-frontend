@@ -1,5 +1,5 @@
 import React from 'react'
-import { addDays, subDays, getISOWeek } from 'date-fns'
+import { addDays, subDays, getISOWeek, getYear } from 'date-fns'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
@@ -37,6 +37,10 @@ const WeekRow: React.FC<{
     return getISOWeek(week[0])
   }
 
+  const getYearNumber = (): number => {
+    return getYear(week[0])
+  }
+
   return (
     <Grid container spacing={4} direction="row" justify="space-between" alignItems="center">
       <Grid item xs={1}>
@@ -53,6 +57,9 @@ const WeekRow: React.FC<{
       <Grid item xs={2}>
         <Typography align="center" variant="h5">
           {`Week ${getWeekNumber()}`}
+        </Typography>
+        <Typography align="center" variant="h5">
+          {getYearNumber()}
         </Typography>
       </Grid>
       <Grid item xs={1}>
