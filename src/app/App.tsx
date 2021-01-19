@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -7,10 +7,12 @@ import { RecoilRoot, useRecoilValue } from 'recoil'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import {
   AppBar,
+  Collapse,
   Container,
   Divider,
   Drawer,
   IconButton,
+  List,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -18,10 +20,13 @@ import {
   Typography,
 } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import AssessmentIcon from '@material-ui/icons/Assessment'
 import MenuIcon from '@material-ui/icons/Menu'
-
 import ProjectsView from '../project/Projects'
+import ReportsView from '../report/Reports'
 import Dashboard from '../dashboard/Dashboard'
 import notificationState from '../common/atoms'
 import Toast from '../toast/Toast'
@@ -106,6 +111,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '0 8px',
       ...theme.mixins.toolbar,
     },
+    nested: {
+      paddingLeft: theme.spacing(4),
+    },
   })
 )
 
@@ -138,10 +146,16 @@ const TitleBar: React.FC<{ open: boolean; handleDrawerOpen: () => void }> = ({
 
 // Navigation links in side bar menu go here.
 const NavList: React.FC = () => {
+  const [open, setOpen] = React.useState(false)
+  const classes = useStyles()
   const { t } = useTranslation()
 
+  const handleClick = () => {
+    setOpen(!open)
+  }
+
   return (
-    <div>
+    <List>
       <ListItem button component={Link} to="/">
         <ListItemIcon>
           <DashboardIcon />
@@ -154,7 +168,30 @@ const NavList: React.FC = () => {
         </ListItemIcon>
         <ListItemText data-testid="projects-link" primary={t('projectsTitle')} />
       </ListItem>
-    </div>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>
+          <AssessmentIcon />
+        </ListItemIcon>
+        <ListItemText data-testid="reports-link" primary={t('reportsTitle')} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem button component={Link} to="/reports" className={classes.nested}>
+            <ListItemIcon>
+              <AssessmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Billing" />
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <AssessmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Salary" />
+          </ListItem>
+        </List>
+      </Collapse>
+    </List>
   )
 }
 
@@ -194,6 +231,9 @@ const Content: React.FC = () => {
           <Route path="/projects">
             <ProjectsView />
           </Route>
+          <Route path="/reports">
+            <ReportsView />
+          </Route>
           <Route path="/">
             <Dashboard />
           </Route>
@@ -211,7 +251,7 @@ const Notification: React.FC = () => {
 
 const App: React.FC = () => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = useState(true)
   const handleDrawerOpen = () => {
     setOpen(true)
   }
