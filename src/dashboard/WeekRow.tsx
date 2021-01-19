@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { addDays, subDays, getISOWeek, getYear } from 'date-fns'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
@@ -33,13 +33,9 @@ const WeekRow: React.FC<{
 
   const changeWeekForward = () => changeWeek((a) => addDays(a, 7))
 
-  const getWeekNumber = (): number => {
-    return getISOWeek(week[0])
-  }
+  const getWeekNumber = useCallback((): number => getISOWeek(week[0]), [week])
 
-  const getYearNumber = (): number => {
-    return getYear(week[0])
-  }
+  const getYearNumber = useCallback((): number => getYear(week[0]), [week])
 
   return (
     <Grid container spacing={4} direction="row" justify="space-between" alignItems="center">
