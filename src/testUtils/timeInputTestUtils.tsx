@@ -1,15 +1,8 @@
 import { format } from 'date-fns'
 import { TimeInput } from '../common/types'
+import { getCurrentWeek } from '../dashboard/DashboardService'
 
-const week: Date[] = [
-  new Date(2021, 0, 4),
-  new Date(2021, 0, 5),
-  new Date(2021, 0, 6),
-  new Date(2021, 0, 7),
-  new Date(2021, 0, 8),
-  new Date(2021, 0, 9),
-  new Date(2021, 0, 10),
-]
+const week: Date[] = getCurrentWeek()
 
 const timeInputs: TimeInput[] = [
   {
