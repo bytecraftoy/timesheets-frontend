@@ -8,7 +8,7 @@ import {
   Hours,
   Input,
 } from '../common/types'
-import weekdays from '../common/contants'
+import weekdays from '../common/constants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
