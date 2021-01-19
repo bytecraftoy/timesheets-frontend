@@ -26,7 +26,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import MenuIcon from '@material-ui/icons/Menu'
 import ProjectsView from '../project/Projects'
-import ReportsView from '../report/Reports'
+import BillingReport from '../report/BillingReport'
 import Dashboard from '../dashboard/Dashboard'
 import notificationState from '../common/atoms'
 import Toast from '../toast/Toast'
@@ -232,7 +232,7 @@ const Content: React.FC = () => {
             <ProjectsView />
           </Route>
           <Route path="/reports">
-            <ReportsView />
+            <BillingReport />
           </Route>
           <Route path="/">
             <Dashboard />
