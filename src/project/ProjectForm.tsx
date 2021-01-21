@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Button, FormControlLabel, Grid, Switch, Typography, makeStyles } from '@material-ui/core'
 import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
-import { Client, Manager, ProjectFormValues } from '../common/types'
-import { getAll, create } from './ProjectService'
+import { Client, Manager } from '../common/types'
+import { createProject } from '../services/projectService'
+import getAllClients from '../services/clientService'
+import getAllManagers from '../services/managerService'
 import notificationState from '../common/atoms'
 import { ProjectFormTextField } from './ProjectFormTextField'
 import {
@@ -58,7 +60,7 @@ const ProjectForm: React.FC = () => {
     },
     onSubmit: async (values) => {
       try {
-        const response = await create<ProjectFormValues>(values)
+        const response = await createProject(values)
         setNotification({
           message: `${response.name} created succesfully!`,
           severity: 'success',
@@ -91,8 +93,8 @@ const ProjectForm: React.FC = () => {
   })
 
   const fetchManagerAndClients = async () => {
-    const clientResponse = await getAll<Client[]>('clients')
-    const managerResponse = await getAll<Manager[]>('managers')
+    const clientResponse = await getAllClients()
+    const managerResponse = await getAllManagers()
     setClients(clientResponse)
     setManagers(managerResponse)
     setLoading(false)
