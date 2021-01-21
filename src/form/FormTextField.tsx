@@ -1,18 +1,8 @@
 import React from 'react'
 import { TextField } from '@material-ui/core'
+import { FormTextFieldProps } from '../common/types'
 
-export interface ProjectFormTextFieldProps {
-  className: string
-  name: string
-  label: string
-  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  value: string
-  errors: string | undefined
-  touched: boolean | undefined
-}
-
-const ProjectFormTextField: React.FC<ProjectFormTextFieldProps> = ({
+const FormTextField: React.FC<FormTextFieldProps> = ({
   className,
   name,
   label,
@@ -37,4 +27,4 @@ const ProjectFormTextField: React.FC<ProjectFormTextFieldProps> = ({
   )
 }
 
-export { ProjectFormTextField }
+export default FormTextField

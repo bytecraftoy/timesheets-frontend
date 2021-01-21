@@ -117,7 +117,7 @@ describe('projects', () => {
           await projectTestUtils.selectClient(app, projectTestUtils.clients[0])
           await projectTestUtils.selectManager(app, projectTestUtils.managers[0])
 
-          const submitButton = app.getByText(t('projectFormCreateButtonText'))
+          const submitButton = app.getByText(t('createButtonLabel'))
           fireEvent.click(submitButton)
         })
 

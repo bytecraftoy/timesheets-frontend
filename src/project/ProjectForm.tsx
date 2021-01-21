@@ -10,12 +10,9 @@ import { createProject } from '../services/projectService'
 import getAllClients from '../services/clientService'
 import getAllManagers from '../services/managerService'
 import notificationState from '../common/atoms'
-import { ProjectFormTextField } from './ProjectFormTextField'
-import {
-  clientToProjectFormSelectItem,
-  managerToProjectFormSelectItem,
-  ProjectFormSelect,
-} from './ProjectFormSelect'
+import FormTextField from '../form/FormTextField'
+import FormSelect from '../form/FormSelect'
+import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,7 +115,7 @@ const ProjectForm: React.FC = () => {
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
           <Grid item>
-            <ProjectFormTextField
+            <FormTextField
               className={classes.textField}
               name="name"
               label={t('projectFormNameLabel')}
@@ -130,7 +127,7 @@ const ProjectForm: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <ProjectFormTextField
+            <FormTextField
               className={classes.textFieldWide}
               name="description"
               label={t('projectFormDescriptionLabel')}
@@ -142,22 +139,22 @@ const ProjectForm: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <ProjectFormSelect
-              objects={clientToProjectFormSelectItem(clients)}
+            <FormSelect
+              objects={clientToFormSelectItem(clients)}
               className={classes.formControl}
               name="client"
-              label={t('projectFormClientLabel')}
+              label={t('clientLabel')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.client}
               errors={formik.errors.client}
               touched={formik.touched.client}
             />
-            <ProjectFormSelect
-              objects={managerToProjectFormSelectItem(managers)}
+            <FormSelect
+              objects={managerToFormSelectItem(managers)}
               className={classes.formControl}
               name="owner"
-              label={t('projectFormOwnerLabel')}
+              label={t('ownerLabel')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.owner}
@@ -177,7 +174,7 @@ const ProjectForm: React.FC = () => {
                   inputProps={{ 'aria-label': 'billable' }}
                 />
               }
-              label={t('projectFormBillableLabel')}
+              label={t('billableLabel')}
             />
           </Grid>
           {toNext && <Redirect to="/projects" />}
@@ -190,7 +187,7 @@ const ProjectForm: React.FC = () => {
               color="primary"
               data-testid="projectFormSubmit"
             >
-              {t('projectFormCreateButtonText')}
+              {t('createButtonLabel')}
             </Button>
             <Button
               className={classes.button}
@@ -198,7 +195,7 @@ const ProjectForm: React.FC = () => {
               variant="contained"
               onClick={() => setToNext(true)}
             >
-              {t('projectFormCancelButtonText')}
+              {t('cancelButtonLabel')}
             </Button>
           </Grid>
         </Grid>

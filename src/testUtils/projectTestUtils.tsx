@@ -114,7 +114,7 @@ const managers: Manager[] = [
 ]
 
 const selectClient = async (component: RenderResult, client: Client): Promise<void> => {
-  const clientSelect = component.getByLabelText(t('projectFormClientLabel'))
+  const clientSelect = component.getByLabelText(t('clientLabel'))
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(clientSelect)
@@ -127,7 +127,7 @@ const selectClient = async (component: RenderResult, client: Client): Promise<vo
 }
 
 const selectManager = async (component: RenderResult, manager: Manager): Promise<void> => {
-  const ownerSelect = component.getByLabelText(t('projectFormOwnerLabel'))
+  const ownerSelect = component.getByLabelText(t('ownerLabel'))
   const value = `${manager.firstName} ${manager.lastName}`
   let listbox: HTMLElement
   await act(async () => {
