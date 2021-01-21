@@ -80,7 +80,7 @@ const ProjectForm: React.FC = () => {
         errors.push({ description: t('projectFormTooLongDescriptionErrorText') })
       }
       if (values.client === '') {
-        errors.push({ client: t('projectFormEmptyClientErrorText') })
+        errors.push({ client: t('emptyClientErrorText') })
       }
       if (values.owner === '') {
         errors.push({ owner: t('projectFormEmptyOwnerErrorText') })

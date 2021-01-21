@@ -119,9 +119,7 @@ describe('add project form', () => {
         await projectTestUtils.changeNameInput(component, 'a')
 
         await pressSubmitButton()
-        await waitFor(
-          expect(component.getByText(t('projectFormEmptyClientErrorText'))).toBeInTheDocument
-        )
+        await waitFor(expect(component.getByText(t('emptyClientErrorText'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
 

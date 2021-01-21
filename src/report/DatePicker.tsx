@@ -5,9 +5,9 @@ import { KeyboardDatePicker } from '@material-ui/pickers'
 const DatePicker: React.FC<{
   id: string | undefined
   label: React.ReactNode
-  selectedDate: Date | null
+  value: Date | null
   handleDateChange: (date: Date | null, value?: string | null | undefined) => void
-}> = ({ id, label, selectedDate, handleDateChange }) => {
+}> = ({ id, label, value, handleDateChange }) => {
   return (
     <KeyboardDatePicker
       disableToolbar
@@ -16,7 +16,7 @@ const DatePicker: React.FC<{
       margin="normal"
       id={id}
       label={label}
-      value={selectedDate}
+      value={value}
       onChange={handleDateChange}
       KeyboardButtonProps={{
         'aria-label': 'change date',
