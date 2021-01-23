@@ -41,7 +41,18 @@ export interface Hours {
   employee: string
 }
 
-export interface ProjectFormSelectItem {
+export interface FormTextFieldProps {
+  className: string
+  name: string
+  label: string
+  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  value: string
+  errors: string | undefined
+  touched: boolean | undefined
+}
+
+export interface FormSelectItem {
   id: string
   name: string
 }

@@ -1,17 +1,16 @@
 import React from 'react'
 import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from '@material-ui/core'
-import { ProjectFormTextFieldProps } from './ProjectFormTextField'
-import { Client, Manager, ProjectFormSelectItem } from '../common/types'
+import { FormSelectItem, FormTextFieldProps } from '../common/types'
 
-interface ProjectFormSelectProps extends Omit<ProjectFormTextFieldProps, 'handleChange'> {
+interface FormSelectProps extends Omit<FormTextFieldProps, 'handleChange'> {
   handleChange: (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
     child: React.ReactNode
   ) => void
-  objects: ProjectFormSelectItem[]
+  objects: FormSelectItem[]
 }
 
-const ProjectFormSelect: React.FC<ProjectFormSelectProps> = ({
+const FormSelect: React.FC<FormSelectProps> = ({
   objects,
   className,
   name,
@@ -48,16 +47,4 @@ const ProjectFormSelect: React.FC<ProjectFormSelectProps> = ({
   )
 }
 
-const clientToProjectFormSelectItem = (clients: Client[]): ProjectFormSelectItem[] => {
-  return clients.map((client) => {
-    return { id: client.id, name: client.name }
-  })
-}
-
-const managerToProjectFormSelectItem = (managers: Manager[]): ProjectFormSelectItem[] => {
-  return managers.map((manager) => {
-    return { id: manager.id, name: `${manager.firstName} ${manager.lastName}` }
-  })
-}
-
-export { clientToProjectFormSelectItem, managerToProjectFormSelectItem, ProjectFormSelect }
+export default FormSelect

@@ -18,7 +18,7 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Project } from '../common/types'
 import ProjectInfo from './ProjectInfo'
 import ProjectForm from './ProjectForm'
-import { getAll } from './ProjectService'
+import { getAllProjects } from '../services/projectService'
 
 const ProjectsTableHead: React.FC = () => {
   return (
@@ -39,13 +39,13 @@ const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
 
-  const getAllProjects = async () => {
-    const result = await getAll<Project[]>('projects')
+  const fetchProjects = async () => {
+    const result = await getAllProjects()
     setProjects(result)
   }
 
   useEffect(() => {
-    getAllProjects()
+    fetchProjects()
     setLoading(false)
   }, [])
 

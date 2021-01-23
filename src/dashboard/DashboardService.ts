@@ -1,13 +1,6 @@
 import axios from 'axios'
 import { startOfWeek, addDays, format, isSameDay } from 'date-fns'
-import {
-  Project,
-  ProjectWithTimeInputs,
-  WeekInputs,
-  TimeInput,
-  Hours,
-  Input,
-} from '../common/types'
+import { ProjectWithTimeInputs, WeekInputs, TimeInput, Hours, Input } from '../common/types'
 import weekdays from '../common/constants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
@@ -108,11 +101,6 @@ const getProjectHours = async (projectId: string, start: Date, end: Date): Promi
   return data as TimeInput[]
 }
 
-const getProjects = async (): Promise<Project[]> => {
-  const { data } = await axios.get(`${baseUrl}/projects`)
-  return data as Project[]
-}
-
 const getWeekDays = (dates: Date[]): string[] => {
   return dates.map((day) => `${weekdays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}.`)
 }
@@ -166,7 +154,6 @@ const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekIn
 }
 
 export {
-  getProjects,
   getProjectHours,
   updateHours,
   getWeekDays,

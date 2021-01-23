@@ -49,9 +49,9 @@ describe('add project form', () => {
     it('has name, description text fields, billabe info and client & owner selects', () => {
       const nameInput = component.getByLabelText(t('projectFormNameLabel'))
       const desciptionInput = component.getByLabelText(t('projectFormDescriptionLabel'))
-      const clientSelect = component.getByLabelText(t('projectFormClientLabel'))
-      const ownerSelect = component.getByLabelText(t('projectFormOwnerLabel'))
-      const billableCheckbox = component.getByLabelText(t('projectFormBillableLabel'))
+      const clientSelect = component.getByLabelText(t('clientLabel'))
+      const ownerSelect = component.getByLabelText(t('ownerLabel'))
+      const billableCheckbox = component.getByLabelText(t('billableLabel'))
 
       expect(nameInput).toHaveAttribute('type', 'text')
       expect(desciptionInput).toHaveAttribute('type', 'text')
@@ -61,8 +61,8 @@ describe('add project form', () => {
     })
 
     it('has client and owner selects containing fetched clients and managers', async () => {
-      const clientSelect = component.getByLabelText(t('projectFormClientLabel'))
-      const ownerSelect = component.getByLabelText(t('projectFormOwnerLabel'))
+      const clientSelect = component.getByLabelText(t('clientLabel'))
+      const ownerSelect = component.getByLabelText(t('ownerLabel'))
 
       await act(async () => {
         fireEvent.mouseDown(clientSelect)
@@ -119,9 +119,7 @@ describe('add project form', () => {
         await projectTestUtils.changeNameInput(component, 'a')
 
         await pressSubmitButton()
-        await waitFor(
-          expect(component.getByText(t('projectFormEmptyClientErrorText'))).toBeInTheDocument
-        )
+        await waitFor(expect(component.getByText(t('emptyClientErrorText'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
 

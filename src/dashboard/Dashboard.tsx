@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Project } from '../common/types'
-import { getProjects } from './DashboardService'
+import { getAllProjects } from '../services/projectService'
 import WeeklyView from './WeeklyView'
 
 const Dashboard: React.FC = () => {
@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const projectsPromise = await getProjects()
+      const projectsPromise = await getAllProjects()
       setProjecst(projectsPromise)
     }
     fetchProjects()
