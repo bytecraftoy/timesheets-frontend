@@ -52,6 +52,17 @@ export interface FormTextFieldProps {
   touched: boolean | undefined
 }
 
+export interface FormSelectProps extends Omit<FormTextFieldProps, 'handleChange'> {
+  handleChange: (
+    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
+    child: React.ReactNode
+  ) => void
+  objects: FormSelectItem[]
+}
+export interface FormSelectMultipleProps extends Omit<FormSelectProps, 'value' | 'errors'> {
+  value: string[]
+  errors: string | string[] | undefined
+}
 export interface FormSelectItem {
   id: string
   name: string

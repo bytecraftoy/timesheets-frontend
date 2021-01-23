@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
 import { addDays, subDays, getISOWeek, getYear } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
@@ -18,6 +19,7 @@ const WeekRow: React.FC<{
   disableWeekChangeButtons: boolean
   setDisableWeekChange: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ week, setWeek, disableWeekChangeButtons, setDisableWeekChange }) => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
   const changeWeek = useCallback(
@@ -65,7 +67,7 @@ const WeekRow: React.FC<{
       </Grid>
       <Grid item xs={2}>
         <Typography align="center" variant="h5">
-          {`Week ${getWeekNumber()}`}
+          {`${t('weekTitle')} ${getWeekNumber()}`}
         </Typography>
         <Typography align="center" variant="h5">
           {getYearNumber()}
