@@ -91,3 +91,7 @@ Most formats also allow spaces in between the different parts for example '1h25m
 Up and down arrow keys can be used to move between different rows.
 
 Tab and shift + tab keys can be used to move forward or backward between different text boxes. Pressing tab at the end of a row will change the focused text box to be the first text box on the next row. Pressing shift + tab at the first text box of a row works the same way but in reverse.
+
+Description fields can be shown and hidden using ctrl + alt + a.
+
+Current week can be changed using ctrl + , to go to the last week and ctrl + . to go to the next week.
