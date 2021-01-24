@@ -12,7 +12,14 @@ import { getAllClients, getProjectsByClientId } from '../services/clientService'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, projectsToFormSelectItem } from '../form/formService'
-import { getFirstDayOfLastMonth, getLastDayOfLastMonth } from './ReportService'
+import {
+  getFirstDayOfLastMonth,
+  getLastDayOfLastMonth,
+  getFirstDayOfLastTwoMonths,
+  getFirstDayOfLastSixMonths,
+  getFirstDayOfLastYear,
+  getLastDayOfLastYear,
+} from './ReportService'
 
 // TODO: tee datepicker error viesteistä enemmän formikin error viestien näköiset ja ehkä punaiset
 // TODO: olisi kiva, jos valittu asiakas/projekti/tms. näkyisi vähän selvemmällä taustavärillä.
@@ -24,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 240,
+  },
+  dateErrorText: {
+    width: 270,
   },
 }))
 
@@ -96,8 +106,8 @@ const BillingReportForm: React.FC = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container>
-        <Grid container justify="center">
+      <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
+        <Grid item>
           <FormSelect
             objects={clientToFormSelectItem(clients)}
             className={classes.formControl}
@@ -110,7 +120,7 @@ const BillingReportForm: React.FC = () => {
             touched={formik.touched.client}
           />
         </Grid>
-        <Grid container justify="center">
+        <Grid item>
           <FormSelectMultiple
             objects={projectsToFormSelectItem(projects)}
             className={classes.formControl}
@@ -123,45 +133,81 @@ const BillingReportForm: React.FC = () => {
             touched={formik.touched.projects}
           />
         </Grid>
-        <Grid container justify="center">
-          <Grid container spacing={6} justify="center">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid item>
-                <DatePicker
-                  id="start-date-picker"
-                  label={t('startDateLabel')}
-                  value={formik.values.startDate}
-                  handleDateChange={(date) => {
-                    formik.setFieldValue('startDate', date)
-                  }}
-                />
-              </Grid>
-              <Grid item>
-                <DatePicker
-                  id="end-date-picker"
-                  label={t('endDateLabel')}
-                  value={formik.values.endDate}
-                  handleDateChange={(date) => {
-                    formik.setFieldValue('endDate', date)
-                  }}
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
+        <Grid container item direction="row" spacing={1}>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                formik.setFieldValue('startDate', getFirstDayOfLastTwoMonths())
+                formik.setFieldValue('endDate', getLastDayOfLastMonth())
+              }}
+            >
+              Last 2 months
+            </Button>
           </Grid>
-          <Grid container spacing={8} justify="center">
-            <Grid item>
-              {formik.errors.startDate && formik.touched.startDate && (
-                <Typography variant="caption">{formik.errors.startDate}</Typography>
-              )}
-            </Grid>
-            <Grid item>
-              {formik.errors.endDate && formik.touched.endDate && (
-                <Typography variant="caption">{formik.errors.endDate}</Typography>
-              )}
-            </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                formik.setFieldValue('startDate', getFirstDayOfLastSixMonths())
+                formik.setFieldValue('endDate', getLastDayOfLastMonth())
+              }}
+            >
+              Last 6 months
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                formik.setFieldValue('startDate', getFirstDayOfLastYear())
+                formik.setFieldValue('endDate', getLastDayOfLastYear())
+              }}
+            >
+              Last year
+            </Button>
           </Grid>
         </Grid>
-        <Grid container justify="center">
+        <Grid container item spacing={6}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid item>
+              <DatePicker
+                id="start-date-picker"
+                label={t('startDateLabel')}
+                value={formik.values.startDate}
+                handleDateChange={(date) => {
+                  formik.setFieldValue('startDate', date)
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <DatePicker
+                id="end-date-picker"
+                label={t('endDateLabel')}
+                value={formik.values.endDate}
+                handleDateChange={(date) => {
+                  formik.setFieldValue('endDate', date)
+                }}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid container item spacing={6}>
+          <Grid item className={classes.dateErrorText}>
+            {formik.errors.startDate && formik.touched.startDate && (
+              <Typography variant="caption">{formik.errors.startDate}</Typography>
+            )}
+          </Grid>
+          <Grid item className={classes.dateErrorText}>
+            {formik.errors.endDate && formik.touched.endDate && (
+              <Typography variant="caption">{formik.errors.endDate}</Typography>
+            )}
+          </Grid>
+        </Grid>
+        <Grid item>
           <Button
             className={classes.button}
             disabled={formik.isSubmitting}
