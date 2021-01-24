@@ -3,12 +3,14 @@ import 'date-fns'
 import { Grid } from '@material-ui/core'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 
-const DatePicker: React.FC<{
+interface DatePickerProps {
   id: string | undefined
   label: React.ReactNode
   value: Date | null
   handleDateChange: (date: Date | null, value?: string | null | undefined) => void
-}> = ({ id, label, value, handleDateChange }) => {
+}
+
+const DatePicker: React.FC<DatePickerProps> = ({ id, label, value, handleDateChange }) => {
   return (
     <Grid item>
       <KeyboardDatePicker

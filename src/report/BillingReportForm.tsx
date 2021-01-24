@@ -3,16 +3,19 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { isBefore } from 'date-fns'
 import { useFormik, FormikErrors, FormikTouched } from 'formik'
 import { useTranslation } from 'react-i18next'
+import { useSetRecoilState } from 'recoil'
 import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import notificationState from '../common/atoms'
 import DatePicker from './DatePicker'
-import { Client, Project } from '../common/types'
+import { Client, Project, BillingReportFormValues, BillingReportData } from '../common/types'
 import { getAllClients, getProjectsByClientId } from '../services/clientService'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, projectsToFormSelectItem } from '../form/formService'
 import {
+  getBillingReportData,
   getFirstDayOfMonth,
   getLastDayOfLastMonth,
   getFirstDayOfLastYear,
@@ -20,8 +23,6 @@ import {
 } from './ReportService'
 
 // TODO: tee datepicker error viesteistä enemmän formikin error viestien näköiset ja ehkä punaiset
-// TODO: olisi kiva, jos valittu asiakas/projekti/tms. näkyisi vähän selvemmällä taustavärillä.
-// ??? Eli miten muutetaan taustaväriä?
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
@@ -86,19 +87,15 @@ const DateErrors: React.FC<DateErrorsProps> = ({ className, errors, touched }) =
   )
 }
 
-interface BillingReportFormValues {
-  startDate: Date
-  endDate: Date
-  client: string
-  projects: string[]
-}
-
-const BillingReportForm: React.FC = () => {
+const BillingReportForm: React.FC<{
+  setReportData: React.Dispatch<React.SetStateAction<BillingReportData | undefined>>
+}> = ({ setReportData }) => {
   const { t } = useTranslation()
   const classes = useStyles()
 
   const [clients, setClients] = useState<Client[]>([])
   const [projects, setProjects] = useState<Project[]>([])
+  const setNotification = useSetRecoilState(notificationState)
 
   const initialValues: BillingReportFormValues = {
     startDate: getFirstDayOfMonth(1),
@@ -110,8 +107,19 @@ const BillingReportForm: React.FC = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
-      // eslint-disable-next-line no-console
-      console.log(values)
+      try {
+        const response = await getBillingReportData(values)
+        setReportData(response)
+        setNotification({
+          message: `Billing report for ${response.client.name} created succesfully`,
+          severity: 'success',
+        })
+      } catch {
+        setNotification({ message: 'Generating report failed.', severity: 'error' })
+      } finally {
+        // eslint-disable-next-line no-console
+        console.log(values)
+      }
     },
     validate: (values) => {
       const errors = []

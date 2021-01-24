@@ -118,3 +118,34 @@ export interface NotificationMessage {
   message: string | null
   severity: Severity
 }
+
+// TODO
+
+export interface EmployeeWithInputs extends Employee {
+  timeInputs: TimeInput[]
+  employeeTotal: number
+}
+
+export interface ProjectStub {
+  id: string
+  name: string
+  description: string
+  billable: boolean
+  employees: EmployeeWithInputs[]
+  projectTotal: number
+}
+
+export interface BillingReportData {
+  startDate: string
+  endDate: string
+  client: Client
+  projects: ProjectStub[]
+  grandTotal: number
+}
+
+export interface BillingReportFormValues {
+  startDate: Date
+  endDate: Date
+  client: string
+  projects: string[]
+}
