@@ -12,7 +12,14 @@ import { getAllClients, getProjectsByClientId } from '../services/clientService'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, projectsToFormSelectItem } from '../form/formService'
-import { getFirstDayOfLastMonth, getLastDayOfLastMonth } from './ReportService'
+import {
+  getFirstDayOfLastMonth,
+  getLastDayOfLastMonth,
+  getFirstDayOfLastTwoMonths,
+  getFirstDayOfLastSixMonths,
+  getFirstDayOfLastYear,
+  getLastDayOfLastYear,
+} from './ReportService'
 
 // TODO: tee datepicker error viesteistä enemmän formikin error viestien näköiset ja ehkä punaiset
 // TODO: olisi kiva, jos valittu asiakas/projekti/tms. näkyisi vähän selvemmällä taustavärillä.
@@ -125,6 +132,44 @@ const BillingReportForm: React.FC = () => {
             errors={formik.errors.projects}
             touched={formik.touched.projects}
           />
+        </Grid>
+        <Grid container item direction="row" spacing={1}>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                formik.setFieldValue('startDate', getFirstDayOfLastTwoMonths())
+                formik.setFieldValue('endDate', getLastDayOfLastMonth())
+              }}
+            >
+              Last 2 months
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                formik.setFieldValue('startDate', getFirstDayOfLastSixMonths())
+                formik.setFieldValue('endDate', getLastDayOfLastMonth())
+              }}
+            >
+              Last 6 months
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                formik.setFieldValue('startDate', getFirstDayOfLastYear())
+                formik.setFieldValue('endDate', getLastDayOfLastYear())
+              }}
+            >
+              Last year
+            </Button>
+          </Grid>
         </Grid>
         <Grid container item spacing={6}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
