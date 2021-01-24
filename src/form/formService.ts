@@ -1,4 +1,4 @@
-import { Client, Manager, FormSelectItem } from '../common/types'
+import { Client, Manager, Project, FormSelectItem } from '../common/types'
 
 const clientToFormSelectItem = (clients: Client[]): FormSelectItem[] => {
   return clients.map((client) => {
@@ -12,4 +12,10 @@ const managerToFormSelectItem = (managers: Manager[]): FormSelectItem[] => {
   })
 }
 
-export { clientToFormSelectItem, managerToFormSelectItem }
+const projectsToFormSelectItem = (projects: Project[]): FormSelectItem[] => {
+  return projects.map((project) => {
+    return { id: project.id, name: project.name }
+  })
+}
+
+export { clientToFormSelectItem, managerToFormSelectItem, projectsToFormSelectItem }

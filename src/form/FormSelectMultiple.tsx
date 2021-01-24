@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from '@material-ui/core'
-import { FormSelectProps } from '../common/types'
+import { FormSelectMultipleProps } from '../common/types'
 
-const FormSelect: React.FC<FormSelectProps> = ({
+// ??? : is it possible to combine FormSelect and FormSelectMultiple???
+
+const FormSelect: React.FC<FormSelectMultipleProps> = ({
   objects,
   className,
   name,
@@ -17,6 +19,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     <FormControl className={className}>
       <InputLabel id={`mui-component-select-${name}`}>{label}</InputLabel>
       <Select
+        multiple
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}

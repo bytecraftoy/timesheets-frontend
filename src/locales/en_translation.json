@@ -16,11 +16,14 @@
     "projectFormTooLongNameErrorText": "Project's name cannot be over 100 letters long.",
     "projectFormTooLongDescriptionErrorText": "Project's description cannot be over 400 letters long.",
     "emptyClientErrorText": "You must choose a client.",
+    "chooseClientBeforeProjectText": "You must first select a client",
+    "emptyProjectsErrorText": "You must choose at least one project.",
     "projectFormEmptyOwnerErrorText": "You must choose an owner.",
     "inputHoursTitle": "Input hours",
     "reportsTitle": "Reports",
     "starDateErrorText": "Start date must be before end date",
     "endDateErrorText": "End date must be after start date",
     "startDateLabel": "Start date",
-    "endDateLabel": "End date"
+    "endDateLabel": "End date",
+    "weekTitle": "Week"
 }
