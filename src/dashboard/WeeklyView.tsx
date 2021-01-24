@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { IconButton } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import Mousetrap from 'mousetrap'
 import { getProjectHours, inputsToWeekInputsObject, getCurrentWeek } from './DashboardService'
 import TimeInputsForm from './TimeInputsForm'
 import { Project, ProjectWithTimeInputs } from '../common/types'
@@ -41,7 +42,19 @@ const WeeklyView: React.FC<{
     fetchTimeInputs()
   }, [projects, week])
 
-  const toggleShowDescription = () => setShowDescription(!showDescription)
+  const toggleShowDescription = useCallback(() => {
+    if (isLoading || disableWeekChange) {
+      return
+    }
+    setShowDescription(!showDescription)
+  }, [isLoading, disableWeekChange, setShowDescription, showDescription])
+
+  useEffect(() => {
+    Mousetrap.bind('ctrl+alt+a', toggleShowDescription)
+    return () => {
+      Mousetrap.unbind('ctrl+alt+a')
+    }
+  }, [toggleShowDescription])
 
   return (
     <>
@@ -51,7 +64,7 @@ const WeeklyView: React.FC<{
       <WeekRow
         week={week}
         setWeek={setWeek}
-        disableWeekChange={disableWeekChange}
+        disableWeekChangeButtons={isLoading || disableWeekChange}
         setDisableWeekChange={setDisableWeekChange}
       />
       <WeekdaysRow week={week} />

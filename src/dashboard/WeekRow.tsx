@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { addDays, subDays, getISOWeek, getYear } from 'date-fns'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import { makeStyles } from '@material-ui/core/styles'
+import Mousetrap from 'mousetrap'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -14,28 +15,40 @@ const useStyles = makeStyles((theme) => ({
 const WeekRow: React.FC<{
   week: Date[]
   setWeek: React.Dispatch<React.SetStateAction<Date[]>>
-  disableWeekChange: boolean
+  disableWeekChangeButtons: boolean
   setDisableWeekChange: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ week, setWeek, disableWeekChange, setDisableWeekChange }) => {
+}> = ({ week, setWeek, disableWeekChangeButtons, setDisableWeekChange }) => {
   const classes = useStyles()
 
-  const changeWeek = (change: (a: Date) => Date): void => {
-    if (disableWeekChange) {
-      return
-    }
-    setDisableWeekChange(true)
-    const newWeek = week.map((date) => change(date))
-    setWeek(newWeek)
-    setDisableWeekChange(false)
-  }
+  const changeWeek = useCallback(
+    (change: (a: Date) => Date): void => {
+      if (disableWeekChangeButtons) {
+        return
+      }
+      setDisableWeekChange(true)
+      const newWeek = week.map((date) => change(date))
+      setWeek(newWeek)
+      setDisableWeekChange(false)
+    },
+    [week, setWeek, disableWeekChangeButtons, setDisableWeekChange]
+  )
 
-  const changeWeekBackwards = () => changeWeek((a) => subDays(a, 7))
+  const changeWeekBackwards = useCallback(() => changeWeek((a) => subDays(a, 7)), [changeWeek])
 
-  const changeWeekForward = () => changeWeek((a) => addDays(a, 7))
+  const changeWeekForward = useCallback(() => changeWeek((a) => addDays(a, 7)), [changeWeek])
 
   const getWeekNumber = useCallback((): number => getISOWeek(week[0]), [week])
 
   const getYearNumber = useCallback((): number => getYear(week[0]), [week])
+
+  useEffect(() => {
+    Mousetrap.bind('ctrl+,', changeWeekBackwards)
+    Mousetrap.bind('ctrl+.', changeWeekForward)
+    return () => {
+      Mousetrap.unbind('ctrl+,')
+      Mousetrap.unbind('ctrl+.')
+    }
+  }, [changeWeekBackwards, changeWeekForward])
 
   return (
     <Grid container spacing={4} direction="row" justify="space-between" alignItems="center">
@@ -44,7 +57,7 @@ const WeekRow: React.FC<{
           color="primary"
           className={classes.button}
           onClick={changeWeekBackwards}
-          disabled={disableWeekChange}
+          disabled={disableWeekChangeButtons}
           data-testid="previousWeek"
         >
           <ArrowBackIosIcon />
@@ -63,7 +76,7 @@ const WeekRow: React.FC<{
           color="primary"
           className={classes.button}
           onClick={changeWeekForward}
-          disabled={disableWeekChange}
+          disabled={disableWeekChangeButtons}
           data-testid="nextWeek"
         >
           <ArrowForwardIosIcon />
