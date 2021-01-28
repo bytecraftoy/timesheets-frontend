@@ -1,8 +1,8 @@
 import React from 'react'
 import { Grid, TextField, makeStyles, Typography } from '@material-ui/core'
-import { FastField, getIn, FormikErrors } from 'formik'
+import { FastField, getIn, FormikErrors, FieldArray } from 'formik'
 import clsx from 'clsx'
-import { ProjectWithTimeInputs, WeekInputs } from '../common/types'
+import { ProjectAndInputs } from '../common/types'
 import { timeStringToNumber } from './DashboardService'
 
 const validateTime = (value: string): string | undefined => {
@@ -51,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface ProjectRowProps {
   i: number
-  project: ProjectWithTimeInputs
+  project: ProjectAndInputs
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  errors: FormikErrors<{ projects: ProjectWithTimeInputs[] }>
+  errors: FormikErrors<{ projects: ProjectAndInputs[] }>
   disable: boolean
   showDescription: boolean
   holidays: boolean[]
@@ -87,59 +87,63 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
           {project.name}
         </Typography>
       </Grid>
-      {(Object.keys(project.inputs) as Array<keyof WeekInputs>).map((key, j) => {
-        const timeName = `projects[${i}].inputs.${key}.time`
-        const descriptionName = `projects[${i}].inputs.${key}.description`
-        return (
-          <Grid
-            className={clsx(holidays[j] && classes.grayBackground)}
-            item
-            xs
-            key={key}
-            zeroMinWidth
-          >
-            <FastField name={timeName} validate={validateTime}>
-              {() => (
-                <TextField
-                  id={timeName}
-                  name={timeName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={project.inputs[key].time}
-                  error={Boolean(getIn(errors, timeName))}
-                  variant="outlined"
-                  size="small"
-                  disabled={disable}
-                  inputProps={{
-                    className: 'mousetrap',
-                  }}
-                />
-              )}
-            </FastField>
-            {showDescription && (
-              <FastField name={descriptionName} validate={validateDescription}>
-                {() => (
-                  <TextField
-                    className={classes.descriptionField}
-                    id={descriptionName}
-                    name={descriptionName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={project.inputs[key].description}
-                    error={Boolean(getIn(errors, descriptionName))}
-                    variant="outlined"
-                    size="small"
-                    disabled={disable}
-                    inputProps={{
-                      className: 'mousetrap',
-                    }}
-                  />
+      <FieldArray name={`projects[${i}].inputs`} validateOnChange={false}>
+        {() =>
+          [0, 1, 2, 3, 4, 5, 6].map((j) => {
+            const timeName = `projects[${i}].inputs[${j}].time`
+            const descriptionName = `projects[${i}].inputs[${j}].description`
+            return (
+              <Grid
+                className={clsx(holidays[j] && classes.grayBackground)}
+                item
+                xs
+                key={j}
+                zeroMinWidth
+              >
+                <FastField name={timeName} validate={validateTime}>
+                  {() => (
+                    <TextField
+                      id={timeName}
+                      name={timeName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={project.inputs[j].time}
+                      error={Boolean(getIn(errors, timeName))}
+                      variant="outlined"
+                      size="small"
+                      disabled={disable}
+                      inputProps={{
+                        className: 'mousetrap',
+                      }}
+                    />
+                  )}
+                </FastField>
+                {showDescription && (
+                  <FastField name={descriptionName} validate={validateDescription}>
+                    {() => (
+                      <TextField
+                        className={classes.descriptionField}
+                        id={descriptionName}
+                        name={descriptionName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={project.inputs[j].description}
+                        error={Boolean(getIn(errors, descriptionName))}
+                        variant="outlined"
+                        size="small"
+                        disabled={disable}
+                        inputProps={{
+                          className: 'mousetrap',
+                        }}
+                      />
+                    )}
+                  </FastField>
                 )}
-              </FastField>
-            )}
-          </Grid>
-        )
-      })}
+              </Grid>
+            )
+          })
+        }
+      </FieldArray>
     </Grid>
   )
 }

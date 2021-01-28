@@ -1,6 +1,14 @@
 import axios from 'axios'
 import { startOfWeek, addDays, format, isSameDay } from 'date-fns'
-import { ProjectWithTimeInputs, WeekInputs, TimeInput, Hours, Input } from '../common/types'
+import {
+  ProjectAndInputs,
+  ProjectAndInputsWithId,
+  TimeInput,
+  Hours,
+  HoursUpdate,
+  InputWithId,
+  HoursWithSavedIndex,
+} from '../common/types'
 import weekdays from '../common/constants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
@@ -65,35 +73,64 @@ const timeStringToNumber = (value: string): number => {
 }
 
 const updateHours = async (
-  projects: ProjectWithTimeInputs[],
-  savedProjects: ProjectWithTimeInputs[],
+  projects: ProjectAndInputs[],
+  savedProjects: ProjectAndInputsWithId[],
   week: Date[]
 ): Promise<void> => {
-  const hoursToSend: Hours[] = []
-  const keys = Object.keys(projects[0].inputs) as Array<keyof WeekInputs>
+  const sPRef = savedProjects
+  const hoursToPost: HoursWithSavedIndex<Hours>[] = []
+  const hoursToPut: HoursUpdate[] = []
   for (let i = 0; i < projects.length; i += 1) {
-    keys.forEach((key, j) => {
-      if (projects[i].inputs[key] !== savedProjects[i].inputs[key]) {
-        hoursToSend.push({
-          date: format(week[j], 'yyyy-MM-dd'),
-          input: timeStringToNumber(projects[i].inputs[key].time),
-          description: projects[i].inputs[key].description,
-          project: projects[i].id,
-          // TODO: decide how employee is passed to the server
-          employee: 'a3f4e844-4199-439d-a463-2f07e87c6ca4',
-        })
+    ;[0, 1, 2, 3, 4, 5, 6].forEach((j) => {
+      if (
+        projects[i].inputs[j].time !== savedProjects[i].inputs[j].time ||
+        projects[i].inputs[j].description !== savedProjects[i].inputs[j].description
+      ) {
+        if (savedProjects[i].inputs[j].id === null) {
+          hoursToPost.push({
+            x: i,
+            y: j,
+            hour: {
+              date: format(week[j], 'yyyy-MM-dd'),
+              input: timeStringToNumber(projects[i].inputs[j].time),
+              description: projects[i].inputs[j].description,
+              project: projects[i].id,
+              // TODO: decide how employee is passed to the server
+              employee: '9fa407f4-7375-446b-92c6-c578839b7780',
+            },
+          })
+        } else {
+          hoursToPut.push({
+            id: savedProjects[i].inputs[j].id as string,
+            input: timeStringToNumber(projects[i].inputs[j].time),
+            description: projects[i].inputs[j].description,
+          })
+          sPRef[i].inputs[j].time = projects[i].inputs[j].time
+          sPRef[i].inputs[j].description = projects[i].inputs[j].description
+        }
       }
     })
   }
-  if (hoursToSend.length > 0) {
-    await Promise.all(hoursToSend.map((hour) => axios.post(`${baseUrl}/hours`, hour)))
+  if (hoursToPost.length > 0) {
+    const responses = await Promise.all(
+      hoursToPost.map((hourWithSavedIndex) =>
+        axios.post(`${baseUrl}/hours`, hourWithSavedIndex.hour)
+      )
+    )
+    const data = responses.map((response) => response.data)
+    hoursToPost.forEach((hourWithSavedIndex, i) => {
+      sPRef[hourWithSavedIndex.x].inputs[hourWithSavedIndex.y].id = data[i].id as string
+    })
+  }
+  if (hoursToPut.length > 0) {
+    await Promise.all(hoursToPut.map((hour) => axios.put(`${baseUrl}/hours`, hour)))
   }
 }
 
 const getProjectHours = async (projectId: string, start: Date, end: Date): Promise<TimeInput[]> => {
   const { data } = await axios.get(`${baseUrl}/projects/${projectId}/hours`, {
     params: {
-      userId: 'a3f4e844-4199-439d-a463-2f07e87c6ca4',
+      userId: '9fa407f4-7375-446b-92c6-c578839b7780',
       startDate: format(start, 'yyyy-MM-dd'),
       endDate: format(end, 'yyyy-MM-dd'),
     },
@@ -113,45 +150,53 @@ const getCurrentWeek = (): Date[] => {
   return week
 }
 
-const inputsToWeekInputsObject = (timeinputs: TimeInput[], week: Date[]): WeekInputs => {
-  const defaultEmptyTimeInput: Input[] = []
-  for (let i = 0; i < week.length; i += 1) {
-    defaultEmptyTimeInput.push({ time: '', description: '' })
-  }
-  const timeInputs = defaultEmptyTimeInput
-  const timeInputValues = Object.values(timeinputs)
-
-  for (let i = 0; i < week.length; i += 1) {
-    for (let j = 0; j < timeInputValues.length; j += 1) {
-      if (!timeInputValues[j].date) break
-      const [year, month, day] = timeInputValues[j].date.split('-')
-      const inputDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10))
-
-      if (isSameDay(week[i], inputDate)) {
-        const minutes = timeInputValues[j].input
-        const hours = minutes / 60
-        const roundedHours = Math.floor(hours)
-        const minutesLeft = (hours - roundedHours) * 60
-        const roundedMinutes = Math.floor(minutesLeft)
-        timeInputs[i].time =
-          roundedMinutes === 0 ? `${roundedHours}h` : `${roundedHours}h ${roundedMinutes}m`
-        timeInputs[i].description = timeInputValues[j].description
-      }
+const findTimeInputWithDate = (timeInputs: TimeInput[], date: Date): TimeInput | null => {
+  for (let i = 0; i < timeInputs.length; i += 1) {
+    const [year, month, day] = timeInputs[i].date.split('-')
+    const timeInputDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10))
+    if (isSameDay(date, timeInputDate)) {
+      return timeInputs[i]
     }
   }
+  return null
+}
 
-  const inputs: WeekInputs = {
-    mondayInput: timeInputs[0],
-    tuesdayInput: timeInputs[1],
-    wednesdayInput: timeInputs[2],
-    thursdayInput: timeInputs[3],
-    fridayInput: timeInputs[4],
-    saturdayInput: timeInputs[5],
-    sundayInput: timeInputs[6],
+const timeInputsToWeekInputs = (timeInputs: TimeInput[], week: Date[]): InputWithId[] => {
+  const inputs: InputWithId[] = []
+
+  for (let i = 0; i < week.length; i += 1) {
+    const timeInput = findTimeInputWithDate(timeInputs, week[i])
+    if (timeInput) {
+      const minutes = timeInput.input
+      const hours = minutes / 60
+      const roundedHours = Math.floor(hours)
+      const minutesLeft = (hours - roundedHours) * 60
+      const roundedMinutes = Math.floor(minutesLeft)
+      inputs.push({
+        time: roundedMinutes === 0 ? `${roundedHours}h` : `${roundedHours}h ${roundedMinutes}m`,
+        description: timeInput.description,
+        id: timeInput.id,
+      })
+    } else {
+      inputs.push({ time: '', description: '', id: null })
+    }
   }
 
   return inputs
 }
+
+const projectAndInputsWithIdToProjectAndInputs = (
+  projects: ProjectAndInputsWithId[]
+): ProjectAndInputs[] =>
+  projects.map((project) => {
+    return {
+      id: project.id,
+      name: project.name,
+      inputs: project.inputs.map((input) => {
+        return { time: input.time, description: input.description }
+      }),
+    }
+  })
 
 export {
   getProjectHours,
@@ -159,5 +204,6 @@ export {
   getWeekDays,
   getCurrentWeek,
   timeStringToNumber,
-  inputsToWeekInputsObject,
+  timeInputsToWeekInputs,
+  projectAndInputsWithIdToProjectAndInputs,
 }
