@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect, useCallback } from 'react'
 import { isBefore } from 'date-fns'
-import { useFormik } from 'formik'
+import { useFormik, FormikErrors, FormikTouched } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
 import DateFnsUtils from '@date-io/date-fns'
@@ -13,10 +13,8 @@ import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, projectsToFormSelectItem } from '../form/formService'
 import {
-  getFirstDayOfLastMonth,
+  getFirstDayOfMonth,
   getLastDayOfLastMonth,
-  getFirstDayOfLastTwoMonths,
-  getFirstDayOfLastSixMonths,
   getFirstDayOfLastYear,
   getLastDayOfLastYear,
 } from './ReportService'
@@ -37,6 +35,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+interface PickTimeframeButtonProps {
+  label: string
+  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
+const PickTimeframeButton: React.FC<PickTimeframeButtonProps> = ({ label, handleClick }) => {
+  return (
+    <Grid item>
+      <Button variant="outlined" color="primary" onClick={handleClick}>
+        {label}
+      </Button>
+    </Grid>
+  )
+}
+
+interface GenerateButtonProps {
+  className: string
+  disabled: boolean | undefined
+}
+
+const GenerateButton: React.FC<GenerateButtonProps> = ({ className, disabled }) => {
+  const { t } = useTranslation()
+  return (
+    <Grid item>
+      <Button
+        className={className}
+        disabled={disabled}
+        variant="contained"
+        type="submit"
+        color="primary"
+      >
+        {t('generateButtonLabel')}
+      </Button>
+    </Grid>
+  )
+}
+
+interface DateErrorsProps {
+  className: string
+  errors: FormikErrors<Date> | undefined
+  touched: FormikTouched<Date> | undefined
+}
+
+const DateErrors: React.FC<DateErrorsProps> = ({ className, errors, touched }) => {
+  return (
+    <Grid item className={className}>
+      {errors && touched && <Typography variant="caption">{errors}</Typography>}
+    </Grid>
+  )
+}
+
 interface BillingReportFormValues {
   startDate: Date
   endDate: Date
@@ -52,7 +101,7 @@ const BillingReportForm: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([])
 
   const initialValues: BillingReportFormValues = {
-    startDate: getFirstDayOfLastMonth(),
+    startDate: getFirstDayOfMonth(1),
     endDate: getLastDayOfLastMonth(),
     client: '',
     projects: [],
@@ -134,90 +183,63 @@ const BillingReportForm: React.FC = () => {
           />
         </Grid>
         <Grid container item direction="row" spacing={1}>
-          <Grid item>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                formik.setFieldValue('startDate', getFirstDayOfLastTwoMonths())
-                formik.setFieldValue('endDate', getLastDayOfLastMonth())
-              }}
-            >
-              Last 2 months
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                formik.setFieldValue('startDate', getFirstDayOfLastSixMonths())
-                formik.setFieldValue('endDate', getLastDayOfLastMonth())
-              }}
-            >
-              Last 6 months
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                formik.setFieldValue('startDate', getFirstDayOfLastYear())
-                formik.setFieldValue('endDate', getLastDayOfLastYear())
-              }}
-            >
-              Last year
-            </Button>
-          </Grid>
+          <PickTimeframeButton
+            label={t('lastTwoMonthsLabel')}
+            handleClick={() => {
+              formik.setFieldValue(t('startDate'), getFirstDayOfMonth(2))
+              formik.setFieldValue(t('endDate'), getLastDayOfLastMonth())
+            }}
+          />
+          <PickTimeframeButton
+            label={t('lastSixMonthsLabel')}
+            handleClick={() => {
+              formik.setFieldValue(t('startDate'), getFirstDayOfMonth(6))
+              formik.setFieldValue(t('endDate'), getLastDayOfLastMonth())
+            }}
+          />
+          <PickTimeframeButton
+            label={t('lastYearLabel')}
+            handleClick={() => {
+              formik.setFieldValue(t('startDate'), getFirstDayOfLastYear())
+              formik.setFieldValue(t('endDate'), getLastDayOfLastYear())
+            }}
+          />
         </Grid>
         <Grid container item spacing={6}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid item>
-              <DatePicker
-                id="start-date-picker"
-                label={t('startDateLabel')}
-                value={formik.values.startDate}
-                handleDateChange={(date) => {
-                  formik.setFieldValue('startDate', date)
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <DatePicker
-                id="end-date-picker"
-                label={t('endDateLabel')}
-                value={formik.values.endDate}
-                handleDateChange={(date) => {
-                  formik.setFieldValue('endDate', date)
-                }}
-              />
-            </Grid>
+            <DatePicker
+              id="start-date-picker"
+              label={t('startDateLabel')}
+              value={formik.values.startDate}
+              handleDateChange={(date) => {
+                formik.setFieldValue(t('startDate'), date)
+              }}
+            />
+            <DatePicker
+              id="end-date-picker"
+              label={t('endDateLabel')}
+              value={formik.values.endDate}
+              handleDateChange={(date) => {
+                formik.setFieldValue(t('endDate'), date)
+              }}
+            />
           </MuiPickersUtilsProvider>
         </Grid>
-        <Grid container item spacing={6}>
-          <Grid item className={classes.dateErrorText}>
-            {formik.errors.startDate && formik.touched.startDate && (
-              <Typography variant="caption">{formik.errors.startDate}</Typography>
-            )}
+        {(formik.errors.startDate || formik.errors.endDate) && (
+          <Grid container item spacing={6}>
+            <DateErrors
+              className={classes.dateErrorText}
+              errors={formik.errors.startDate}
+              touched={formik.touched.startDate}
+            />
+            <DateErrors
+              className={classes.dateErrorText}
+              errors={formik.errors.endDate}
+              touched={formik.touched.endDate}
+            />
           </Grid>
-          <Grid item className={classes.dateErrorText}>
-            {formik.errors.endDate && formik.touched.endDate && (
-              <Typography variant="caption">{formik.errors.endDate}</Typography>
-            )}
-          </Grid>
-        </Grid>
-        <Grid item>
-          <Button
-            className={classes.button}
-            disabled={formik.isSubmitting}
-            variant="contained"
-            type="submit"
-            color="primary"
-          >
-            {t('generateButtonLabel')}
-          </Button>
-        </Grid>
+        )}
+        <GenerateButton className={classes.button} disabled={formik.isSubmitting} />
       </Grid>
     </form>
   )
