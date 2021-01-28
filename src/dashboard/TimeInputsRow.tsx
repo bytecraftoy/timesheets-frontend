@@ -27,7 +27,7 @@ const validateDescription = (value: string): string | undefined => {
 
 const useStyles = makeStyles((theme) => ({
   descriptionField: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.grey[200],
     '& fieldset': {
       borderColor: theme.palette.primary.light,
     },
