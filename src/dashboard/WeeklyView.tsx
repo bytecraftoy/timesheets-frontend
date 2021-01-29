@@ -19,6 +19,7 @@ const WeeklyView: React.FC<{
   const [isLoading, setLoading] = useState(true)
   const [showDescription, setShowDescription] = useState(false)
   const [week, setWeek] = useState<Date[]>(getCurrentWeek())
+  const holidays = [false, false, false, false, false, true, true]
 
   useEffect(() => {
     const fetchTimeInputs = async () => {
@@ -67,7 +68,7 @@ const WeeklyView: React.FC<{
         disableWeekChangeButtons={isLoading || disableWeekChange}
         setDisableWeekChange={setDisableWeekChange}
       />
-      <WeekdaysRow week={week} />
+      <WeekdaysRow week={week} holidays={holidays} />
       {isLoading && (
         <div>
           <HourglassEmptyIcon />
@@ -82,6 +83,7 @@ const WeeklyView: React.FC<{
           debounceMs={debounceMs}
           disableWeekChange={disableWeekChange}
           showDescription={showDescription}
+          holidays={holidays}
         />
       )}
     </>

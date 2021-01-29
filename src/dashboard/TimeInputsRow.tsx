@@ -1,6 +1,7 @@
 import React from 'react'
-import { Grid, TextField, makeStyles } from '@material-ui/core'
+import { Grid, TextField, makeStyles, Typography } from '@material-ui/core'
 import { FastField, getIn, FormikErrors } from 'formik'
+import clsx from 'clsx'
 import { ProjectWithTimeInputs, WeekInputs } from '../common/types'
 import { timeStringToNumber } from './DashboardService'
 
@@ -40,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  typographyBreakWord: {
+    wordWrap: 'break-word',
+  },
+  grayBackground: {
+    backgroundColor: theme.palette.grey[300],
+  },
 }))
 
 interface ProjectRowProps {
@@ -50,6 +57,7 @@ interface ProjectRowProps {
   errors: FormikErrors<{ projects: ProjectWithTimeInputs[] }>
   disable: boolean
   showDescription: boolean
+  holidays: boolean[]
 }
 
 const TimeInputsRow: React.FC<ProjectRowProps> = ({
@@ -60,6 +68,7 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
   errors,
   disable,
   showDescription,
+  holidays,
 }) => {
   const classes = useStyles()
   return (
@@ -67,19 +76,28 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
       item
       xs={12}
       container
-      spacing={0}
+      spacing={1}
       direction="row"
       justify="space-between"
-      alignItems="center"
+      alignItems="flex-start"
+      wrap="nowrap"
     >
-      <Grid item xs={1}>
-        {project.name}
+      <Grid item xs={2}>
+        <Typography className={classes.typographyBreakWord} variant="body1">
+          {project.name}
+        </Typography>
       </Grid>
-      {(Object.keys(project.inputs) as Array<keyof WeekInputs>).map((key) => {
+      {(Object.keys(project.inputs) as Array<keyof WeekInputs>).map((key, j) => {
         const timeName = `projects[${i}].inputs.${key}.time`
         const descriptionName = `projects[${i}].inputs.${key}.description`
         return (
-          <Grid item xs={1} key={key}>
+          <Grid
+            className={clsx(holidays[j] && classes.grayBackground)}
+            item
+            xs
+            key={key}
+            zeroMinWidth
+          >
             <FastField name={timeName} validate={validateTime}>
               {() => (
                 <TextField

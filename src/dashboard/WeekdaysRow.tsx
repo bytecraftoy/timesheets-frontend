@@ -1,31 +1,46 @@
 import React from 'react'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography, Container, makeStyles } from '@material-ui/core'
+import clsx from 'clsx'
 import { getWeekDays } from './DashboardService'
 
-const WeekdaysRow: React.FC<{
-  week: Date[]
-}> = ({ week }) => {
+const useStyles = makeStyles((theme) => ({
+  grayBackground: {
+    backgroundColor: theme.palette.grey[300],
+  },
+}))
+
+const WeekdaysRow: React.FC<{ week: Date[]; holidays: boolean[] }> = ({ week, holidays }) => {
+  const classes = useStyles()
   return (
     <Grid
       item
       xs={12}
       container
-      spacing={3}
+      spacing={0}
       direction="row"
       justify="space-between"
       alignItems="center"
+      wrap="nowrap"
     >
-      <Grid item xs={1}>
+      <Grid item xs={2}>
         <Typography align="center" variant="overline">
           <strong>Project</strong>
         </Typography>
       </Grid>
-      {getWeekDays(week).map((day) => {
+      {getWeekDays(week).map((day, i) => {
         return (
-          <Grid item key={day} xs={1}>
-            <Typography align="center" variant="overline" noWrap>
-              <strong>{day}</strong>
-            </Typography>
+          <Grid
+            className={clsx(holidays[i] && classes.grayBackground)}
+            item
+            key={day}
+            xs
+            zeroMinWidth
+          >
+            <Container>
+              <Typography align="center" variant="overline" noWrap>
+                <strong>{day}</strong>
+              </Typography>
+            </Container>
           </Grid>
         )
       })}
