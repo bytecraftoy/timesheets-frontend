@@ -1,8 +1,28 @@
 import React from 'react'
-import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from '@material-ui/core'
+import {
+  Checkbox,
+  Chip,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  ListItemText,
+  makeStyles,
+  MenuItem,
+  Select,
+} from '@material-ui/core'
 import { FormSelectMultipleProps } from '../common/types'
 
-// ??? : is it possible to combine FormSelect and FormSelectMultiple???
+// ? is it possible to combine FormSelect and FormSelectMultiple?
+
+const useStyles = makeStyles(() => ({
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+}))
 
 const FormSelect: React.FC<FormSelectMultipleProps> = ({
   objects,
@@ -15,6 +35,12 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
   errors,
   touched,
 }) => {
+  const classes = useStyles()
+
+  const getObjectName = (id: string) => {
+    return objects.find((obj) => obj.id === id)?.name
+  }
+
   return (
     <FormControl className={className}>
       <InputLabel id={`mui-component-select-${name}`}>{label}</InputLabel>
@@ -28,11 +54,23 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
           id: name,
           name,
         }}
+        renderValue={(selected) => (
+          <div className={classes.chips}>
+            {(selected as string[]).map((selectedValue) => (
+              <Chip
+                key={selectedValue}
+                label={getObjectName(selectedValue)}
+                className={classes.chip}
+              />
+            ))}
+          </div>
+        )}
       >
         {objects.map((obj) => {
           return (
             <MenuItem key={obj.id} value={obj.id}>
-              {obj.name}
+              <Checkbox checked={value.indexOf(obj.id) > -1} color="primary" />
+              <ListItemText primary={obj.name} />
             </MenuItem>
           )
         })}
