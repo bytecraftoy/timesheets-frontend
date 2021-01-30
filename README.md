@@ -63,6 +63,10 @@ Lints all .ts and .tsx files in the `src` folder and automatically fixes problem
 
 Formats all .ts and .tsx files in the `src` folder with Prettier.
 
+### `yarn run cypress open`
+
+Open cypress test suite.
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
@@ -73,18 +77,18 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Supported formats for inputting hours
 
-Most formats also allow spaces in between the different parts for example '1h25m' can also be writen this way: '  1 h   25  m   '.
+Most formats also allow spaces in between the different parts for example '1h25m' can also be writen this way: ' 1 h 25 m '.
 
-* 1.2
-* 1,2
-* 1.2h
-* 1,2h
-* 110m
-* 110min
-* 1h 25
-* 1h 25m
-* 1h 25min
-* 5:30
+- 1.2
+- 1,2
+- 1.2h
+- 1,2h
+- 110m
+- 110min
+- 1h 25
+- 1h 25m
+- 1h 25min
+- 5:30
 
 ## Shortcuts for the hours inputting form
 
