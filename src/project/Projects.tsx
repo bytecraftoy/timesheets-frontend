@@ -77,10 +77,18 @@ const ProjectsView: React.FC = () => {
 
   return (
     <div>
-      <Typography variant="h2">{t('projectsTitle')}</Typography>
+      <Typography variant="h2" data-cy="projects-title">
+        {t('projectsTitle')}
+      </Typography>
       <Switch>
         <Route exact path={path}>
-          <Button variant="outlined" color="primary" component={Link} to={`${url}/new-project`}>
+          <Button
+            variant="outlined"
+            color="primary"
+            data-cy="add-project-button"
+            component={Link}
+            to={`${url}/new-project`}
+          >
             {t('addProjectButton')}
           </Button>
           <ProjectsTable />

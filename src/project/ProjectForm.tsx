@@ -111,7 +111,9 @@ const ProjectForm: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h6">{t('projectFormHeading')}</Typography>
+      <Typography variant="h6" data-cy="project-form-heading">
+        {t('projectFormHeading')}
+      </Typography>
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
           <Grid item>

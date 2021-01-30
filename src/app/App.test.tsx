@@ -82,7 +82,7 @@ describe('projects', () => {
 
   describe('when navigating into projects', () => {
     beforeEach(async () => {
-      const projectLink = app.getByTestId('projects-link')
+      const projectLink = app.getByTestId('projects-nav')
 
       await act(async () => {
         fireEvent.click(projectLink)
