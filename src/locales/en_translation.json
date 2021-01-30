@@ -26,5 +26,10 @@
     "endDateErrorText": "End date must be after start date",
     "startDateLabel": "Start date",
     "endDateLabel": "End date",
+    "startDateFieldValue": "startDate",
+    "endDateFieldValue": "endDate",
+    "lastTwoMonthsLabel": "Last 2 months",
+    "lastSixMonthsLabel": "Last 6 months",
+    "lastYearLabel": "Last year",
     "weekTitle": "Week"
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import 'date-fns'
+import { Grid } from '@material-ui/core'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 
 const DatePicker: React.FC<{
@@ -9,19 +10,21 @@ const DatePicker: React.FC<{
   handleDateChange: (date: Date | null, value?: string | null | undefined) => void
 }> = ({ id, label, value, handleDateChange }) => {
   return (
-    <KeyboardDatePicker
-      disableToolbar
-      variant="inline"
-      format="dd.MM.yyyy"
-      margin="normal"
-      id={id}
-      label={label}
-      value={value}
-      onChange={handleDateChange}
-      KeyboardButtonProps={{
-        'aria-label': 'change date',
-      }}
-    />
+    <Grid item>
+      <KeyboardDatePicker
+        disableToolbar
+        variant="inline"
+        format="dd.MM.yyyy"
+        margin="normal"
+        id={id}
+        label={label}
+        value={value}
+        onChange={handleDateChange}
+        KeyboardButtonProps={{
+          'aria-label': 'change date',
+        }}
+      />
+    </Grid>
   )
 }
 

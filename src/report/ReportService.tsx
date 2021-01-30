@@ -9,9 +9,8 @@ import {
 
 const today = new Date()
 
-const getFirstDayOfLastMonth = (): Date => {
-  const firstDay = startOfMonth(subMonths(today, 1))
-
+const getFirstDayOfMonth = (monthsAgo: number): Date => {
+  const firstDay = startOfMonth(subMonths(today, monthsAgo))
   return firstDay
 }
 
@@ -19,18 +18,6 @@ const getLastDayOfLastMonth = (): Date => {
   const lastDay = lastDayOfMonth(subMonths(today, 1))
 
   return lastDay
-}
-
-const getFirstDayOfLastTwoMonths = (): Date => {
-  const firstDay = startOfMonth(subMonths(today, 2))
-
-  return firstDay
-}
-
-const getFirstDayOfLastSixMonths = (): Date => {
-  const firstDay = startOfMonth(subMonths(today, 6))
-
-  return firstDay
 }
 
 const getFirstDayOfLastYear = (): Date => {
@@ -43,11 +30,4 @@ const getLastDayOfLastYear = (): Date => {
   return lastDay
 }
 
-export {
-  getFirstDayOfLastMonth,
-  getLastDayOfLastMonth,
-  getFirstDayOfLastTwoMonths,
-  getFirstDayOfLastSixMonths,
-  getFirstDayOfLastYear,
-  getLastDayOfLastYear,
-}
+export { getFirstDayOfMonth, getLastDayOfLastMonth, getFirstDayOfLastYear, getLastDayOfLastYear }
