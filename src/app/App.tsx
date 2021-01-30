@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { RecoilRoot, useRecoilValue } from 'recoil'
 
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import {
   AppBar,
   Collapse,
@@ -33,89 +33,87 @@ import Toast from '../toast/Toast'
 
 const drawerWidth = 240
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
+const useStyles = makeStyles((theme: Theme) => ({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
     },
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      height: '100vh',
-      overflow: 'auto',
-    },
-    container: {
-      paddingTop: theme.spacing(4),
-      paddingBottom: theme.spacing(4),
-    },
-    drawerPaper: {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerPaperClose: {
-      overflowX: 'hidden',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
-      },
-    },
-    fixedHeight: {
-      height: 240,
-    },
-    menuButton: {
-      marginRight: 36,
-    },
-    menuButtonHidden: {
-      display: 'none',
-    },
-    paper: {
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'auto',
-      padding: theme.spacing(2),
-    },
-    root: {
-      display: 'flex',
-    },
-    toolbar: {
-      paddingRight: 24, // keep right padding when drawer closed
-    },
-    title: {
-      flexGrow: 1,
-    },
-    toolbarIcon: {
-      alignItems: 'center',
-      display: 'flex',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
-    },
-    nested: {
-      paddingLeft: theme.spacing(4),
-    },
-  })
-)
+  },
+  fixedHeight: {
+    height: 240,
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+    padding: theme.spacing(2),
+  },
+  root: {
+    display: 'flex',
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  title: {
+    flexGrow: 1,
+  },
+  toolbarIcon: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
+}))
 
 const TitleBar: React.FC<{ open: boolean; handleDrawerOpen: () => void }> = ({
   open,
@@ -133,10 +131,11 @@ const TitleBar: React.FC<{ open: boolean; handleDrawerOpen: () => void }> = ({
           aria-label="open drawer"
           onClick={handleDrawerOpen}
           className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          data-cy="open-menudrawer-button"
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
+        <Typography variant="h6" className={classes.title} data-cy="app-title">
           {t('appTitle')}
         </Typography>
       </Toolbar>
@@ -160,19 +159,19 @@ const NavList: React.FC = () => {
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Dashboard" />
+        <ListItemText data-cy="dashboard-nav" primary={t('dashboardTitle')} />
       </ListItem>
       <ListItem button component={Link} to="/projects">
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText data-testid="projects-link" primary={t('projectsTitle')} />
+        <ListItemText data-testid="projects-nav" primary={t('projectsTitle')} />
       </ListItem>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <AssessmentIcon />
         </ListItemIcon>
-        <ListItemText data-testid="reports-link" primary={t('reportsTitle')} />
+        <ListItemText data-cy="reports-nav" primary={t('reportsTitle')} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
@@ -181,7 +180,7 @@ const NavList: React.FC = () => {
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
-            <ListItemText primary="Billing" />
+            <ListItemText data-cy="billing-reports-nav" primary="Billing" />
           </ListItem>
           <ListItem button className={classes.nested}>
             <ListItemIcon>
@@ -209,7 +208,7 @@ const SideBar: React.FC<{ open: boolean; handleDrawerClose: () => void }> = ({
       open={open}
     >
       <div className={classes.toolbarIcon}>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={handleDrawerClose} data-cy="close-menudrawer-button">
           <ChevronLeftIcon />
         </IconButton>
       </div>
