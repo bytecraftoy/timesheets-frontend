@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import notificationState from '../common/atoms'
 import FormTextField from '../form/FormTextField'
 import FormSelect from '../form/FormSelect'
 import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
+import useAPIErrorHandler from '../services/errorHandlingService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,17 +90,17 @@ const ProjectForm: React.FC = () => {
     },
   })
 
-  const fetchManagerAndClients = async () => {
+  const fetchManagersAndClients = useCallback(async () => {
     const clientResponse = await getAllClients()
     const managerResponse = await getAllManagers()
     setClients(clientResponse)
     setManagers(managerResponse)
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    fetchManagerAndClients()
   }, [])
+
+  useAPIErrorHandler(
+    fetchManagersAndClients,
+    useCallback(() => setLoading(false), [])
+  )
 
   if (isLoading) {
     return (

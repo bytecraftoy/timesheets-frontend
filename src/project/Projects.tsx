@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-
 import {
   Button,
   Paper,
@@ -14,11 +13,11 @@ import {
   Typography,
 } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
-
 import { Project } from '../common/types'
 import ProjectInfo from './ProjectInfo'
 import ProjectForm from './ProjectForm'
 import { getAllProjects } from '../services/projectService'
+import useAPIErrorHandler from '../services/errorHandlingService'
 
 const ProjectsTableHead: React.FC = () => {
   return (
@@ -39,15 +38,15 @@ const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
 
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     const result = await getAllProjects()
     setProjects(result)
-  }
-
-  useEffect(() => {
-    fetchProjects()
-    setLoading(false)
   }, [])
+
+  useAPIErrorHandler(
+    fetchProjects,
+    useCallback(() => setLoading(false), [])
+  )
 
   if (isLoading) {
     return (
