@@ -125,11 +125,11 @@ const BillingReportForm: React.FC<{
     },
     validate: (values) => {
       const errors = []
-      if (values.client === '') {
+      if (!values.client) {
         errors.push({ client: t('emptyClientErrorText') })
       }
       if (values.projects.length === 0) {
-        if (values.client === '') {
+        if (!values.client) {
           errors.push({ projects: t('chooseClientBeforeProjectText') })
         } else {
           errors.push({ projects: t('emptyProjectsErrorText') })
@@ -149,7 +149,7 @@ const BillingReportForm: React.FC<{
   }
 
   const fetchProjects = useCallback(async () => {
-    if (formik.values.client !== '') {
+    if (formik.values.client) {
       const projectResponse = await getProjectsByClientId(formik.values.client)
       setProjects(projectResponse)
     }
@@ -191,6 +191,20 @@ const BillingReportForm: React.FC<{
             errors={formik.errors.projects}
             touched={formik.touched.projects}
           />
+        </Grid>
+        <Grid item>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() =>
+              formik.setFieldValue(
+                'projects',
+                projects.map((project) => project.id)
+              )
+            }
+          >
+            Select all projects
+          </Button>
         </Grid>
         <Grid container item direction="row" spacing={1}>
           <PickTimeframeButton
