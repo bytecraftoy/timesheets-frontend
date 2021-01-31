@@ -58,7 +58,9 @@
             "preview": {
                 "title": "Preview of billing report",
                 "summary": "Summary",
-                "details": "Details"
+                "details": "Details",
+                "grandTotal": "Grand total",
+                "subTotal": "Project subtotal"
             }
         },
         "generate": "Generate report",

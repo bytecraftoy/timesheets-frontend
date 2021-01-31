@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   makeStyles,
   Paper,
@@ -7,35 +8,25 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Typography,
 } from '@material-ui/core'
 import { ProjectStub, EmployeeWithInputs } from '../common/types'
 import { minutesToHoursAndMinutes } from './ReportService'
+import ReportTableHead from './ReportTableHead'
 
 const useStyles = makeStyles(() => ({
   summaryTable: {
-    width: '30vw',
+    width: '40vw',
     maxHeight: '80vh',
     overflowY: 'auto',
   },
 }))
 
-const GrandTotalRow: React.FC<{ grandTotal: string }> = ({ grandTotal }) => {
+const CountTotalRow: React.FC<{ label: string; total: string }> = ({ label, total }) => {
   return (
     <TableRow>
       <TableCell colSpan={2} />
-      <TableCell align="right">GRAND total</TableCell>
-      <TableCell align="right">{grandTotal}</TableCell>
-    </TableRow>
-  )
-}
-
-const SubTotalRow: React.FC<{ subTotal: string }> = ({ subTotal }) => {
-  return (
-    <TableRow>
-      <TableCell colSpan={2} />
-      <TableCell align="right">Project subtotal</TableCell>
-      <TableCell align="right">{subTotal}</TableCell>
+      <TableCell align="right">{label}</TableCell>
+      <TableCell align="right">{total}</TableCell>
     </TableRow>
   )
 }
@@ -53,6 +44,8 @@ const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) =
 }
 
 const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
+  const { t } = useTranslation()
+
   return (
     <>
       <TableRow>
@@ -63,7 +56,10 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
       {project.employees.map((employee) => (
         <EmployeeRow key={employee.id} employee={employee} />
       ))}
-      <SubTotalRow subTotal={minutesToHoursAndMinutes(project.projectTotal)} />
+      <CountTotalRow
+        label={t('report.billing.preview.subTotal')}
+        total={minutesToHoursAndMinutes(project.projectTotal)}
+      />
     </>
   )
 }
@@ -73,18 +69,29 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
   grandTotal,
 }) => {
   const classes = useStyles()
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(true)
 
   return (
     <>
-      <Typography variant="h6">Summary</Typography>
       <TableContainer component={Paper} className={classes.summaryTable}>
         <Table size="small">
-          <TableBody>
-            {projects.map((project) => (
-              <ProjectRows key={project.id} project={project} />
-            ))}
-            <GrandTotalRow grandTotal={minutesToHoursAndMinutes(grandTotal)} />
-          </TableBody>
+          <ReportTableHead
+            title={t('report.billing.preview.summary')}
+            open={open}
+            setOpen={setOpen}
+          />
+          {open && (
+            <TableBody>
+              {projects.map((project) => (
+                <ProjectRows key={project.id} project={project} />
+              ))}
+              <CountTotalRow
+                label={t('report.billing.preview.grandTotal')}
+                total={minutesToHoursAndMinutes(grandTotal)}
+              />
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </>

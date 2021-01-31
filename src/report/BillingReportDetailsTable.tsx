@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { format, getDay } from 'date-fns'
 import {
   makeStyles,
@@ -8,17 +9,18 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Typography,
 } from '@material-ui/core'
 import { ProjectStub, EmployeeWithInputs, TimeInput } from '../common/types'
 import weekdays from '../common/constants'
 import { minutesToHoursAndMinutes } from './ReportService'
+import ReportTableHead from './ReportTableHead'
 
 const useStyles = makeStyles(() => ({
   detailsTable: {
     width: '50vw',
     maxHeight: '80vh',
     overflowY: 'auto',
+    marginTop: '20px',
   },
 }))
 
@@ -72,17 +74,25 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
 
 const BillingReportDetailsTable: React.FC<{ projects: ProjectStub[] }> = ({ projects }) => {
   const classes = useStyles()
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(true)
 
   return (
     <>
-      <Typography variant="h6">Details</Typography>
       <TableContainer component={Paper} className={classes.detailsTable}>
         <Table size="small">
-          <TableBody>
-            {projects.map((project) => (
-              <ProjectRows key={project.id} project={project} />
-            ))}
-          </TableBody>
+          <ReportTableHead
+            title={t('report.billing.preview.details')}
+            open={open}
+            setOpen={setOpen}
+          />
+          {open && (
+            <TableBody>
+              {projects.map((project) => (
+                <ProjectRows key={project.id} project={project} />
+              ))}
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     </>
