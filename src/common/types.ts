@@ -123,7 +123,7 @@ export interface NotificationMessage {
   severity: Severity
 }
 
-// TODO
+// TODO: make sure that these types fully match the billing report data received
 
 export interface EmployeeWithInputs extends Employee {
   timeInputs: TimeInput[]

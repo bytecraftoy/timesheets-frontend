@@ -119,8 +119,6 @@ const BillingReportForm: React.FC<{
         setToNext(true)
       } catch {
         setNotification({ message: t('report.error'), severity: 'error' })
-      } finally {
-        setToNext(true)
       }
     },
     validate: (values) => {
