@@ -68,7 +68,7 @@ const GenerateButton: React.FC<GenerateButtonProps> = ({ className, disabled }) 
         type="submit"
         color="primary"
       >
-        {t('generateButtonLabel')}
+        {t('button.generate')}
       </Button>
     </Grid>
   )
@@ -114,11 +114,11 @@ const BillingReportForm: React.FC<{
         setReportData(response)
         setNotification({
           message: `Billing report for ${response.client.name} created succesfully`,
-          severity: 'success',
+          severity: t('success'),
         })
         setToNext(true)
       } catch {
-        setNotification({ message: 'Generating report failed.', severity: 'error' })
+        setNotification({ message: 'Generating report failed.', severity: t('error') })
       } finally {
         setToNext(true)
       }
@@ -126,18 +126,18 @@ const BillingReportForm: React.FC<{
     validate: (values) => {
       const errors = []
       if (!values.client) {
-        errors.push({ client: t('emptyClientErrorText') })
+        errors.push({ client: t('client.error') })
       }
       if (values.projects.length === 0) {
         if (!values.client) {
-          errors.push({ projects: t('chooseClientBeforeProjectText') })
+          errors.push({ projects: t('project.error.client') })
         } else {
-          errors.push({ projects: t('emptyProjectsErrorText') })
+          errors.push({ projects: t('project.error.empty') })
         }
       }
       if (isBefore(values.endDate, values.startDate)) {
-        errors.push({ startDate: t('starDateErrorText') })
-        errors.push({ endDate: t('endDateErrorText') })
+        errors.push({ startDate: t('startDate.error') })
+        errors.push({ endDate: t('endDate.error') })
       }
       return Object.assign({}, ...errors)
     },
@@ -170,8 +170,8 @@ const BillingReportForm: React.FC<{
           <FormSelect
             objects={clientToFormSelectItem(clients)}
             className={classes.formControl}
-            name="client"
-            label={t('clientLabel')}
+            name={t('client.name')}
+            label={t('client.label')}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.client}
@@ -183,9 +183,11 @@ const BillingReportForm: React.FC<{
           <FormSelectMultiple
             objects={projectsToFormSelectItem(projects)}
             className={classes.formControl}
-            name="projects"
-            label={t('projectsTitle')}
-            handleChange={(evt) => formik.setFieldValue('projects', evt.target.value as string[])}
+            name={t('project.name')}
+            label={t('project.label')}
+            handleChange={(evt) =>
+              formik.setFieldValue(t('project.name'), evt.target.value as string[])
+            }
             handleBlur={formik.handleBlur}
             value={formik.values.projects}
             errors={formik.errors.projects}
@@ -198,7 +200,7 @@ const BillingReportForm: React.FC<{
             color="primary"
             onClick={() =>
               formik.setFieldValue(
-                'projects',
+                t('project.name'),
                 projects.map((project) => project.id)
               )
             }
@@ -208,24 +210,24 @@ const BillingReportForm: React.FC<{
         </Grid>
         <Grid container item direction="row" spacing={1}>
           <PickTimeframeButton
-            label={t('lastTwoMonthsLabel')}
+            label={t('button.lastTwoMonths')}
             handleClick={() => {
-              formik.setFieldValue(t('startDate'), getFirstDayOfMonth(2))
-              formik.setFieldValue(t('endDate'), getLastDayOfLastMonth())
+              formik.setFieldValue(t('startDate.name'), getFirstDayOfMonth(2))
+              formik.setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
             }}
           />
           <PickTimeframeButton
-            label={t('lastSixMonthsLabel')}
+            label={t('button.lastSixMonths')}
             handleClick={() => {
-              formik.setFieldValue(t('startDate'), getFirstDayOfMonth(6))
-              formik.setFieldValue(t('endDate'), getLastDayOfLastMonth())
+              formik.setFieldValue(t('startDate.name'), getFirstDayOfMonth(6))
+              formik.setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
             }}
           />
           <PickTimeframeButton
-            label={t('lastYearLabel')}
+            label={t('button.lastYear')}
             handleClick={() => {
-              formik.setFieldValue(t('startDate'), getFirstDayOfLastYear())
-              formik.setFieldValue(t('endDate'), getLastDayOfLastYear())
+              formik.setFieldValue(t('startDate.name'), getFirstDayOfLastYear())
+              formik.setFieldValue(t('endDate.name'), getLastDayOfLastYear())
             }}
           />
         </Grid>
@@ -233,18 +235,18 @@ const BillingReportForm: React.FC<{
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
               id="start-date-picker"
-              label={t('startDateLabel')}
+              label={t('startDate.label')}
               value={formik.values.startDate}
               handleDateChange={(date) => {
-                formik.setFieldValue(t('startDate'), date)
+                formik.setFieldValue(t('startDate.name'), date)
               }}
             />
             <DatePicker
               id="end-date-picker"
-              label={t('endDateLabel')}
+              label={t('endDate.label')}
               value={formik.values.endDate}
               handleDateChange={(date) => {
-                formik.setFieldValue(t('endDate'), date)
+                formik.setFieldValue(t('endDate.name'), date)
               }}
             />
           </MuiPickersUtilsProvider>
