@@ -4,9 +4,9 @@ import Mousetrap from 'mousetrap'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
 import { useSetRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
-import { updateHours } from './DashboardService'
+import { updateHours, projectAndInputsWithIdToProjectAndInputs } from './DashboardService'
 import TimeInputsRow from './TimeInputsRow'
-import { ProjectWithTimeInputs } from '../common/types'
+import { ProjectAndInputsWithId } from '../common/types'
 import notificationState from '../common/atoms'
 
 const focusDifferentRow = (rowsToChange: number, length: number) => {
@@ -27,8 +27,7 @@ const focusDifferentRow = (rowsToChange: number, length: number) => {
 }
 
 interface TimeInputsFormProps {
-  projects: ProjectWithTimeInputs[]
-  setProjects: React.Dispatch<React.SetStateAction<ProjectWithTimeInputs[]>>
+  projects: ProjectAndInputsWithId[]
   week: Date[]
   holidays: boolean[]
   debounceMs: number
@@ -38,7 +37,6 @@ interface TimeInputsFormProps {
 
 const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   projects,
-  setProjects,
   week,
   holidays,
   debounceMs,
@@ -51,12 +49,11 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   const formik = useFormik({
     validateOnChange: false,
     initialValues: {
-      projects,
+      projects: projectAndInputsWithIdToProjectAndInputs(projects),
     },
     onSubmit: async (values) => {
       try {
         await updateHours(values.projects, projects, week)
-        setProjects(values.projects)
       } catch (error) {
         setNotification({ message: error, severity: 'error' })
       }

@@ -41,6 +41,18 @@ export interface Hours {
   employee: string
 }
 
+export interface HoursUpdate {
+  id: string
+  input: number
+  description: string
+}
+
+export interface HoursWithSavedIndex<HourType> {
+  x: number
+  y: number
+  hour: HourType
+}
+
 export interface FormTextFieldProps {
   className: string
   name: string
@@ -76,16 +88,14 @@ export interface ProjectFormValues {
   billable: boolean
 }
 
-export interface UsersProjectsWithTimeInputs {
-  id: string
-  username: string
-  projects: ProjectWithTimeInputs
-}
-
-export interface ProjectWithTimeInputs {
+export interface ProjectAndInputs {
   id: string
   name: string
-  inputs: WeekInputs
+  inputs: Input[]
+}
+
+export interface ProjectAndInputsWithId extends Omit<ProjectAndInputs, 'inputs'> {
+  inputs: InputWithId[]
 }
 
 export interface Input {
@@ -93,14 +103,8 @@ export interface Input {
   description: string
 }
 
-export interface WeekInputs {
-  mondayInput: Input
-  tuesdayInput: Input
-  wednesdayInput: Input
-  thursdayInput: Input
-  fridayInput: Input
-  saturdayInput: Input
-  sundayInput: Input
+export interface InputWithId extends Input {
+  id: string | null
 }
 
 export interface TimeInput {

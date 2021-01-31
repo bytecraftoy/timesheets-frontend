@@ -4,9 +4,9 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Mousetrap from 'mousetrap'
-import { getProjectHours, inputsToWeekInputsObject, getCurrentWeek } from './DashboardService'
+import { getProjectHours, timeInputsToWeekInputs, getCurrentWeek } from './DashboardService'
 import TimeInputsForm from './TimeInputsForm'
-import { Project, ProjectWithTimeInputs } from '../common/types'
+import { Project, ProjectAndInputsWithId } from '../common/types'
 import WeekRow from './WeekRow'
 import WeekdaysRow from './WeekdaysRow'
 
@@ -14,7 +14,7 @@ const WeeklyView: React.FC<{
   projects: Project[]
   debounceMs: number
 }> = ({ projects, debounceMs }) => {
-  const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectWithTimeInputs[]>([])
+  const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectAndInputsWithId[]>([])
   const [disableWeekChange, setDisableWeekChange] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const [showDescription, setShowDescription] = useState(false)
@@ -31,7 +31,7 @@ const WeeklyView: React.FC<{
         projects.map(async (project) => ({
           id: project.id,
           name: project.name,
-          inputs: inputsToWeekInputsObject(
+          inputs: timeInputsToWeekInputs(
             await getProjectHours(project.id, timeIntervalStartDate, timeIntervalEndDate),
             week
           ),
@@ -78,7 +78,6 @@ const WeeklyView: React.FC<{
         // TODO: rename projects-> projectsAndInputs and setProjecs->setProjectsAndInputs in all child components
         <TimeInputsForm
           projects={projectsAndInputs}
-          setProjects={setProjectsAndInputs}
           week={week}
           debounceMs={debounceMs}
           disableWeekChange={disableWeekChange}
