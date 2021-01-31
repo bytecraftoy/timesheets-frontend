@@ -6,6 +6,18 @@ import { BillingReportData } from '../common/types'
 import BillingReportForm from './BillingReportForm'
 import BillingReportPreview from './BillingReportPreview'
 
+const NoReportDataPlaceHolder = () => {
+  const { t } = useTranslation()
+  return (
+    <>
+      <Typography variant="subtitle1">{t('report.noReport')}</Typography>
+      <Button variant="outlined" color="primary" component={Link} to="/reports">
+        {t('report.generate')}
+      </Button>
+    </>
+  )
+}
+
 const data: BillingReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
@@ -241,24 +253,17 @@ const BillingReport: React.FC = () => {
   return (
     <>
       <Typography variant="h2" data-cy="reports-title">
-        {t('reportsTitle')}
+        {t('report.title')}
       </Typography>
       <Switch>
         <Route exact path={path}>
           <Typography variant="subtitle1" data-cy="billing-reports-subtitle">
-            {t('billingReportSubTitle')}
+            {t('report.billing.form.title')}
           </Typography>
           <BillingReportForm setReportData={setReportData} />
         </Route>
         <Route path={`${path}/preview`}>
-          {!reportData && (
-            <>
-              <Typography variant="subtitle1">There is no report to show.</Typography>
-              <Button variant="outlined" color="primary" component={Link} to="/reports">
-                Generate report
-              </Button>
-            </>
-          )}
+          {!reportData && <NoReportDataPlaceHolder />}
           {reportData && <BillingReportPreview data={reportData} />}
         </Route>
       </Switch>

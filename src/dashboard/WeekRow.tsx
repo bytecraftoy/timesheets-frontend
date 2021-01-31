@@ -67,7 +67,7 @@ const WeekRow: React.FC<{
       </Grid>
       <Grid item xs={2}>
         <Typography align="center" variant="h5">
-          {`${t('weekTitle')} ${getWeekNumber()}`}
+          {`${t('week.title')} ${getWeekNumber()}`}
         </Typography>
         <Typography align="center" variant="h5">
           {getYearNumber()}

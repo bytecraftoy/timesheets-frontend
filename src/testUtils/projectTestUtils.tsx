@@ -114,7 +114,7 @@ const managers: Manager[] = [
 ]
 
 const selectClient = async (component: RenderResult, client: Client): Promise<void> => {
-  const clientSelect = component.getByLabelText(t('clientLabel'))
+  const clientSelect = component.getByLabelText(t('client.label'))
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(clientSelect)
@@ -127,7 +127,7 @@ const selectClient = async (component: RenderResult, client: Client): Promise<vo
 }
 
 const selectManager = async (component: RenderResult, manager: Manager): Promise<void> => {
-  const ownerSelect = component.getByLabelText(t('ownerLabel'))
+  const ownerSelect = component.getByLabelText(t('owner.label'))
   const value = `${manager.firstName} ${manager.lastName}`
   let listbox: HTMLElement
   await act(async () => {
@@ -141,7 +141,7 @@ const selectManager = async (component: RenderResult, manager: Manager): Promise
 }
 
 const changeNameInput = async (component: RenderResult, value: string): Promise<void> => {
-  const nameInput = component.getByLabelText(t('projectFormNameLabel'))
+  const nameInput = component.getByLabelText(t('project.form.nameLabel'))
   await act(async () => {
     fireEvent.change(nameInput, { target: { value } })
     await component.findByDisplayValue(value)
@@ -149,7 +149,7 @@ const changeNameInput = async (component: RenderResult, value: string): Promise<
 }
 
 const changeDesciptionInput = async (component: RenderResult, value: string): Promise<void> => {
-  const desciptionInput = component.getByLabelText(t('projectFormDescriptionLabel'))
+  const desciptionInput = component.getByLabelText(t('project.description.label'))
   await act(async () => {
     fireEvent.change(desciptionInput, { target: { value } })
     await component.findByDisplayValue(value)

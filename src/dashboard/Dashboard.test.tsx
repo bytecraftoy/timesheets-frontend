@@ -36,7 +36,7 @@ describe('weekly view', () => {
         </I18nextProvider>
       )
     })
-    await component.findByText(t('inputHoursTitle'))
+    await component.findByText(t('timeInputs.title'))
   })
 
   it('shows weekdays correctly', () => {

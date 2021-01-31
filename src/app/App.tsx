@@ -136,7 +136,7 @@ const TitleBar: React.FC<{ open: boolean; handleDrawerOpen: () => void }> = ({
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title} data-cy="app-title">
-          {t('appTitle')}
+          {t('app.title')}
         </Typography>
       </Toolbar>
     </AppBar>
@@ -159,19 +159,19 @@ const NavList: React.FC = () => {
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText data-cy="dashboard-nav" primary={t('dashboardTitle')} />
+        <ListItemText data-cy="dashboard-nav" primary={t('dashboard.title')} />
       </ListItem>
       <ListItem button component={Link} to="/projects">
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText data-testid="projects-nav" primary={t('projectsTitle')} />
+        <ListItemText data-testid="projects-nav" primary={t('project.title')} />
       </ListItem>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
           <AssessmentIcon />
         </ListItemIcon>
-        <ListItemText data-cy="reports-nav" primary={t('reportsTitle')} />
+        <ListItemText data-cy="reports-nav" primary={t('report.title')} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>

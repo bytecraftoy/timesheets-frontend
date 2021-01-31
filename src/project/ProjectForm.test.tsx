@@ -42,16 +42,16 @@ describe('add project form', () => {
             <ProjectForm />
           </I18nextProvider>
         )
-        await component.findByText(t('projectFormHeading'))
+        await component.findByText(t('project.createNew'))
       })
     })
 
     it('has name, description text fields, billabe info and client & owner selects', () => {
-      const nameInput = component.getByLabelText(t('projectFormNameLabel'))
-      const desciptionInput = component.getByLabelText(t('projectFormDescriptionLabel'))
-      const clientSelect = component.getByLabelText(t('clientLabel'))
-      const ownerSelect = component.getByLabelText(t('ownerLabel'))
-      const billableCheckbox = component.getByLabelText(t('billableLabel'))
+      const nameInput = component.getByLabelText(t('project.form.nameLabel'))
+      const desciptionInput = component.getByLabelText(t('project.description.label'))
+      const clientSelect = component.getByLabelText(t('client.label'))
+      const ownerSelect = component.getByLabelText(t('owner.label'))
+      const billableCheckbox = component.getByLabelText(t('billable.label'))
 
       expect(nameInput).toHaveAttribute('type', 'text')
       expect(desciptionInput).toHaveAttribute('type', 'text')
@@ -61,8 +61,8 @@ describe('add project form', () => {
     })
 
     it('has client and owner selects containing fetched clients and managers', async () => {
-      const clientSelect = component.getByLabelText(t('clientLabel'))
-      const ownerSelect = component.getByLabelText(t('ownerLabel'))
+      const clientSelect = component.getByLabelText(t('client.label'))
+      const ownerSelect = component.getByLabelText(t('owner.label'))
 
       await act(async () => {
         fireEvent.mouseDown(clientSelect)
@@ -97,7 +97,7 @@ describe('add project form', () => {
             <ProjectForm />
           </I18nextProvider>
         )
-        await component.findByText(t('projectFormHeading'))
+        await component.findByText(t('project.createNew'))
       })
     })
 
@@ -107,9 +107,7 @@ describe('add project form', () => {
         await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
 
         await pressSubmitButton()
-        await waitFor(
-          expect(component.getByText(t('projectFormEmptyNameErrorText'))).toBeInTheDocument
-        )
+        await waitFor(expect(component.getByText(t('project.error.name.empty'))).toBeInTheDocument)
 
         expect(axios.post).toBeCalledTimes(0)
       })
@@ -119,7 +117,7 @@ describe('add project form', () => {
         await projectTestUtils.changeNameInput(component, 'a')
 
         await pressSubmitButton()
-        await waitFor(expect(component.getByText(t('emptyClientErrorText'))).toBeInTheDocument)
+        await waitFor(expect(component.getByText(t('client.error'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
 
@@ -128,9 +126,7 @@ describe('add project form', () => {
         await projectTestUtils.changeNameInput(component, 'a')
 
         await pressSubmitButton()
-        await waitFor(
-          expect(component.getByText(t('projectFormEmptyOwnerErrorText'))).toBeInTheDocument
-        )
+        await waitFor(expect(component.getByText(t('owner.error'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
     })
@@ -142,9 +138,7 @@ describe('add project form', () => {
         await projectTestUtils.changeNameInput(component, 'a'.repeat(101))
 
         await pressSubmitButton()
-        await waitFor(
-          expect(component.getByText(t('projectFormTooLongNameErrorText'))).toBeInTheDocument
-        )
+        await waitFor(expect(component.getByText(t('project.error.tooLong'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
 
@@ -155,9 +149,7 @@ describe('add project form', () => {
         await projectTestUtils.changeDesciptionInput(component, 'a'.repeat(401))
 
         await pressSubmitButton()
-        await waitFor(
-          expect(component.getByText(t('projectFormTooLongDescriptionErrorText'))).toBeInTheDocument
-        )
+        await waitFor(expect(component.getByText(t('project.description.error'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
     })
@@ -201,7 +193,7 @@ describe('add project form', () => {
             </RecoilRoot>
           </I18nextProvider>
         )
-        await component.findByText(t('projectFormHeading'))
+        await component.findByText(t('project.createNew'))
       })
 
       await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
