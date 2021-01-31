@@ -8,7 +8,7 @@ import { BillingReportData } from '../common/types'
 const BillingReportPreview: React.FC<{ data: BillingReportData }> = ({ data }) => {
   return (
     <>
-      <Typography variant="h3">Report preview</Typography>
+      <Typography variant="subtitle1">Preview of billing report</Typography>
       <Typography variant="h6">{data.client.name}</Typography>
       <Typography variant="h6">
         {format(new Date(data.startDate), 'dd.MM.yyyy')}

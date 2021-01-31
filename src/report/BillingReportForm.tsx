@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { isBefore } from 'date-fns'
 import { useFormik, FormikErrors, FormikTouched } from 'formik'
+import { Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSetRecoilState } from 'recoil'
 import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
@@ -79,7 +80,7 @@ interface DateErrorsProps {
   touched: FormikTouched<Date> | undefined
 }
 
-const DateErrors: React.FC<DateErrorsProps> = ({ className, errors, touched }) => {
+const DateError: React.FC<DateErrorsProps> = ({ className, errors, touched }) => {
   return (
     <Grid item className={className}>
       {errors && touched && <Typography variant="caption">{errors}</Typography>}
@@ -95,6 +96,7 @@ const BillingReportForm: React.FC<{
 
   const [clients, setClients] = useState<Client[]>([])
   const [projects, setProjects] = useState<Project[]>([])
+  const [toNext, setToNext] = useState(false)
   const setNotification = useSetRecoilState(notificationState)
 
   const initialValues: BillingReportFormValues = {
@@ -114,11 +116,11 @@ const BillingReportForm: React.FC<{
           message: `Billing report for ${response.client.name} created succesfully`,
           severity: 'success',
         })
+        setToNext(true)
       } catch {
         setNotification({ message: 'Generating report failed.', severity: 'error' })
       } finally {
-        // eslint-disable-next-line no-console
-        console.log(values)
+        setToNext(true)
       }
     },
     validate: (values) => {
@@ -235,18 +237,19 @@ const BillingReportForm: React.FC<{
         </Grid>
         {(formik.errors.startDate || formik.errors.endDate) && (
           <Grid container item spacing={6}>
-            <DateErrors
+            <DateError
               className={classes.dateErrorText}
               errors={formik.errors.startDate}
               touched={formik.touched.startDate}
             />
-            <DateErrors
+            <DateError
               className={classes.dateErrorText}
               errors={formik.errors.endDate}
               touched={formik.touched.endDate}
             />
           </Grid>
         )}
+        {toNext && <Redirect to="/reports/preview" />}
         <GenerateButton className={classes.button} disabled={formik.isSubmitting} />
       </Grid>
     </form>

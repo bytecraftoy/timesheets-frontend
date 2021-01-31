@@ -21,7 +21,7 @@
     "projectFormEmptyOwnerErrorText": "You must choose an owner.",
     "inputHoursTitle": "Input hours",
     "reportsTitle": "Reports",
-    "billingReportSubTitle": "Generate report for billing purposes.",
+    "billingReportSubTitle": "Generate report for billing purposes",
     "starDateErrorText": "Start date must be before end date",
     "endDateErrorText": "End date must be after start date",
     "startDateLabel": "Start date",
