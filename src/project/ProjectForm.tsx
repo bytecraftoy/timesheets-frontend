@@ -13,7 +13,7 @@ import notificationState from '../common/atoms'
 import FormTextField from '../form/FormTextField'
 import FormSelect from '../form/FormSelect'
 import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
-import useAPIErrorHandler from '../services/errorHandlingService'
+import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,7 +97,7 @@ const ProjectForm: React.FC = () => {
     setManagers(managerResponse)
   }, [])
 
-  useAPIErrorHandler(
+  useAPIErrorHandlerWithFinally(
     fetchManagersAndClients,
     useCallback(() => setLoading(false), [])
   )

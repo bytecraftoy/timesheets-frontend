@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { isBefore } from 'date-fns'
 import { useFormik, FormikErrors, FormikTouched } from 'formik'
 import { Redirect } from 'react-router-dom'
@@ -22,6 +22,7 @@ import {
   getFirstDayOfLastYear,
   getLastDayOfLastYear,
 } from './ReportService'
+import { useAPIErrorHandler } from '../services/errorHandlingService'
 
 // TODO: tee datepicker error viesteistä enemmän formikin error viestien näköiset ja ehkä punaiset
 const useStyles = makeStyles((theme) => ({
@@ -141,10 +142,10 @@ const BillingReportForm: React.FC<{
     },
   })
 
-  const fetchClients = async () => {
+  const fetchClients = useCallback(async () => {
     const clientResponse = await getAllClients()
     setClients(clientResponse)
-  }
+  }, [])
 
   const fetchProjects = useCallback(async () => {
     if (formik.values.client) {
@@ -153,13 +154,9 @@ const BillingReportForm: React.FC<{
     }
   }, [formik.values.client])
 
-  useEffect(() => {
-    fetchClients()
-  }, [])
+  useAPIErrorHandler(fetchClients)
 
-  useEffect(() => {
-    fetchProjects()
-  }, [formik.values.client, fetchProjects])
+  useAPIErrorHandler(fetchProjects)
 
   return (
     <form onSubmit={formik.handleSubmit}>

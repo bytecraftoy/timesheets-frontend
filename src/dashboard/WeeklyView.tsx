@@ -9,7 +9,7 @@ import TimeInputsForm from './TimeInputsForm'
 import { Project, ProjectAndInputsWithId } from '../common/types'
 import WeekRow from './WeekRow'
 import WeekdaysRow from './WeekdaysRow'
-import useAPIErrorHandler from '../services/errorHandlingService'
+import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
 const WeeklyView: React.FC<{
   projects: Project[]
@@ -40,7 +40,7 @@ const WeeklyView: React.FC<{
     setProjectsAndInputs(projectsWithInputs)
   }, [projects, week])
 
-  useAPIErrorHandler(
+  useAPIErrorHandlerWithFinally(
     fetchTimeInputs,
     useCallback(() => setLoading(false), [])
   )
