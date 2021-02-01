@@ -42,12 +42,12 @@ describe('app', () => {
   })
 
   it('should display timesheets title', () => {
-    const appTitle = app.getByText(t('appTitle'))
+    const appTitle = app.getByText(t('app.title'))
     expect(appTitle).toBeInTheDocument()
   })
 
   it('should display navigation link to projects view', () => {
-    const projectsTitle = app.getByText(t('projectsTitle'))
+    const projectsTitle = app.getByText(t('project.title'))
     expect(projectsTitle).toBeInTheDocument()
   })
 })
@@ -76,7 +76,7 @@ describe('projects', () => {
           <App />
         </I18nextProvider>
       )
-      await app.findByText(t('appTitle'))
+      await app.findByText(t('app.title'))
     })
   })
 
@@ -117,7 +117,7 @@ describe('projects', () => {
           await projectTestUtils.selectClient(app, projectTestUtils.clients[0])
           await projectTestUtils.selectManager(app, projectTestUtils.managers[0])
 
-          const submitButton = app.getByText(t('createButtonLabel'))
+          const submitButton = app.getByText(t('button.create'))
           fireEvent.click(submitButton)
         })
 

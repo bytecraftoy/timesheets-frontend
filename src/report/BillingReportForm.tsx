@@ -114,13 +114,11 @@ const BillingReportForm: React.FC<{
         setReportData(response)
         setNotification({
           message: `Billing report for ${response.client.name} created succesfully`,
-          severity: t('success'),
+          severity: 'success',
         })
         setToNext(true)
       } catch {
-        setNotification({ message: 'Generating report failed.', severity: t('error') })
-      } finally {
-        setToNext(true)
+        setNotification({ message: t('report.error'), severity: 'error' })
       }
     },
     validate: (values) => {

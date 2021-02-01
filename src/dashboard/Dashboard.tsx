@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Typography variant="h2" data-cy="input-hours-title">
-        {t('inputHoursTitle')}
+        {t('timeInputs.title')}
       </Typography>
       {isLoading && (
         <div>

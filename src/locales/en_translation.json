@@ -1,35 +1,25 @@
 {
-    "appTitle": "Timesheets",
-    "dashboardTitle": "Dashboard",
-    "projectsTitle": "Projects",
-    "addProjectButton": "Add project",
-    "projectFormHeading": "Create new project",
-    "projectFormNameLabel": "Project's Name",
-    "projectFormDescriptionLabel": "Description",
-    "clientLabel": "Client",
-    "ownerLabel": "Owner",
-    "billableLabel": "Is billable",
-    "createButtonLabel": "Create",
-    "cancelButtonLabel": "Cancel",
-    "projectFormEmptyNameErrorText": "Project must have a name.",
-    "projectFormTooLongNameErrorText": "Project's name cannot be over 100 letters long.",
-    "projectFormTooLongDescriptionErrorText": "Project's description cannot be over 400 letters long.",
-    "emptyClientErrorText": "You must choose a client.",
-    "projectFormEmptyOwnerErrorText": "You must choose an owner.",
-    "inputHoursTitle": "Input hours",
-    "reportsTitle": "Reports",
-    "billingReportSubTitle": "Generate report for billing purposes",
-    "weekTitle": "Week",
     "app": {
         "title": "Timesheets"
     },
-    "dashboard": {
-        "title": "Dashboard"
+    "billable": {
+        "label": "Is billable"
+    },
+    "button": {
+        "generate": "Generate",
+        "create": "Create",
+        "cancel": "Cancel",
+        "lastTwoMonths": "Last 2 months",
+        "lastSixMonths": "Last 6 months",
+        "lastYear": "Last year"
     },
     "client": {
         "label": "Client",
         "name": "client",
         "error": "You must choose a client."
+    },
+    "dashboard": {
+        "title": "Dashboard"
     },
     "owner": {
         "label": "Owner",
@@ -40,12 +30,42 @@
         "label": "Project",
         "title": "Projects",
         "name": "projects",
+        "form": {
+            "nameLabel": "Project's Name"
+        },
+        "description": {
+            "label": "Description",
+            "error": "Project's description cannot be over 400 letters long."
+        },
         "error": {
             "empty": "You must choose at least one project.",
-            "client": "You must first select a client."
+            "client": "You must first select a client.",
+            "name": {
+                "empty": "Project must have a name.",
+                "tooLong": "Project's name cannot be over 100 letters long."
+            }
         },
         "selectAll": "Select all projects",
-        "createNew": "Create new project"
+        "createNew": "Create new project",
+        "addProject": "Add project"
+    },
+    "report": {
+        "title": "Reports",
+        "billing": {
+            "form": {
+                "title": "Generate report for billing purposes"
+            },
+            "preview": {
+                "title": "Preview of billing report",
+                "summary": "Summary",
+                "details": "Details",
+                "grandTotal": "Grand total",
+                "subTotal": "Project subtotal"
+            }
+        },
+        "generate": "Generate report",
+        "noReport": "There is no report to show.",
+        "error": "Report could not be generated."
     },
     "startDate": {
         "label": "Start date",
@@ -57,18 +77,11 @@
         "name": "endDate",
         "error": "End date must be after start date."
     },
-    "button": {
-        "generate": "Generate",
-        "create": "Create",
-        "cancel": "Cancel",
-        "lastTwoMonths": "Last 2 months",
-        "lastSixMonths": "Last 6 months",
-        "lastYear": "Last year"
+    "notification": {},
+    "timeInputs": {
+        "title": "Input hours"
     },
-    "notification": {
-        "severity": {
-            "success": "success",
-            "error": "error"
-        }
+    "week": {
+        "title": "Week"
     }
 }

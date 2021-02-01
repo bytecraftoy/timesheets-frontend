@@ -72,19 +72,19 @@ const ProjectForm: React.FC = () => {
     validate: (values) => {
       const errors = []
       if (values.name === '') {
-        errors.push({ name: t('projectFormEmptyNameErrorText') })
+        errors.push({ name: t('project.error.name.empty') })
       }
       if (values.name.length > 100) {
-        errors.push({ name: t('projectFormTooLongNameErrorText') })
+        errors.push({ name: t('project.error.tooLong') })
       }
       if (values.description.length > 400) {
-        errors.push({ description: t('projectFormTooLongDescriptionErrorText') })
+        errors.push({ description: t('project.description.error') })
       }
       if (values.client === '') {
-        errors.push({ client: t('emptyClientErrorText') })
+        errors.push({ client: t('client.error') })
       }
       if (values.owner === '') {
-        errors.push({ owner: t('projectFormEmptyOwnerErrorText') })
+        errors.push({ owner: t('owner.error') })
       }
       return Object.assign({}, ...errors)
     },
@@ -113,7 +113,7 @@ const ProjectForm: React.FC = () => {
   return (
     <>
       <Typography variant="h6" data-cy="project-form-heading">
-        {t('projectFormHeading')}
+        {t('project.createNew')}
       </Typography>
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
@@ -121,7 +121,7 @@ const ProjectForm: React.FC = () => {
             <FormTextField
               className={classes.textField}
               name="name"
-              label={t('projectFormNameLabel')}
+              label={t('project.form.nameLabel')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.name}
@@ -133,7 +133,7 @@ const ProjectForm: React.FC = () => {
             <FormTextField
               className={classes.textFieldWide}
               name="description"
-              label={t('projectFormDescriptionLabel')}
+              label={t('project.description.label')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.description}
@@ -146,7 +146,7 @@ const ProjectForm: React.FC = () => {
               objects={clientToFormSelectItem(clients)}
               className={classes.formControl}
               name="client"
-              label={t('clientLabel')}
+              label={t('client.label')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.client}
@@ -157,7 +157,7 @@ const ProjectForm: React.FC = () => {
               objects={managerToFormSelectItem(managers)}
               className={classes.formControl}
               name="owner"
-              label={t('ownerLabel')}
+              label={t('owner.label')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.owner}
@@ -177,7 +177,7 @@ const ProjectForm: React.FC = () => {
                   inputProps={{ 'aria-label': 'billable' }}
                 />
               }
-              label={t('billableLabel')}
+              label={t('billable.label')}
             />
           </Grid>
           {toNext && <Redirect to="/projects" />}
@@ -190,7 +190,7 @@ const ProjectForm: React.FC = () => {
               color="primary"
               data-testid="projectFormSubmit"
             >
-              {t('createButtonLabel')}
+              {t('button.create')}
             </Button>
             <Button
               className={classes.button}
@@ -198,7 +198,7 @@ const ProjectForm: React.FC = () => {
               variant="contained"
               onClick={() => setToNext(true)}
             >
-              {t('cancelButtonLabel')}
+              {t('button.cancel')}
             </Button>
           </Grid>
         </Grid>
