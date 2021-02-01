@@ -2,29 +2,9 @@ import React from 'react'
 import { Grid, TextField, makeStyles, Typography } from '@material-ui/core'
 import { FastField, getIn, FormikErrors, FieldArray } from 'formik'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 import { ProjectAndInputs } from '../common/types'
 import { timeStringToNumber } from './DashboardService'
-
-const validateTime = (value: string): string | undefined => {
-  let error: string | undefined
-  const number = timeStringToNumber(value)
-  if (Number.isNaN(number)) {
-    error = 'Number must be formated correctly'
-  } else if (number < 0) {
-    error = 'Number cannot be negative'
-  } else if (number > 1440) {
-    error = 'Number cannot be over 24 hours'
-  }
-  return error
-}
-
-const validateDescription = (value: string): string | undefined => {
-  let error: string | undefined
-  if (value.length > 100) {
-    error = 'Description cannot be longer than 100 characters'
-  }
-  return error
-}
 
 const useStyles = makeStyles((theme) => ({
   descriptionField: {
@@ -71,6 +51,21 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
   holidays,
 }) => {
   const classes = useStyles()
+  const { t } = useTranslation()
+
+  const validateTime = (value: string): string | undefined => {
+    let error: string | undefined
+    const number = timeStringToNumber(value)
+    if (Number.isNaN(number)) {
+      error = t('timeInput.time.error.format')
+    } else if (number < 0) {
+      error = t('timeInput.time.error.negative')
+    } else if (number > 1440) {
+      error = t('timeInput.time.error.over24')
+    }
+    return error
+  }
+
   return (
     <Grid
       item
@@ -92,6 +87,15 @@ const TimeInputsRow: React.FC<ProjectRowProps> = ({
           [0, 1, 2, 3, 4, 5, 6].map((j) => {
             const timeName = `projects[${i}].inputs[${j}].time`
             const descriptionName = `projects[${i}].inputs[${j}].description`
+            const validateDescription = (value: string): string | undefined => {
+              let error: string | undefined
+              if (value.length > 100) {
+                error = t('timeInput.description.error.tooLong')
+              } else if (project.inputs[j].time === '' && value !== '') {
+                error = t('timeInput.description.error.timeEmpty')
+              }
+              return error
+            }
             return (
               <Grid
                 className={clsx(holidays[j] && classes.grayBackground)}

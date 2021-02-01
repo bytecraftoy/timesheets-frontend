@@ -83,5 +83,20 @@
     },
     "week": {
         "title": "Week"
+    },
+    "timeInput": {
+        "description": {
+            "error": {
+                "tooLong": "Description cannot be longer than 100 characters",
+                "timeEmpty": "Time field cannot be empty"
+            } 
+        },
+        "time": {
+            "error": {
+                "format": "Number must be formated correctly",
+                "negative": "Number cannot be negative",
+                "over24": "Number cannot be over 24 hours"
+            }
+        }
     }
 }
