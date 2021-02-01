@@ -9,6 +9,7 @@ import TimeInputsForm from './TimeInputsForm'
 import { Project, ProjectAndInputsWithId } from '../common/types'
 import WeekRow from './WeekRow'
 import WeekdaysRow from './WeekdaysRow'
+import useAPIErrorHandler from '../services/errorHandlingService'
 
 const WeeklyView: React.FC<{
   projects: Project[]
@@ -21,27 +22,28 @@ const WeeklyView: React.FC<{
   const [week, setWeek] = useState<Date[]>(getCurrentWeek())
   const holidays = [false, false, false, false, false, true, true]
 
-  useEffect(() => {
-    const fetchTimeInputs = async () => {
-      setLoading(true)
-      const timeIntervalStartDate = week[0]
-      const timeIntervalEndDate = week[week.length - 1]
+  const fetchTimeInputs = useCallback(async () => {
+    setLoading(true)
+    const timeIntervalStartDate = week[0]
+    const timeIntervalEndDate = week[week.length - 1]
 
-      const projectsWithInputs = await Promise.all(
-        projects.map(async (project) => ({
-          id: project.id,
-          name: project.name,
-          inputs: timeInputsToWeekInputs(
-            await getProjectHours(project.id, timeIntervalStartDate, timeIntervalEndDate),
-            week
-          ),
-        }))
-      )
-      setProjectsAndInputs(projectsWithInputs)
-      setLoading(false)
-    }
-    fetchTimeInputs()
+    const projectsWithInputs = await Promise.all(
+      projects.map(async (project) => ({
+        id: project.id,
+        name: project.name,
+        inputs: timeInputsToWeekInputs(
+          await getProjectHours(project.id, timeIntervalStartDate, timeIntervalEndDate),
+          week
+        ),
+      }))
+    )
+    setProjectsAndInputs(projectsWithInputs)
   }, [projects, week])
+
+  useAPIErrorHandler(
+    fetchTimeInputs,
+    useCallback(() => setLoading(false), [])
+  )
 
   const toggleShowDescription = useCallback(() => {
     if (isLoading || disableWeekChange) {
