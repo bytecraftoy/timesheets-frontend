@@ -17,7 +17,7 @@ import { Project } from '../common/types'
 import ProjectInfo from './ProjectInfo'
 import ProjectForm from './ProjectForm'
 import { getAllProjects } from '../services/projectService'
-import useAPIErrorHandler from '../services/errorHandlingService'
+import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
 const ProjectsTableHead: React.FC = () => {
   return (
@@ -43,7 +43,7 @@ const ProjectsTable: React.FC = () => {
     setProjects(result)
   }, [])
 
-  useAPIErrorHandler(
+  useAPIErrorHandlerWithFinally(
     fetchProjects,
     useCallback(() => setLoading(false), [])
   )

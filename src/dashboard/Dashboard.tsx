@@ -5,7 +5,7 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import { Project } from '../common/types'
 import { getAllProjects } from '../services/projectService'
 import WeeklyView from './WeeklyView'
-import useAPIErrorHandler from '../services/errorHandlingService'
+import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation()
@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
     setProjects(projectResponse)
   }, [])
 
-  useAPIErrorHandler(
+  useAPIErrorHandlerWithFinally(
     fetchProjects,
     useCallback(() => setLoading(false), [])
   )
