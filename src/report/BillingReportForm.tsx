@@ -68,6 +68,7 @@ const GenerateButton: React.FC<GenerateButtonProps> = ({ className, disabled }) 
         variant="contained"
         type="submit"
         color="primary"
+        data-testid="billingReportFormGenerate"
       >
         {t('button.generate')}
       </Button>
