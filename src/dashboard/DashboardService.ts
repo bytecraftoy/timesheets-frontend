@@ -105,9 +105,9 @@ const updateHours = async (
             input: timeStringToNumber(projects[i].inputs[j].time),
             description: projects[i].inputs[j].description,
           })
-          sPRef[i].inputs[j].time = projects[i].inputs[j].time
-          sPRef[i].inputs[j].description = projects[i].inputs[j].description
         }
+        sPRef[i].inputs[j].time = projects[i].inputs[j].time
+        sPRef[i].inputs[j].description = projects[i].inputs[j].description
       }
     })
   }

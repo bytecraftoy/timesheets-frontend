@@ -14,7 +14,7 @@ const focusDifferentRow = (rowsToChange: number, length: number) => {
   if (elem !== null) {
     if (elem.hasAttribute('name')) {
       const name = elem.getAttribute('name') as string
-      if (/^projects\[\d+\]\.inputs\.[\w\D]+$/.test(name)) {
+      if (/^projects\[\d+\]\.inputs\[\d+\]\.[\w\D]+$/.test(name)) {
         const index = parseInt((name.match(/\d+/) as RegExpMatchArray)[0], 10) + rowsToChange
         if (index < length && index >= 0) {
           ;(document.querySelector(
