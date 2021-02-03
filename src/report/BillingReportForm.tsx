@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 240,
+    minWidth: theme.spacing(30),
   },
   dateErrorText: {
-    width: 270,
+    width: theme.spacing(33.75),
   },
 }))
 

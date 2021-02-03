@@ -80,10 +80,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   fixedHeight: {
-    height: 240,
+    height: theme.spacing(30),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: theme.spacing(4.5),
   },
   menuButtonHidden: {
     display: 'none',
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: theme.spacing(3), // keep right padding when drawer closed
   },
   title: {
     flexGrow: 1,
@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
-    padding: '0 8px',
+    padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
   nested: {

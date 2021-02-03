@@ -15,12 +15,12 @@ import weekdays from '../common/constants'
 import { minutesToHoursAndMinutes } from './ReportService'
 import ReportTableHead from './ReportTableHead'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   detailsTable: {
     width: '50vw',
     maxHeight: '80vh',
     overflowY: 'auto',
-    marginTop: '20px',
+    marginTop: theme.spacing(2.5),
   },
 }))
 

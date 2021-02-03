@@ -10,9 +10,9 @@ import {
   Typography,
 } from '@material-ui/core'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   collapseButtonCell: {
-    width: '100px',
+    width: theme.spacing(12.5),
   },
 }))
 

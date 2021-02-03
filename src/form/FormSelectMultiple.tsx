@@ -12,15 +12,13 @@ import {
 } from '@material-ui/core'
 import { FormSelectMultipleProps } from '../common/types'
 
-// ? is it possible to combine FormSelect and FormSelectMultiple?
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   chip: {
-    margin: 2,
+    margin: theme.spacing(0.25),
   },
 }))
 
