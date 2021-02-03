@@ -33,6 +33,9 @@
         "form": {
             "nameLabel": "Project's Name"
         },
+        "message": {
+            "success": "{{project}} created succesfully!"
+        },
         "description": {
             "label": "Description",
             "error": "Project's description cannot be over 400 letters long."
@@ -55,6 +58,10 @@
             "form": {
                 "title": "Generate report for billing purposes"
             },
+            "message": {
+                "success": "Billing report for {{client}} created succesfully!",
+                "error": "Report could not be generated."
+            },
             "preview": {
                 "title": "Preview of billing report",
                 "summary": "Summary",
@@ -64,8 +71,7 @@
             }
         },
         "generate": "Generate report",
-        "noReport": "There is no report to show.",
-        "error": "Report could not be generated."
+        "noReport": "There is no report to show."
     },
     "startDate": {
         "label": "Start date",
@@ -89,7 +95,7 @@
             "error": {
                 "tooLong": "Description cannot be longer than 100 characters",
                 "timeEmpty": "Time field cannot be empty"
-            } 
+            }
         },
         "time": {
             "error": {

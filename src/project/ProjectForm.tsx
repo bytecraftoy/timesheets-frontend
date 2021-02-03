@@ -60,7 +60,7 @@ const ProjectForm: React.FC = () => {
       try {
         const response = await createProject(values)
         setNotification({
-          message: `${response.name} created succesfully!`,
+          message: t('project.message.success', { project: response.name }),
           severity: 'success',
         })
       } catch (error) {

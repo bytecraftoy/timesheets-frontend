@@ -115,12 +115,12 @@ const BillingReportForm: React.FC<{
         const response = await getBillingReportData(values)
         setReportData(response)
         setNotification({
-          message: `Billing report for ${response.client.name} created succesfully`,
+          message: t('report.billing.message.success', { client: response.client.name }),
           severity: 'success',
         })
         setToNext(true)
       } catch {
-        setNotification({ message: t('report.error'), severity: 'error' })
+        setNotification({ message: t('report.billing.message.error'), severity: 'error' })
       }
     },
     validate: (values) => {
@@ -201,7 +201,7 @@ const BillingReportForm: React.FC<{
               )
             }
           >
-            Select all projects
+            {t('project.selectAll')}
           </Button>
         </Grid>
         <Grid container item direction="row" spacing={1}>
