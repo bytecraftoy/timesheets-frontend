@@ -15,6 +15,7 @@ export interface Employee {
 export interface Client {
   id: string
   name: string
+  email?: string
 }
 
 export interface Project {
@@ -125,6 +126,14 @@ export interface NotificationMessage {
 
 // TODO: make sure that these types fully match the billing report data received
 
+export interface BillingReportData {
+  startDate: string
+  endDate: string
+  client: Client
+  projects: ProjectStub[]
+  creationMillis: number
+  grandTotal: number
+}
 export interface EmployeeWithInputs extends Employee {
   timeInputs: TimeInput[]
   employeeTotal: number
@@ -137,14 +146,6 @@ export interface ProjectStub {
   billable: boolean
   employees: EmployeeWithInputs[]
   projectTotal: number
-}
-
-export interface BillingReportData {
-  startDate: string
-  endDate: string
-  client: Client
-  projects: ProjectStub[]
-  grandTotal: number
 }
 
 export interface BillingReportFormValues {

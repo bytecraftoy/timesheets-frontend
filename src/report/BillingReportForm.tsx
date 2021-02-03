@@ -1,30 +1,25 @@
-/* eslint-disable no-console */
 import React, { useState, useCallback } from 'react'
 import { isBefore } from 'date-fns'
-import { useFormik, FormikErrors, FormikTouched } from 'formik'
+import { useFormik } from 'formik'
 import { Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSetRecoilState } from 'recoil'
-import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
-import DateFnsUtils from '@date-io/date-fns'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { Grid, makeStyles } from '@material-ui/core'
 import notificationState from '../common/atoms'
-import DatePicker from './DatePicker'
 import { Client, Project, BillingReportFormValues, BillingReportData } from '../common/types'
 import { getAllClients, getProjectsByClientId } from '../services/clientService'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, projectsToFormSelectItem } from '../form/formService'
-import {
-  getBillingReportData,
-  getFirstDayOfMonth,
-  getLastDayOfLastMonth,
-  getFirstDayOfLastYear,
-  getLastDayOfLastYear,
-} from './ReportService'
+import { getBillingReportData, getFirstDayOfMonth, getLastDayOfLastMonth } from './ReportService'
 import { useAPIErrorHandler } from '../services/errorHandlingService'
+import TimeIntervalQuickSelects from './TimeIntervalQuickSelects'
+import GenerateButton from './GenerateButton'
+import SelectAllButton from './SelectAllButton'
+import UnselectAllButton from './UnselectAllButton'
+import TimeIntervalSelects from './TimeIntervalSelects'
+import DateErrors from './DateErrors'
 
-// TODO: tee datepicker error viesteistä enemmän formikin error viestien näköiset ja ehkä punaiset
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
@@ -33,62 +28,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: theme.spacing(30),
   },
-  dateErrorText: {
-    width: theme.spacing(33.75),
-  },
 }))
-
-interface PickTimeframeButtonProps {
-  label: string
-  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-}
-
-const PickTimeframeButton: React.FC<PickTimeframeButtonProps> = ({ label, handleClick }) => {
-  return (
-    <Grid item>
-      <Button variant="outlined" color="primary" onClick={handleClick}>
-        {label}
-      </Button>
-    </Grid>
-  )
-}
-
-interface GenerateButtonProps {
-  className: string
-  disabled: boolean | undefined
-}
-
-const GenerateButton: React.FC<GenerateButtonProps> = ({ className, disabled }) => {
-  const { t } = useTranslation()
-  return (
-    <Grid item>
-      <Button
-        className={className}
-        disabled={disabled}
-        variant="contained"
-        type="submit"
-        color="primary"
-        data-testid="billingReportFormGenerate"
-      >
-        {t('button.generate')}
-      </Button>
-    </Grid>
-  )
-}
-
-interface DateErrorsProps {
-  className: string
-  errors: FormikErrors<Date> | undefined
-  touched: FormikTouched<Date> | undefined
-}
-
-const DateError: React.FC<DateErrorsProps> = ({ className, errors, touched }) => {
-  return (
-    <Grid item className={className}>
-      {errors && touched && <Typography variant="caption">{errors}</Typography>}
-    </Grid>
-  )
-}
 
 const BillingReportForm: React.FC<{
   setReportData: React.Dispatch<React.SetStateAction<BillingReportData | undefined>>
@@ -190,76 +130,23 @@ const BillingReportForm: React.FC<{
             touched={formik.touched.projects}
           />
         </Grid>
-        <Grid item>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() =>
-              formik.setFieldValue(
-                t('project.name'),
-                projects.map((project) => project.id)
-              )
-            }
-          >
-            {t('project.selectAll')}
-          </Button>
-        </Grid>
-        <Grid container item direction="row" spacing={1}>
-          <PickTimeframeButton
-            label={t('button.lastTwoMonths')}
-            handleClick={() => {
-              formik.setFieldValue(t('startDate.name'), getFirstDayOfMonth(2))
-              formik.setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
-            }}
+        <Grid container item spacing={2}>
+          <SelectAllButton
+            label={t('project.selectAll')}
+            setFieldValue={formik.setFieldValue}
+            objects={projects}
+            fieldName={t('project.name')}
           />
-          <PickTimeframeButton
-            label={t('button.lastSixMonths')}
-            handleClick={() => {
-              formik.setFieldValue(t('startDate.name'), getFirstDayOfMonth(6))
-              formik.setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
-            }}
-          />
-          <PickTimeframeButton
-            label={t('button.lastYear')}
-            handleClick={() => {
-              formik.setFieldValue(t('startDate.name'), getFirstDayOfLastYear())
-              formik.setFieldValue(t('endDate.name'), getLastDayOfLastYear())
-            }}
+          <UnselectAllButton
+            label={t('project.unselectAll')}
+            setFieldValue={formik.setFieldValue}
+            fieldName={t('project.name')}
           />
         </Grid>
-        <Grid container item spacing={6}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
-              id="start-date-picker"
-              label={t('startDate.label')}
-              value={formik.values.startDate}
-              handleDateChange={(date) => {
-                formik.setFieldValue(t('startDate.name'), date)
-              }}
-            />
-            <DatePicker
-              id="end-date-picker"
-              label={t('endDate.label')}
-              value={formik.values.endDate}
-              handleDateChange={(date) => {
-                formik.setFieldValue(t('endDate.name'), date)
-              }}
-            />
-          </MuiPickersUtilsProvider>
-        </Grid>
+        <TimeIntervalQuickSelects setFieldValue={formik.setFieldValue} />
+        <TimeIntervalSelects values={formik.values} setFieldValue={formik.setFieldValue} />
         {(formik.errors.startDate || formik.errors.endDate) && (
-          <Grid container item spacing={6}>
-            <DateError
-              className={classes.dateErrorText}
-              errors={formik.errors.startDate}
-              touched={formik.touched.startDate}
-            />
-            <DateError
-              className={classes.dateErrorText}
-              errors={formik.errors.endDate}
-              touched={formik.touched.endDate}
-            />
-          </Grid>
+          <DateErrors errors={formik.errors} touched={formik.touched} />
         )}
         {toNext && <Redirect to="/reports/preview" />}
         <GenerateButton className={classes.button} disabled={formik.isSubmitting} />

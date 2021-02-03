@@ -9,6 +9,7 @@
         "generate": "Generate",
         "create": "Create",
         "cancel": "Cancel",
+        "lastMonth": "Last month",
         "lastTwoMonths": "Last 2 months",
         "lastSixMonths": "Last 6 months",
         "lastYear": "Last year"
@@ -20,6 +21,9 @@
     },
     "dashboard": {
         "title": "Dashboard"
+    },
+    "employee": {
+        "label": "Employee"
     },
     "owner": {
         "label": "Owner",
@@ -49,6 +53,7 @@
             }
         },
         "selectAll": "Select all projects",
+        "unselectAll": "Unselect all projects",
         "createNew": "Create new project",
         "addProject": "Add project"
     },
@@ -91,6 +96,7 @@
         "title": "Week"
     },
     "timeInput": {
+        "label": "Timeinput",
         "description": {
             "error": {
                 "tooLong": "Description cannot be longer than 100 characters",
@@ -98,6 +104,7 @@
             }
         },
         "time": {
+            "label": "Time",
             "error": {
                 "format": "Number must be formated correctly",
                 "negative": "Number cannot be negative",

@@ -3,6 +3,7 @@ import { BillingReportData } from '../common/types'
 const data: BillingReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
+  creationMillis: 1612329726188,
   client: {
     id: '1',
     name: 'Client 1',
