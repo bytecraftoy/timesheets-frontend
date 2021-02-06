@@ -33,6 +33,9 @@
             "project": "You must first select at least one project."
         }
     },
+    "form": {
+        "nothingToSelect": "Nothing to select yet."
+    },
     "owner": {
         "label": "Owner",
         "name": "owner",

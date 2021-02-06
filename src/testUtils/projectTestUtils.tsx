@@ -1,63 +1,6 @@
 import { RenderResult, fireEvent, act } from '@testing-library/react'
-import { Client, Manager, Project } from '../common/types'
+import { Client, Employee, Manager, Project } from '../common/types'
 import { t } from './testUtils'
-
-const project: Project = {
-  id: '1',
-  name: 'Bytecraft Timesheets project',
-  description: 'Bytecraft Timesheets project',
-  owner: {
-    id: '5',
-    username: 'A',
-    firstName: 'A',
-    lastName: 'A',
-  },
-  creator: {
-    id: '5',
-    username: 'A',
-    firstName: 'A',
-    lastName: 'A',
-  },
-  managers: [
-    {
-      id: '1',
-      username: 'Manager1',
-      firstName: 'Some',
-      lastName: 'Manager',
-    },
-    {
-      id: '2',
-      username: 'Manager2',
-      firstName: 'Another',
-      lastName: 'Manager',
-    },
-  ],
-  client: { id: '1', name: 'Bytecraft' },
-  billable: true,
-  employees: [
-    {
-      id: '3',
-      username: 'dev3',
-      firstName: 'Some',
-      lastName: 'Developer',
-    },
-    {
-      id: '4',
-      username: 'dev4',
-      firstName: 'Another',
-      lastName: 'Developer',
-    },
-  ],
-  tags: ['Back-end', 'Front-end', 'Fullstack', 'Planning'],
-  creationTimestamp: 100000010000,
-  lastEdited: 100000010010,
-  lastEditor: {
-    id: '1',
-    username: 'Manager1',
-    firstName: 'Some',
-    lastName: 'Manager',
-  },
-}
 
 const projects: Project[] = [
   {
@@ -74,6 +17,36 @@ const projects: Project[] = [
     creationTimestamp: 1608652437257,
     lastEdited: 1608652437257,
     lastEditor: { id: '1', firstName: 'A', lastName: 'A', username: 'x' },
+  },
+  {
+    id: '1001',
+    name: 'Toinen projekti',
+    description: '',
+    client: { id: '1', name: 'Client 1' },
+    owner: { id: '1', firstName: 'A', lastName: 'A', username: 'x' },
+    creator: { id: '1', firstName: 'A', lastName: 'A', username: 'x' },
+    managers: [{ id: '1', firstName: 'A', lastName: 'A', username: 'x' }],
+    billable: true,
+    employees: [],
+    tags: ['front-end'],
+    creationTimestamp: 1608652437257,
+    lastEdited: 1608652437257,
+    lastEditor: { id: '1', firstName: 'A', lastName: 'A', username: 'x' },
+  },
+]
+
+const employees: Employee[] = [
+  {
+    id: '3',
+    username: 'dev3',
+    firstName: 'Some',
+    lastName: 'Developer',
+  },
+  {
+    id: '4',
+    username: 'dev4',
+    firstName: 'Another',
+    lastName: 'Developer',
   },
 ]
 
@@ -126,6 +99,19 @@ const selectClient = async (component: RenderResult, client: Client): Promise<vo
   })
 }
 
+const selectProject = async (component: RenderResult, project: Project): Promise<void> => {
+  const projectSelect = component.getByLabelText(t('project.label_plural'))
+  let listbox: HTMLElement
+  await act(async () => {
+    fireEvent.mouseDown(projectSelect)
+    listbox = await component.findByText(project.name)
+  })
+  await act(async () => {
+    fireEvent.click(listbox)
+    await component.findByText(project.name)
+  })
+}
+
 const selectManager = async (component: RenderResult, manager: Manager): Promise<void> => {
   const ownerSelect = component.getByLabelText(t('owner.label'))
   const value = `${manager.firstName} ${manager.lastName}`
@@ -157,12 +143,13 @@ const changeDesciptionInput = async (component: RenderResult, value: string): Pr
 }
 
 export {
-  project,
   projects,
+  employees,
   managers,
   clients,
   selectClient,
   selectManager,
+  selectProject,
   changeNameInput,
   changeDesciptionInput,
 }

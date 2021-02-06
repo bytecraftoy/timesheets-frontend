@@ -81,19 +81,10 @@ const BillingReportForm: React.FC<{
         errors.push({ client: t('client.error') })
       }
       if (values.projects.length === 0) {
-        if (!values.client) {
-          errors.push({ projects: t('project.error.client') })
-        } else {
-          errors.push({ projects: t('project.error.empty') })
-        }
+        errors.push({ projects: t('project.error.empty') })
       }
-
       if (values.employees.length === 0) {
-        if (!values.projects) {
-          errors.push({ employees: t('employee.error.project') })
-        } else {
-          errors.push({ employees: t('employee.error.empty') })
-        }
+        errors.push({ employees: t('employee.error.empty') })
       }
       if (isBefore(values.endDate, values.startDate)) {
         errors.push({ startDate: t('startDate.error') })

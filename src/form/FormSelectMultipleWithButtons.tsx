@@ -5,7 +5,6 @@ import { FormSelectMultipleWithButtonsProps } from '../common/types'
 import FormSelectMultiple from './FormSelectMultiple'
 import SelectAllButton from '../button/SelectAllButton'
 import UnselectAllButton from '../button/UnselectAllButton'
-import * as constants from '../common/constants'
 
 const FormSelectMultipleWithButtons: React.FC<FormSelectMultipleWithButtonsProps> = ({
   formSelectItems,
@@ -27,7 +26,7 @@ const FormSelectMultipleWithButtons: React.FC<FormSelectMultipleWithButtonsProps
         <FormSelectMultiple
           objects={formSelectItems}
           className={className}
-          name={constants.projects}
+          name={name}
           label={t(`${label}.label_plural`)}
           handleChange={(evt) => setFieldValue(name, evt.target.value as string[])}
           handleBlur={handleBlur}

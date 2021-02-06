@@ -2,9 +2,10 @@ import React from 'react'
 import { render, RenderResult } from '@testing-library/react'
 
 import ProjectInfo from './ProjectInfo'
-import { project } from '../testUtils/projectTestUtils'
+import { projects } from '../testUtils/projectTestUtils'
 
 let component: RenderResult
+const project = projects[0]
 
 describe('single project', () => {
   beforeEach(() => {

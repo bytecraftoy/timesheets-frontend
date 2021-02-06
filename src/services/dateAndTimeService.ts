@@ -1,4 +1,5 @@
 import {
+  format,
   startOfWeek,
   addDays,
   lastDayOfMonth,
@@ -11,6 +12,14 @@ import {
 import { weekdays } from '../common/constants'
 
 const today = new Date()
+
+const formatDateFromString = (date: string): string => {
+  return format(new Date(date), 'dd.MM.yyyy')
+}
+
+const formatDateFromDate = (date: Date): string => {
+  return format(date, 'dd.MM.yyyy')
+}
 
 const getFirstDayOfMonth = (monthsAgo: number): Date => {
   const firstDay = startOfMonth(subMonths(today, monthsAgo))
@@ -54,6 +63,8 @@ const minutesToHoursAndMinutes = (minutes: number): string => {
 }
 
 export {
+  formatDateFromString,
+  formatDateFromDate,
   getFirstDayOfMonth,
   getLastDayOfLastMonth,
   getFirstDayOfLastYear,
