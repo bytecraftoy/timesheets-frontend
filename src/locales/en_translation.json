@@ -84,6 +84,15 @@
                 "subTotal": "Project subtotal"
             }
         },
+        "salary": {
+            "form": {
+                "title": "Generate report for salary purposes",
+                "message": {
+                    "success": "Salary report for {{employee}} created succesfully!",
+                    "error": "Report could not be generated."
+                }
+            }
+        },
         "generate": "Generate report",
         "noReport": "There is no report to show."
     },
