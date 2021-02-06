@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { TimeInput } from '../common/types'
-import { getCurrentWeek } from '../dashboard/DashboardService'
+import { getCurrentWeek } from '../services/dateAndTimeService'
 
 const week: Date[] = getCurrentWeek()
 

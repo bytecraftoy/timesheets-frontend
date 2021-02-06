@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core'
 import { indigo } from '@material-ui/core/colors'
 import { ProjectStub, EmployeeWithInputs } from '../common/types'
-import { minutesToHoursAndMinutes } from './ReportService'
+import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
 import ReportTableTitle from './ReportTableTitle'
 
 const useStyles = makeStyles((theme) => ({

@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
 import { updateHours, projectAndInputsWithIdToProjectAndInputs } from './DashboardService'
 import TimeInputsRow from './TimeInputsRow'
-import { ProjectAndInputsWithId } from '../common/types'
+import { TimeInputsFormProps } from '../common/types'
 import notificationState from '../common/atoms'
 
 const focusDifferentRow = (rowsToChange: number, length: number) => {
@@ -24,15 +24,6 @@ const focusDifferentRow = (rowsToChange: number, length: number) => {
       }
     }
   }
-}
-
-interface TimeInputsFormProps {
-  projects: ProjectAndInputsWithId[]
-  week: Date[]
-  holidays: boolean[]
-  debounceMs: number
-  disableWeekChange: boolean
-  showDescription: boolean
 }
 
 const TimeInputsForm: React.FC<TimeInputsFormProps> = ({

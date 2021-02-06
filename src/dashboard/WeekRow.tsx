@@ -6,6 +6,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import { makeStyles } from '@material-ui/core/styles'
 import Mousetrap from 'mousetrap'
+import { WeekRowProps } from '../common/types'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -13,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const WeekRow: React.FC<{
-  week: Date[]
-  setWeek: React.Dispatch<React.SetStateAction<Date[]>>
-  disableWeekChangeButtons: boolean
-  setDisableWeekChange: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ week, setWeek, disableWeekChangeButtons, setDisableWeekChange }) => {
+const WeekRow: React.FC<WeekRowProps> = ({
+  week,
+  setWeek,
+  disableWeekChangeButtons,
+  setDisableWeekChange,
+}) => {
   const { t } = useTranslation()
   const classes = useStyles()
 

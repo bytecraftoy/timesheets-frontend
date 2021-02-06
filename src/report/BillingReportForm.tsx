@@ -16,20 +16,19 @@ import {
 import { getAllClients, getProjectsByClientId } from '../services/clientService'
 import { getEmployeesByProjectIds } from '../services/projectService'
 import FormSelect from '../form/FormSelect'
-import FormSelectMultiple from '../form/FormSelectMultiple'
 import {
   employeesToFormSelectItem,
   clientToFormSelectItem,
   projectsToFormSelectItem,
 } from '../form/formService'
-import { getBillingReportData, getFirstDayOfMonth, getLastDayOfLastMonth } from './ReportService'
+import getBillingReportData from './ReportService'
+import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../services/dateAndTimeService'
 import { useAPIErrorHandler } from '../services/errorHandlingService'
-import TimeIntervalQuickSelects from './TimeIntervalQuickSelects'
-import GenerateButton from './GenerateButton'
-import SelectAllButton from './SelectAllButton'
-import UnselectAllButton from './UnselectAllButton'
-import TimeIntervalSelects from './TimeIntervalSelects'
-import DateErrors from './DateErrors'
+import TimeIntervalQuickSelects from '../button/TimeIntervalQuickSelects'
+import SubmitButton from '../button/SubmitButton'
+import TimeIntervalSelects from '../form/TimeIntervalSelects'
+import * as constants from '../common/constants'
+import FormSelectMultipleWithButtons from '../form/FormSelectMultipleWithButtons'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -136,7 +135,7 @@ const BillingReportForm: React.FC<{
           <FormSelect
             objects={clientToFormSelectItem(clients)}
             className={classes.formControl}
-            name={t('client.name')}
+            name={constants.client}
             label={t('client.label')}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
@@ -145,69 +144,44 @@ const BillingReportForm: React.FC<{
             touched={formik.touched.client}
           />
         </Grid>
-        <Grid item>
-          <FormSelectMultiple
-            objects={projectsToFormSelectItem(projects)}
-            className={classes.formControl}
-            name={t('project.name')}
-            label={t('project.label')}
-            handleChange={(evt) =>
-              formik.setFieldValue(t('project.name'), evt.target.value as string[])
-            }
-            handleBlur={formik.handleBlur}
-            value={formik.values.projects}
-            errors={formik.errors.projects}
-            touched={formik.touched.projects}
-          />
-        </Grid>
-        <Grid container item spacing={2}>
-          <SelectAllButton
-            label={t('project.selectAll')}
-            setFieldValue={formik.setFieldValue}
-            objects={projects}
-            fieldName={t('project.name')}
-          />
-          <UnselectAllButton
-            label={t('project.unselectAll')}
-            setFieldValue={formik.setFieldValue}
-            fieldName={t('project.name')}
-          />
-        </Grid>
-        <Grid item>
-          <FormSelectMultiple
-            objects={employeesToFormSelectItem(employees)}
-            className={classes.formControl}
-            name={t('employee.name')}
-            label={t('employee.label_plural')}
-            handleChange={(evt) =>
-              formik.setFieldValue(t('employee.name'), evt.target.value as string[])
-            }
-            handleBlur={formik.handleBlur}
-            value={formik.values.employees}
-            errors={formik.errors.employees}
-            touched={formik.touched.employees}
-          />
-        </Grid>
-        <Grid container item spacing={2}>
-          <SelectAllButton
-            label={t('employee.selectAll')}
-            setFieldValue={formik.setFieldValue}
-            objects={employees}
-            fieldName={t('employee.name')}
-          />
-          <UnselectAllButton
-            label={t('employee.unselectAll')}
-            setFieldValue={formik.setFieldValue}
-            fieldName={t('employee.name')}
-          />
-        </Grid>
+        <FormSelectMultipleWithButtons
+          formSelectItems={projectsToFormSelectItem(projects)}
+          objects={projects}
+          setFieldValue={formik.setFieldValue}
+          handleBlur={formik.handleBlur}
+          value={formik.values.projects}
+          errors={formik.errors.projects}
+          touched={formik.touched.projects}
+          label={constants.project}
+          name={constants.projects}
+          className={classes.formControl}
+        />
+        <FormSelectMultipleWithButtons
+          formSelectItems={employeesToFormSelectItem(employees)}
+          objects={employees}
+          setFieldValue={formik.setFieldValue}
+          handleBlur={formik.handleBlur}
+          value={formik.values.employees}
+          errors={formik.errors.employees}
+          touched={formik.touched.employees}
+          label={constants.employee}
+          name={constants.employees}
+          className={classes.formControl}
+        />
         <TimeIntervalQuickSelects setFieldValue={formik.setFieldValue} />
-        <TimeIntervalSelects values={formik.values} setFieldValue={formik.setFieldValue} />
-        {(formik.errors.startDate || formik.errors.endDate) && (
-          <DateErrors errors={formik.errors} touched={formik.touched} />
-        )}
+        <TimeIntervalSelects
+          values={formik.values}
+          setFieldValue={formik.setFieldValue}
+          errors={formik.errors}
+          touched={formik.touched}
+        />
         {toNext && <Redirect to="/reports/preview" />}
-        <GenerateButton className={classes.button} disabled={formik.isSubmitting} />
+        <SubmitButton
+          className={classes.button}
+          disabled={formik.isSubmitting}
+          label={t('button.generate')}
+          testId="billingReportFormGenerate"
+        />
       </Grid>
     </form>
   )
