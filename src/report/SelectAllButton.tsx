@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormikErrors } from 'formik'
 import { Button, Grid } from '@material-ui/core'
-import { BillingReportFormValues, Project } from '../common/types'
+import { BillingReportFormValues, Employee, Project } from '../common/types'
 
 interface SelectAllButtonProps {
   label: string
-  objects: Project[]
+  objects: (Project | Employee)[]
   fieldName: string
   setFieldValue: (
     field: string,

@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { Project, ProjectFormValues } from '../common/types'
+import qs from 'qs'
+import { Employee, Project, ProjectFormValues } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -13,4 +14,16 @@ const createProject = async (newProject: ProjectFormValues): Promise<Project> =>
   return data as Project
 }
 
-export { getAllProjects, createProject }
+const getEmployeesByProjectIds = async (projectIds: string[]): Promise<Employee[]> => {
+  const { data } = await axios.get(`${baseUrl}/projects/employees`, {
+    params: {
+      projects: projectIds,
+    },
+    paramsSerializer: (params) => {
+      return qs.stringify(params, { arrayFormat: 'repeat' })
+    },
+  })
+  return data as Employee[]
+}
+
+export { getAllProjects, createProject, getEmployeesByProjectIds }

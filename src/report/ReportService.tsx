@@ -51,6 +51,7 @@ const getBillingReportData = async (
       startDate: format(values.startDate, 'yyyy-MM-dd'),
       endDate: format(values.endDate, 'yyyy-MM-dd'),
       projects: values.projects,
+      employees: values.employees,
     },
     paramsSerializer: (params) => {
       return qs.stringify(params, { arrayFormat: 'repeat' })

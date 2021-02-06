@@ -6,11 +6,22 @@ import { useTranslation } from 'react-i18next'
 import { useSetRecoilState } from 'recoil'
 import { Grid, makeStyles } from '@material-ui/core'
 import notificationState from '../common/atoms'
-import { Client, Project, BillingReportFormValues, BillingReportData } from '../common/types'
+import {
+  Employee,
+  Client,
+  Project,
+  BillingReportFormValues,
+  BillingReportData,
+} from '../common/types'
 import { getAllClients, getProjectsByClientId } from '../services/clientService'
+import { getEmployeesByProjectIds } from '../services/projectService'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
-import { clientToFormSelectItem, projectsToFormSelectItem } from '../form/formService'
+import {
+  employeesToFormSelectItem,
+  clientToFormSelectItem,
+  projectsToFormSelectItem,
+} from '../form/formService'
 import { getBillingReportData, getFirstDayOfMonth, getLastDayOfLastMonth } from './ReportService'
 import { useAPIErrorHandler } from '../services/errorHandlingService'
 import TimeIntervalQuickSelects from './TimeIntervalQuickSelects'
@@ -38,6 +49,7 @@ const BillingReportForm: React.FC<{
 
   const [clients, setClients] = useState<Client[]>([])
   const [projects, setProjects] = useState<Project[]>([])
+  const [employees, setEmployees] = useState<Employee[]>([])
   const [toNext, setToNext] = useState(false)
   const setNotification = useSetRecoilState(notificationState)
 
@@ -46,6 +58,7 @@ const BillingReportForm: React.FC<{
     endDate: getLastDayOfLastMonth(),
     client: '',
     projects: [],
+    employees: [],
   }
 
   const formik = useFormik({
@@ -75,6 +88,14 @@ const BillingReportForm: React.FC<{
           errors.push({ projects: t('project.error.empty') })
         }
       }
+
+      if (values.employees.length === 0) {
+        if (!values.projects) {
+          errors.push({ employees: t('employee.error.project') })
+        } else {
+          errors.push({ employees: t('employee.error.empty') })
+        }
+      }
       if (isBefore(values.endDate, values.startDate)) {
         errors.push({ startDate: t('startDate.error') })
         errors.push({ endDate: t('endDate.error') })
@@ -95,9 +116,18 @@ const BillingReportForm: React.FC<{
     }
   }, [formik.values.client])
 
+  const fetchEmployees = useCallback(async () => {
+    if (formik.values.projects.length !== 0) {
+      const employeeResponse = await getEmployeesByProjectIds(formik.values.projects)
+      setEmployees(employeeResponse)
+    }
+  }, [formik.values.projects])
+
   useAPIErrorHandler(fetchClients)
 
   useAPIErrorHandler(fetchProjects)
+
+  useAPIErrorHandler(fetchEmployees)
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -141,6 +171,34 @@ const BillingReportForm: React.FC<{
             label={t('project.unselectAll')}
             setFieldValue={formik.setFieldValue}
             fieldName={t('project.name')}
+          />
+        </Grid>
+        <Grid item>
+          <FormSelectMultiple
+            objects={employeesToFormSelectItem(employees)}
+            className={classes.formControl}
+            name={t('employee.name')}
+            label={t('employee.label_plural')}
+            handleChange={(evt) =>
+              formik.setFieldValue(t('employee.name'), evt.target.value as string[])
+            }
+            handleBlur={formik.handleBlur}
+            value={formik.values.employees}
+            errors={formik.errors.employees}
+            touched={formik.touched.employees}
+          />
+        </Grid>
+        <Grid container item spacing={2}>
+          <SelectAllButton
+            label={t('employee.selectAll')}
+            setFieldValue={formik.setFieldValue}
+            objects={employees}
+            fieldName={t('employee.name')}
+          />
+          <UnselectAllButton
+            label={t('employee.unselectAll')}
+            setFieldValue={formik.setFieldValue}
+            fieldName={t('employee.name')}
           />
         </Grid>
         <TimeIntervalQuickSelects setFieldValue={formik.setFieldValue} />

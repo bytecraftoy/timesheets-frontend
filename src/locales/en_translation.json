@@ -23,7 +23,15 @@
         "title": "Dashboard"
     },
     "employee": {
-        "label": "Employee"
+        "label": "Employee",
+        "label_plural": "Employees",
+        "name": "employees",
+        "selectAll": "Select all employees",
+        "unselectAll": "Unselect all employees",
+        "error": {
+            "empty": "You must choose at least one employee.",
+            "project": "You must first select at least one project."
+        }
     },
     "owner": {
         "label": "Owner",

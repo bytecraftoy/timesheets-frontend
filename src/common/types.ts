@@ -153,4 +153,5 @@ export interface BillingReportFormValues {
   endDate: Date
   client: string
   projects: string[]
+  employees: string[]
 }
