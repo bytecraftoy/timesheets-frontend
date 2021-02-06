@@ -9,6 +9,7 @@
         "generate": "Generate",
         "create": "Create",
         "cancel": "Cancel",
+        "lastMonth": "Last month",
         "lastTwoMonths": "Last 2 months",
         "lastSixMonths": "Last 6 months",
         "lastYear": "Last year"
@@ -21,6 +22,9 @@
     "dashboard": {
         "title": "Dashboard"
     },
+    "employee": {
+        "label": "Employee"
+    },
     "owner": {
         "label": "Owner",
         "name": "owner",
@@ -32,6 +36,9 @@
         "name": "projects",
         "form": {
             "nameLabel": "Project's Name"
+        },
+        "message": {
+            "success": "{{project}} created succesfully!"
         },
         "description": {
             "label": "Description",
@@ -46,6 +53,7 @@
             }
         },
         "selectAll": "Select all projects",
+        "unselectAll": "Unselect all projects",
         "createNew": "Create new project",
         "addProject": "Add project"
     },
@@ -54,6 +62,10 @@
         "billing": {
             "form": {
                 "title": "Generate report for billing purposes"
+            },
+            "message": {
+                "success": "Billing report for {{client}} created succesfully!",
+                "error": "Report could not be generated."
             },
             "preview": {
                 "title": "Preview of billing report",
@@ -64,8 +76,7 @@
             }
         },
         "generate": "Generate report",
-        "noReport": "There is no report to show.",
-        "error": "Report could not be generated."
+        "noReport": "There is no report to show."
     },
     "startDate": {
         "label": "Start date",
@@ -85,13 +96,15 @@
         "title": "Week"
     },
     "timeInput": {
+        "label": "Timeinput",
         "description": {
             "error": {
                 "tooLong": "Description cannot be longer than 100 characters",
                 "timeEmpty": "Time field cannot be empty"
-            } 
+            }
         },
         "time": {
+            "label": "Time",
             "error": {
                 "format": "Number must be formated correctly",
                 "negative": "Number cannot be negative",

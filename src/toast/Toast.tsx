@@ -6,6 +6,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import notificationState from '../common/atoms'
 
+// TODO: "Nämä severity tasot kannattaa hilloa jonnekin constantteina, josta käyttää. Esim constants.js tiedoston alle tai sitten itse notifikaatio-tiedoston kylkeen, josta exporttaa ulos"
+
 const Toast: React.FC = () => {
   const open = true
   const [notification, setNotification] = useRecoilState(notificationState)

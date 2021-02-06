@@ -7,35 +7,61 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableHead,
   TableRow,
+  Typography,
 } from '@material-ui/core'
+import { indigo } from '@material-ui/core/colors'
 import { ProjectStub, EmployeeWithInputs } from '../common/types'
 import { minutesToHoursAndMinutes } from './ReportService'
-import ReportTableHead from './ReportTableHead'
+import ReportTableTitle from './ReportTableTitle'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   summaryTable: {
-    width: '40vw',
+    maxWidth: theme.spacing(75),
     maxHeight: '80vh',
     overflowY: 'auto',
   },
+  projectRow: {
+    backgroundColor: indigo[100],
+  },
+  employeeRow: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: indigo[50],
+    },
+  },
+  grandTotalRow: {
+    backgroundColor: indigo[100],
+  },
 }))
 
-const CountTotalRow: React.FC<{ label: string; total: string }> = ({ label, total }) => {
+const TableHeaderRow: React.FC = () => {
+  const { t } = useTranslation()
+
   return (
-    <TableRow>
-      <TableCell colSpan={2} />
-      <TableCell align="right">{label}</TableCell>
-      <TableCell align="right">{total}</TableCell>
-    </TableRow>
+    <TableHead>
+      <TableRow>
+        <TableCell>
+          <Typography variant="subtitle1">{t('project.label')}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography variant="subtitle1">{t('employee.label')}</Typography>
+        </TableCell>
+        <TableCell />
+        <TableCell align="right">
+          <Typography variant="subtitle1">{t('timeInput.time.label')}</Typography>
+        </TableCell>
+      </TableRow>
+    </TableHead>
   )
 }
 
 const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) => {
+  const classes = useStyles()
   return (
-    <TableRow>
-      <TableCell colSpan={2} />
-      <TableCell>
+    <TableRow className={classes.employeeRow}>
+      <TableCell />
+      <TableCell colSpan={2}>
         {employee.firstName} {employee.lastName}
       </TableCell>
       <TableCell align="right">{minutesToHoursAndMinutes(employee.employeeTotal)}</TableCell>
@@ -43,12 +69,31 @@ const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) =
   )
 }
 
+const CountTotalRow: React.FC<{ className?: string; label: string; total: string }> = ({
+  className,
+  label,
+  total,
+}) => {
+  return (
+    <TableRow className={className}>
+      <TableCell colSpan={2} />
+      <TableCell align="right">
+        <strong>{label}</strong>
+      </TableCell>
+      <TableCell align="right">
+        <strong>{total}</strong>
+      </TableCell>
+    </TableRow>
+  )
+}
+
 const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
+  const classes = useStyles()
   const { t } = useTranslation()
 
   return (
     <>
-      <TableRow>
+      <TableRow className={classes.projectRow}>
         <TableCell colSpan={4}>
           <strong>{project.name}</strong>
         </TableCell>
@@ -76,21 +121,25 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
     <>
       <TableContainer component={Paper} className={classes.summaryTable}>
         <Table size="small">
-          <ReportTableHead
+          <ReportTableTitle
             title={t('report.billing.preview.summary')}
             open={open}
             setOpen={setOpen}
           />
           {open && (
-            <TableBody>
-              {projects.map((project) => (
-                <ProjectRows key={project.id} project={project} />
-              ))}
-              <CountTotalRow
-                label={t('report.billing.preview.grandTotal')}
-                total={minutesToHoursAndMinutes(grandTotal)}
-              />
-            </TableBody>
+            <>
+              <TableHeaderRow />
+              <TableBody>
+                {projects.map((project) => (
+                  <ProjectRows key={project.id} project={project} />
+                ))}
+                <CountTotalRow
+                  className={classes.grandTotalRow}
+                  label={t('report.billing.preview.grandTotal')}
+                  total={minutesToHoursAndMinutes(grandTotal)}
+                />
+              </TableBody>
+            </>
           )}
         </Table>
       </TableContainer>

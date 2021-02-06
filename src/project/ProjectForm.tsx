@@ -15,6 +15,8 @@ import FormSelect from '../form/FormSelect'
 import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
+// TODO: refactor ProjectForm into smaller components
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 240,
+    minWidth: theme.spacing(30),
   },
   button: {
     margin: theme.spacing(1),
@@ -60,7 +62,7 @@ const ProjectForm: React.FC = () => {
       try {
         const response = await createProject(values)
         setNotification({
-          message: `${response.name} created succesfully!`,
+          message: t('project.message.success', { project: response.name }),
           severity: 'success',
         })
       } catch (error) {
@@ -71,7 +73,7 @@ const ProjectForm: React.FC = () => {
     },
     validate: (values) => {
       const errors = []
-      if (values.name === '') {
+      if (!values.name) {
         errors.push({ name: t('project.error.name.empty') })
       }
       if (values.name.length > 100) {
@@ -80,10 +82,10 @@ const ProjectForm: React.FC = () => {
       if (values.description.length > 400) {
         errors.push({ description: t('project.description.error') })
       }
-      if (values.client === '') {
+      if (!values.client) {
         errors.push({ client: t('client.error') })
       }
-      if (values.owner === '') {
+      if (!values.owner) {
         errors.push({ owner: t('owner.error') })
       }
       return Object.assign({}, ...errors)

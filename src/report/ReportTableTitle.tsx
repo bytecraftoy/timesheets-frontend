@@ -9,14 +9,19 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core'
+import { indigo } from '@material-ui/core/colors'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   collapseButtonCell: {
-    width: '100px',
+    width: theme.spacing(12.5),
+  },
+  tableHeaderRow: {
+    backgroundColor: indigo[300],
+    color: theme.palette.common.white,
   },
 }))
 
-const ReportTableHead: React.FC<{
+const ReportTableTitle: React.FC<{
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   title: string
@@ -24,7 +29,7 @@ const ReportTableHead: React.FC<{
   const classes = useStyles()
   return (
     <TableHead>
-      <TableRow>
+      <TableRow className={classes.tableHeaderRow}>
         <TableCell colSpan={1} className={classes.collapseButtonCell}>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -38,4 +43,4 @@ const ReportTableHead: React.FC<{
   )
 }
 
-export default ReportTableHead
+export default ReportTableTitle
