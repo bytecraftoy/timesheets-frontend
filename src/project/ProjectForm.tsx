@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Button, FormControlLabel, Grid, Switch, Typography, makeStyles } from '@material-ui/core'
 import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
+import SubmitButton from '../button/SubmitButton'
 import { Client, Manager } from '../common/types'
 import { createProject } from '../services/projectService'
 import { getAllClients } from '../services/clientService'
@@ -183,25 +184,23 @@ const ProjectForm: React.FC = () => {
             />
           </Grid>
           {toNext && <Redirect to="/projects" />}
-          <Grid item>
-            <Button
+          <Grid container item>
+            <SubmitButton
               className={classes.button}
               disabled={formik.isSubmitting}
-              variant="contained"
-              type="submit"
-              color="primary"
-              data-testid="projectFormSubmit"
-            >
-              {t('button.create')}
-            </Button>
-            <Button
-              className={classes.button}
-              disabled={formik.isSubmitting}
-              variant="contained"
-              onClick={() => setToNext(true)}
-            >
-              {t('button.cancel')}
-            </Button>
+              testId="projectFormSubmit"
+              label={t('button.create')}
+            />
+            <Grid item>
+              <Button
+                className={classes.button}
+                disabled={formik.isSubmitting}
+                variant="contained"
+                onClick={() => setToNext(true)}
+              >
+                {t('button.cancel')}
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>

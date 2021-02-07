@@ -1,9 +1,9 @@
 import React from 'react'
 import { Grid, TextField, makeStyles, Typography } from '@material-ui/core'
-import { FastField, getIn, FormikErrors, FieldArray } from 'formik'
+import { FastField, getIn, FieldArray } from 'formik'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
-import { ProjectAndInputs } from '../common/types'
+import { TimeInputsRowProps } from '../common/types'
 import { timeStringToNumber } from './DashboardService'
 
 const useStyles = makeStyles((theme) => ({
@@ -29,18 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-interface ProjectRowProps {
-  i: number
-  project: ProjectAndInputs
-  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  errors: FormikErrors<{ projects: ProjectAndInputs[] }>
-  disable: boolean
-  showDescription: boolean
-  holidays: boolean[]
-}
-
-const TimeInputsRow: React.FC<ProjectRowProps> = ({
+const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
   i,
   project,
   handleChange,

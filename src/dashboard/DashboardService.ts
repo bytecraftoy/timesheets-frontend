@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { startOfWeek, addDays, format, isSameDay } from 'date-fns'
+import { format, isSameDay } from 'date-fns'
 import {
   ProjectAndInputs,
   ProjectAndInputsWithId,
@@ -9,7 +9,6 @@ import {
   InputWithId,
   HoursWithSavedIndex,
 } from '../common/types'
-import weekdays from '../common/constants'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -138,18 +137,6 @@ const getProjectHours = async (projectId: string, start: Date, end: Date): Promi
   return data as TimeInput[]
 }
 
-const getWeekDays = (dates: Date[]): string[] => {
-  return dates.map((day) => `${weekdays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}.`)
-}
-
-const getCurrentWeek = (): Date[] => {
-  const week: Date[] = [startOfWeek(new Date(), { weekStartsOn: 1 })]
-  for (let i = 1; i < 7; i += 1) {
-    week.push(addDays(week[week.length - 1], 1))
-  }
-  return week
-}
-
 const findTimeInputWithDate = (timeInputs: TimeInput[], date: Date): TimeInput | null => {
   for (let i = 0; i < timeInputs.length; i += 1) {
     const [year, month, day] = timeInputs[i].date.split('-')
@@ -201,8 +188,6 @@ const projectAndInputsWithIdToProjectAndInputs = (
 export {
   getProjectHours,
   updateHours,
-  getWeekDays,
-  getCurrentWeek,
   timeStringToNumber,
   timeInputsToWeekInputs,
   projectAndInputsWithIdToProjectAndInputs,

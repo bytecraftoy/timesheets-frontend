@@ -23,7 +23,18 @@
         "title": "Dashboard"
     },
     "employee": {
-        "label": "Employee"
+        "label": "Employee",
+        "label_plural": "Employees",
+        "name": "employees",
+        "selectAll": "Select all employees",
+        "unselectAll": "Unselect all employees",
+        "error": {
+            "empty": "You must choose at least one employee.",
+            "project": "You must first select at least one project."
+        }
+    },
+    "form": {
+        "nothingToSelect": "Nothing to select yet."
     },
     "owner": {
         "label": "Owner",
@@ -32,6 +43,7 @@
     },
     "project": {
         "label": "Project",
+        "label_plural": "Projects",
         "title": "Projects",
         "name": "projects",
         "form": {
@@ -73,6 +85,15 @@
                 "details": "Details",
                 "grandTotal": "Grand total",
                 "subTotal": "Project subtotal"
+            }
+        },
+        "salary": {
+            "form": {
+                "title": "Generate report for salary purposes",
+                "message": {
+                    "success": "Salary report for {{employee}} created succesfully!",
+                    "error": "Report could not be generated."
+                }
             }
         },
         "generate": "Generate report",

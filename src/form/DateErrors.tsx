@@ -1,9 +1,6 @@
 import React from 'react'
-import { FormikErrors, FormikTouched } from 'formik'
-import { Grid, makeStyles, Typography } from '@material-ui/core'
-import { BillingReportFormValues } from '../common/types'
-
-// TODO: tee datepicker error viesteistä enemmän formikin error viestien näköiset ja ehkä punaiset
+import { FormHelperText, Grid, makeStyles } from '@material-ui/core'
+import { DateErrorProps, DateErrorsProps } from '../common/types'
 
 const useStyles = makeStyles((theme) => ({
   dateErrorText: {
@@ -11,24 +8,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-interface DateErrorProps {
-  errors: FormikErrors<Date> | undefined
-  touched: FormikTouched<Date> | undefined
-}
-
 const DateError: React.FC<DateErrorProps> = ({ errors, touched }) => {
   const classes = useStyles()
 
   return (
     <Grid item className={classes.dateErrorText}>
-      {errors && touched && <Typography variant="caption">{errors}</Typography>}
+      {errors && touched && <FormHelperText>{errors}</FormHelperText>}
     </Grid>
   )
-}
-
-interface DateErrorsProps {
-  errors: FormikErrors<BillingReportFormValues>
-  touched: FormikTouched<BillingReportFormValues>
 }
 
 const DateErrors: React.FC<DateErrorsProps> = ({ errors, touched }) => {

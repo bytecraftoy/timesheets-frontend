@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Typography, Container, makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
-import { getWeekDays } from './DashboardService'
+import { getWeekDays } from '../services/dateAndTimeService'
 
 const useStyles = makeStyles((theme) => ({
   grayBackground: {

@@ -25,6 +25,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import MenuIcon from '@material-ui/icons/Menu'
+import SalaryReport from '../report/SalaryReport'
 import ProjectsView from '../project/Projects'
 import BillingReport from '../report/BillingReport'
 import Dashboard from '../dashboard/Dashboard'
@@ -176,13 +177,13 @@ const NavList: React.FC = () => {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button component={Link} to="/reports" className={classes.nested}>
+          <ListItem button component={Link} to="/reports/billing" className={classes.nested}>
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
             <ListItemText data-cy="billing-reports-nav" primary="Billing" />
           </ListItem>
-          <ListItem button className={classes.nested}>
+          <ListItem button component={Link} to="/reports/salary" className={classes.nested}>
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
@@ -230,8 +231,11 @@ const Content: React.FC = () => {
           <Route path="/projects">
             <ProjectsView />
           </Route>
-          <Route path="/reports">
+          <Route path="/reports/billing">
             <BillingReport />
+          </Route>
+          <Route path="/reports/salary">
+            <SalaryReport />
           </Route>
           <Route path="/">
             <Dashboard />

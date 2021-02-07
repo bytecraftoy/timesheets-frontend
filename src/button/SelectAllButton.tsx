@@ -1,19 +1,6 @@
 import React from 'react'
-import { FormikErrors } from 'formik'
 import { Button, Grid } from '@material-ui/core'
-import { BillingReportFormValues, Project } from '../common/types'
-
-interface SelectAllButtonProps {
-  label: string
-  objects: Project[]
-  fieldName: string
-  setFieldValue: (
-    field: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any,
-    shouldValidate?: boolean | undefined
-  ) => Promise<void> | Promise<FormikErrors<BillingReportFormValues>>
-}
+import { SelectAllButtonProps } from '../common/types'
 
 const SelectAllButton: React.FC<SelectAllButtonProps> = ({
   label,

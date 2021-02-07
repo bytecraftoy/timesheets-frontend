@@ -14,8 +14,8 @@ import {
 } from '@material-ui/core'
 import { indigo } from '@material-ui/core/colors'
 import { ProjectStub, EmployeeWithInputs, TimeInput } from '../common/types'
-import weekdays from '../common/constants'
-import { minutesToHoursAndMinutes } from './ReportService'
+import { weekdays } from '../common/constants'
+import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
 import ReportTableTitle from './ReportTableTitle'
 
 const useStyles = makeStyles((theme) => ({

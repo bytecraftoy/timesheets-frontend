@@ -10,6 +10,7 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 import { FormSelectMultipleProps } from '../common/types'
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,7 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
   touched,
 }) => {
   const classes = useStyles()
+  const { t } = useTranslation()
 
   const getObjectName = (id: string) => {
     return objects.find((obj) => obj.id === id)?.name
@@ -64,6 +66,12 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
           </div>
         )}
       >
+        {objects.length === 0 && (
+          <MenuItem disabled value="">
+            {t('form.nothingToSelect')}
+          </MenuItem>
+        )}
+
         {objects.map((obj) => {
           return (
             <MenuItem key={obj.id} value={obj.id}>
