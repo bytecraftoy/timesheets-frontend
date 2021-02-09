@@ -4,7 +4,11 @@ import Mousetrap from 'mousetrap'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
 import { useSetRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
-import { updateHours, projectAndInputsWithIdToProjectAndInputs } from './DashboardService'
+import {
+  updateHours,
+  projectAndInputsWithIdToProjectAndInputs,
+  getErrorMessages,
+} from './DashboardService'
 import TimeInputsRow from './TimeInputsRow'
 import { TimeInputsFormProps } from '../common/types'
 import notificationState from '../common/atoms'
@@ -50,7 +54,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
         setNotification({ message: error, severity: 'error' })
       } finally {
         const now = new Date()
-        setSaveMessage(`Last Saved: ${now.toLocaleTimeString().substring(0, 5)}`)
+        setSaveMessage(`Last saved: ${now.toLocaleTimeString().substring(0, 5)}`)
       }
     },
   })
@@ -73,7 +77,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
 
   useEffect(() => {
     debouncedSubmit.current()
-    setSaveMessage('saving...')
+    setSaveMessage('Saving...')
   }, [debouncedSubmit, formik.values, setSaveMessage])
 
   useEffect(() => {
@@ -81,6 +85,12 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
       isMounted.current = false
     }
   }, [])
+
+  useEffect(() => {
+    if (Object.keys(formik.errors).length > 0) {
+      setSaveMessage(`ERROR: ${getErrorMessages(formik.errors)[0]}`)
+    }
+  }, [formik.errors, setSaveMessage])
 
   useEffect(() => {
     Mousetrap.bind('down', () => focusDifferentRow(1, projects.length))
