@@ -216,6 +216,7 @@ export interface TimeInputsFormProps {
   debounceMs: number
   disableWeekChange: boolean
   showDescription: boolean
+  setSaveMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface TimeInputsRowProps {

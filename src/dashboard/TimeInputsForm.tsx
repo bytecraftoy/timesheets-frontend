@@ -33,6 +33,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   debounceMs,
   disableWeekChange,
   showDescription,
+  setSaveMessage,
 }) => {
   const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
@@ -47,6 +48,9 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
         await updateHours(values.projects, projects, week)
       } catch (error) {
         setNotification({ message: error, severity: 'error' })
+      } finally {
+        const now = new Date()
+        setSaveMessage(`Last Saved: ${now.toLocaleTimeString().substring(0, 5)}`)
       }
     },
   })
@@ -69,7 +73,8 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
 
   useEffect(() => {
     debouncedSubmit.current()
-  }, [debouncedSubmit, formik.values])
+    setSaveMessage('saving...')
+  }, [debouncedSubmit, formik.values, setSaveMessage])
 
   useEffect(() => {
     return () => {
@@ -89,7 +94,6 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        {formik.isSubmitting && 'saving...'}
         <Grid container spacing={1} direction="column" justify="flex-start" alignItems="center">
           <FieldArray name="projects" validateOnChange={false}>
             {() =>

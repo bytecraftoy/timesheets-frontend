@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Typography } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Mousetrap from 'mousetrap'
 import { getProjectHours, timeInputsToWeekInputs } from './DashboardService'
-import { getCurrentWeek } from '../services/dateAndTimeService'
+import { getCurrentWeek, getHolidays } from '../services/dateAndTimeService'
 import TimeInputsForm from './TimeInputsForm'
 import { Project, ProjectAndInputsWithId } from '../common/types'
 import WeekRow from './WeekRow'
@@ -21,10 +21,12 @@ const WeeklyView: React.FC<{
   const [isLoading, setLoading] = useState(true)
   const [showDescription, setShowDescription] = useState(false)
   const [week, setWeek] = useState<Date[]>(getCurrentWeek())
-  const holidays = [false, false, false, false, false, true, true]
+  const [holidays, setHolidays] = useState<boolean[]>([])
+  const [saveMessage, setSaveMessage] = useState<string>('')
 
   const fetchTimeInputs = useCallback(async () => {
     setLoading(true)
+    setHolidays(getHolidays(week))
     const timeIntervalStartDate = week[0]
     const timeIntervalEndDate = week[week.length - 1]
 
@@ -51,7 +53,7 @@ const WeeklyView: React.FC<{
       return
     }
     setShowDescription(!showDescription)
-  }, [isLoading, disableWeekChange, setShowDescription, showDescription])
+  }, [isLoading, disableWeekChange, showDescription])
 
   useEffect(() => {
     Mousetrap.bind('ctrl+alt+a', toggleShowDescription)
@@ -62,6 +64,7 @@ const WeeklyView: React.FC<{
 
   return (
     <>
+      <Typography variant="body1">{saveMessage}</Typography>
       <IconButton onClick={toggleShowDescription} disabled={isLoading || disableWeekChange}>
         {showDescription ? <RemoveCircleOutlineIcon /> : <AddCircleOutlineIcon />}
       </IconButton>
@@ -86,6 +89,7 @@ const WeeklyView: React.FC<{
           disableWeekChange={disableWeekChange}
           showDescription={showDescription}
           holidays={holidays}
+          setSaveMessage={setSaveMessage}
         />
       )}
     </>

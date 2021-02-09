@@ -1,7 +1,6 @@
 import React from 'react'
 import { Grid, TextField, makeStyles, Typography } from '@material-ui/core'
 import { FastField, getIn, FieldArray } from 'formik'
-import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { TimeInputsRowProps } from '../common/types'
 import { timeStringToNumber } from './DashboardService'
@@ -87,7 +86,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
             }
             return (
               <Grid
-                className={clsx(holidays[j] && classes.grayBackground)}
+                className={holidays[j] ? classes.grayBackground : ''}
                 item
                 xs
                 key={j}

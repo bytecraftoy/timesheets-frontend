@@ -1,6 +1,5 @@
 import React from 'react'
 import { Grid, Typography, Container, makeStyles } from '@material-ui/core'
-import clsx from 'clsx'
 import { getWeekDays } from '../services/dateAndTimeService'
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +29,7 @@ const WeekdaysRow: React.FC<{ week: Date[]; holidays: boolean[] }> = ({ week, ho
       {getWeekDays(week).map((day, i) => {
         return (
           <Grid
-            className={clsx(holidays[i] && classes.grayBackground)}
+            className={holidays[i] ? classes.grayBackground : ''}
             item
             key={day}
             xs

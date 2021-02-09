@@ -8,6 +8,7 @@ import {
   startOfYear,
   subMonths,
   subYears,
+  isWeekend,
 } from 'date-fns'
 import { weekdays } from '../common/constants'
 
@@ -62,6 +63,10 @@ const minutesToHoursAndMinutes = (minutes: number): string => {
   return roundedMinutes === 0 ? `${roundedHours} h` : `${roundedHours} h ${roundedMinutes} m`
 }
 
+const getHolidays = (week: Date[]): boolean[] => {
+  return week.map((day) => isWeekend(day))
+}
+
 export {
   formatDateFromString,
   formatDateFromDate,
@@ -72,4 +77,5 @@ export {
   getCurrentWeek,
   getWeekDays,
   minutesToHoursAndMinutes,
+  getHolidays,
 }
