@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
-import data from '../testUtils/reportTestUtils'
+import { billingReportData } from '../testUtils/reportTestUtils'
 import { BillingReportData } from '../common/types'
 import NoReportDataPlaceHolder from './NoReportDataPlaceholder'
 
@@ -11,7 +11,7 @@ const BillingReport: React.FC = () => {
   const { t } = useTranslation()
 
   const [reportData, setReportData] = useState<BillingReportData | undefined>()
-  setReportData(data)
+  setReportData(billingReportData)
 
   return (
     <>
