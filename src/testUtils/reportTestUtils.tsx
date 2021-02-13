@@ -1,6 +1,6 @@
 import { BillingReportData } from '../common/types'
 
-const data: BillingReportData = {
+const billingReportData: BillingReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
   creationMillis: 1612329726188,
@@ -227,4 +227,5 @@ const data: BillingReportData = {
   grandTotal: 12345,
 }
 
-export default data
+// eslint-disable-next-line import/prefer-default-export
+export { billingReportData }
