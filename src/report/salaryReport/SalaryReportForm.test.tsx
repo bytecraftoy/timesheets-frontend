@@ -30,11 +30,11 @@ const pressGenerateButton = async (): Promise<void> => {
 describe('salary report form', () => {
   beforeEach(async () => {
     mockedAxios.get.mockImplementation((url: string) => {
-      if (url.includes('employees')) {
-        return Promise.resolve({ data: projectTestUtils.employees })
-      }
       if (url.includes('clients')) {
         return Promise.resolve({ data: projectTestUtils.clients })
+      }
+      if (url.includes('employees')) {
+        return Promise.resolve({ data: projectTestUtils.employees })
       }
       return Promise.reject(new Error('not found'))
     })
@@ -93,7 +93,7 @@ describe('salary report form', () => {
     })
   })
 
-  describe('selecing projects and employees', () => {
+  describe('selecing clients', () => {
     it('should select all clients with "select all clients" button', async () => {
       const employee = projectTestUtils.employees[0]
       await projectTestUtils.selectEmployee(component, employee)
@@ -109,7 +109,7 @@ describe('salary report form', () => {
       })
     })
 
-    it('should unselect all projects with "unselect all projects" button', async () => {
+    it('should unselect all clients with "unselect all clients" button', async () => {
       const employee = projectTestUtils.employees[0]
       await projectTestUtils.selectEmployee(component, employee)
       await component.findByText(`${employee.firstName} ${employee.lastName}`)

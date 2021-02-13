@@ -21,7 +21,7 @@ import {
   clientToFormSelectItem,
   projectsToFormSelectItem,
 } from '../../form/formService'
-import getBillingReportData from '../ReportService'
+import { getBillingReportData } from '../ReportService'
 import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
 import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
