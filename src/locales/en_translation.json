@@ -127,9 +127,9 @@
         "time": {
             "label": "Time",
             "error": {
-                "format": "Number must be formated correctly",
-                "negative": "Number cannot be negative",
-                "over24": "Number cannot be over 24 hours"
+                "format": "Time input must be formated correctly",
+                "negative": "Time input cannot be negative",
+                "over24": "Time input cannot be over 24 hours"
             }
         }
     }

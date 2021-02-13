@@ -4,7 +4,11 @@ import Mousetrap from 'mousetrap'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
 import { useSetRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
-import { updateHours, projectAndInputsWithIdToProjectAndInputs } from './DashboardService'
+import {
+  updateHours,
+  projectAndInputsWithIdToProjectAndInputs,
+  getErrorMessages,
+} from './DashboardService'
 import TimeInputsRow from './TimeInputsRow'
 import { TimeInputsFormProps } from '../common/types'
 import notificationState from '../common/atoms'
@@ -33,6 +37,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   debounceMs,
   disableWeekChange,
   showDescription,
+  setSaveMessage,
 }) => {
   const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
@@ -47,6 +52,9 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
         await updateHours(values.projects, projects, week)
       } catch (error) {
         setNotification({ message: error, severity: 'error' })
+      } finally {
+        const now = new Date()
+        setSaveMessage(`Last saved: ${now.toLocaleTimeString().substring(0, 5)}`)
       }
     },
   })
@@ -69,13 +77,20 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
 
   useEffect(() => {
     debouncedSubmit.current()
-  }, [debouncedSubmit, formik.values])
+    setSaveMessage('Saving...')
+  }, [debouncedSubmit, formik.values, setSaveMessage])
 
   useEffect(() => {
     return () => {
       isMounted.current = false
     }
   }, [])
+
+  useEffect(() => {
+    if (Object.keys(formik.errors).length > 0) {
+      setSaveMessage(`ERROR: ${getErrorMessages(formik.errors)[0]}`)
+    }
+  }, [formik.errors, setSaveMessage])
 
   useEffect(() => {
     Mousetrap.bind('down', () => focusDifferentRow(1, projects.length))
@@ -89,7 +104,6 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   return (
     <FormikProvider value={formik}>
       <form onSubmit={formik.handleSubmit}>
-        {formik.isSubmitting && 'saving...'}
         <Grid container spacing={1} direction="column" justify="flex-start" alignItems="center">
           <FieldArray name="projects" validateOnChange={false}>
             {() =>

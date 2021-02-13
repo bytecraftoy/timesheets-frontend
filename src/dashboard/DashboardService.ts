@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { format, isSameDay } from 'date-fns'
+import { FormikErrors } from 'formik'
 import {
   ProjectAndInputs,
   ProjectAndInputsWithId,
@@ -8,6 +9,7 @@ import {
   HoursUpdate,
   InputWithId,
   HoursWithSavedIndex,
+  Input,
 } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
@@ -76,23 +78,24 @@ const updateHours = async (
   savedProjects: ProjectAndInputsWithId[],
   week: Date[]
 ): Promise<void> => {
-  const sPRef = savedProjects
   const hoursToPost: HoursWithSavedIndex<Hours>[] = []
   const hoursToPut: HoursUpdate[] = []
   for (let i = 0; i < projects.length; i += 1) {
-    ;[0, 1, 2, 3, 4, 5, 6].forEach((j) => {
+    for (let j = 0; j < 7; j += 1) {
+      const savedInput = savedProjects[i].inputs[j]
+      const currentInput = projects[i].inputs[j]
       if (
-        projects[i].inputs[j].time !== savedProjects[i].inputs[j].time ||
-        projects[i].inputs[j].description !== savedProjects[i].inputs[j].description
+        currentInput.time !== savedInput.time ||
+        currentInput.description !== savedInput.description
       ) {
-        if (savedProjects[i].inputs[j].id === null) {
+        if (savedInput.id === null) {
           hoursToPost.push({
             x: i,
             y: j,
             hour: {
               date: format(week[j], 'yyyy-MM-dd'),
-              input: timeStringToNumber(projects[i].inputs[j].time),
-              description: projects[i].inputs[j].description,
+              input: timeStringToNumber(currentInput.time),
+              description: currentInput.description,
               project: projects[i].id,
               // TODO: decide how employee is passed to the server
               employee: '9fa407f4-7375-446b-92c6-c578839b7780',
@@ -100,15 +103,15 @@ const updateHours = async (
           })
         } else {
           hoursToPut.push({
-            id: savedProjects[i].inputs[j].id as string,
-            input: timeStringToNumber(projects[i].inputs[j].time),
-            description: projects[i].inputs[j].description,
+            id: savedInput.id as string,
+            input: timeStringToNumber(currentInput.time),
+            description: currentInput.description,
           })
         }
-        sPRef[i].inputs[j].time = projects[i].inputs[j].time
-        sPRef[i].inputs[j].description = projects[i].inputs[j].description
+        savedInput.time = currentInput.time
+        savedInput.description = currentInput.description
       }
-    })
+    }
   }
   if (hoursToPost.length > 0) {
     const responses = await Promise.all(
@@ -116,6 +119,7 @@ const updateHours = async (
         axios.post(`${baseUrl}/hours`, hourWithSavedIndex.hour)
       )
     )
+    const sPRef = savedProjects
     const data = responses.map((response) => response.data)
     hoursToPost.forEach((hourWithSavedIndex, i) => {
       sPRef[hourWithSavedIndex.x].inputs[hourWithSavedIndex.y].id = data[i].id as string
@@ -185,10 +189,31 @@ const projectAndInputsWithIdToProjectAndInputs = (
     }
   })
 
+const getErrorMessages = (errors: FormikErrors<{ projects: ProjectAndInputs[] }>): string[] => {
+  const inputErrors = (errors.projects as FormikErrors<ProjectAndInputs[]>).reduce<
+    FormikErrors<Input>[]
+  >((filtered, project) => {
+    if (project && project.inputs) {
+      filtered.push(project.inputs as FormikErrors<Input>)
+    }
+    return filtered
+  }, [])
+  return inputErrors.reduce<string[]>((filtered, input) => {
+    if (input.time) {
+      filtered.push(input.time)
+    }
+    if (input.description) {
+      filtered.push(input.description)
+    }
+    return filtered
+  }, [])
+}
+
 export {
   getProjectHours,
   updateHours,
   timeStringToNumber,
   timeInputsToWeekInputs,
   projectAndInputsWithIdToProjectAndInputs,
+  getErrorMessages,
 }
