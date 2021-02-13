@@ -16,8 +16,12 @@
     },
     "client": {
         "label": "Client",
+        "label_plural": "Clients",
         "name": "client",
-        "error": "You must choose a client."
+        "error": "You must choose a client.",
+        "atLeastOne": "You must choose at least one client.",
+        "selectAll": "Select all clients",
+        "unselectAll": "Unselect all clients"
     },
     "dashboard": {
         "title": "Dashboard"
@@ -30,7 +34,8 @@
         "unselectAll": "Unselect all employees",
         "error": {
             "empty": "You must choose at least one employee.",
-            "project": "You must first select at least one project."
+            "project": "You must first select at least one project.",
+            "chooseOne": "You must choose an employee."
         }
     },
     "form": {

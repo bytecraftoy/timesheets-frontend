@@ -11,6 +11,21 @@ export interface BillingReportData {
   grandTotal: number
 }
 
+export interface SalaryReportData {
+  startDate: string
+  endDate: string
+  employee: Employee
+  clients: ClientStub[]
+  creationMillis: number
+  grandTotal: number
+}
+
+export interface ClientStub {
+  id: string
+  name: string
+  clientTotal: number
+}
+
 export interface BillingReportFormValues {
   startDate: Date
   endDate: Date
