@@ -283,7 +283,7 @@ describe('billing report form', () => {
   describe('submitting with incorrect field values', () => {
     it('should display validation error for empty client select field', async () => {
       await pressGenerateButton()
-      await waitFor(expect(component.getByText(t('client.error'))).toBeInTheDocument)
+      await waitFor(expect(component.getByText(t('client.error.chooseOne'))).toBeInTheDocument)
       expect(axios.post).toBeCalledTimes(0)
     })
 
@@ -295,7 +295,7 @@ describe('billing report form', () => {
 
     it('should display validation error for employee field', async () => {
       await pressGenerateButton()
-      await waitFor(expect(component.getByText(t('employee.error.empty'))).toBeInTheDocument)
+      await waitFor(expect(component.getByText(t('employee.error.atLeastOne'))).toBeInTheDocument)
       expect(axios.post).toBeCalledTimes(0)
     })
 

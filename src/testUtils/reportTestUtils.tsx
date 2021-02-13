@@ -1,4 +1,4 @@
-import { BillingReportData } from '../common/types'
+import { BillingReportData, SalaryReportData } from '../common/types'
 
 const billingReportData: BillingReportData = {
   startDate: '2021-01-01',
@@ -227,5 +227,175 @@ const billingReportData: BillingReportData = {
   grandTotal: 12345,
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { billingReportData }
+const salaryReportData: SalaryReportData = {
+  startDate: '2021-01-01',
+  endDate: '2021-01-31',
+  creationMillis: 1612329726188,
+  employee: {
+    id: '3',
+    username: 'dev3',
+    firstName: 'Some',
+    lastName: 'Developer',
+  },
+  clients: [
+    {
+      id: '1',
+      name: 'Client 1',
+      clientTotal: 50,
+      projects: [
+        {
+          id: '1000',
+          name: 'Projekti 1',
+          projectTotal: 35,
+          timeInputs: [
+            {
+              id: '1',
+              date: '2021-01-01',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '2',
+              date: '2021-01-02',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '3',
+              date: '2021-01-03',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '4',
+              date: '2021-01-04',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '5',
+              date: '2021-01-05',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+          ],
+        },
+        {
+          id: '1002',
+          name: 'Projekti 2',
+          projectTotal: 10,
+          timeInputs: [
+            {
+              id: '1',
+              date: '2021-01-01',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '2',
+              date: '2021-01-02',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '3',
+              date: '2021-01-03',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '4',
+              date: '2021-01-04',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '5',
+              date: '2021-01-05',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: '2',
+      name: 'Client 2',
+      clientTotal: 100,
+      projects: [
+        {
+          id: '1003',
+          name: 'Projekti B',
+          projectTotal: 100,
+          timeInputs: [
+            {
+              id: '1',
+              date: '2021-01-01',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '2',
+              date: '2021-01-02',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '3',
+              date: '2021-01-03',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '4',
+              date: '2021-01-04',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+            {
+              id: '5',
+              date: '2021-01-05',
+              description: 'koodailua',
+              input: 450,
+              creationTimestamp: 100,
+              lastEdited: 100,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+
+  grandTotal: 12345,
+}
+
+export { billingReportData, salaryReportData }

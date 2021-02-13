@@ -84,7 +84,7 @@ const ProjectForm: React.FC = () => {
         errors.push({ description: t('project.description.error') })
       }
       if (!values.client) {
-        errors.push({ client: t('client.error') })
+        errors.push({ client: t('client.error.chooseOne') })
       }
       if (!values.owner) {
         errors.push({ owner: t('owner.error') })

@@ -15,15 +15,23 @@ export interface SalaryReportData {
   startDate: string
   endDate: string
   employee: Employee
-  clients: ClientStub[]
+  clients: ClientWithProjectsAndInputs[]
   creationMillis: number
   grandTotal: number
 }
 
-export interface ClientStub {
+export interface ClientWithProjectsAndInputs {
   id: string
   name: string
   clientTotal: number
+  projects: ProjectWithInputsOfOneEmployee[]
+}
+
+export interface ProjectWithInputsOfOneEmployee {
+  id: string
+  name: string
+  projectTotal: number
+  timeInputs: TimeInput[]
 }
 
 export interface BillingReportFormValues {

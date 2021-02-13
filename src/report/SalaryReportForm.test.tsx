@@ -230,7 +230,7 @@ describe('salary report form', () => {
 
     it('should display validation error for client field', async () => {
       await pressGenerateButton()
-      await waitFor(expect(component.getByText(t('client.atLeastOne'))).toBeInTheDocument)
+      await waitFor(expect(component.getByText(t('client.error.atLeastOne'))).toBeInTheDocument)
       expect(axios.post).toBeCalledTimes(0)
     })
 

@@ -102,7 +102,7 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
         <EmployeeRow key={employee.id} employee={employee} />
       ))}
       <CountTotalRow
-        label={t('report.billing.preview.subTotal')}
+        label={t('report.preview.subTotal')}
         total={minutesToHoursAndMinutes(project.projectTotal)}
       />
     </>
@@ -121,11 +121,7 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
     <>
       <TableContainer component={Paper} className={classes.summaryTable}>
         <Table size="small">
-          <ReportTableTitle
-            title={t('report.billing.preview.summary')}
-            open={open}
-            setOpen={setOpen}
-          />
+          <ReportTableTitle title={t('report.preview.summary')} open={open} setOpen={setOpen} />
           {open && (
             <>
               <TableHeaderRow />
@@ -135,7 +131,7 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
                 ))}
                 <CountTotalRow
                   className={classes.grandTotalRow}
-                  label={t('report.billing.preview.grandTotal')}
+                  label={t('report.preview.grandTotal')}
                   total={minutesToHoursAndMinutes(grandTotal)}
                 />
               </TableBody>

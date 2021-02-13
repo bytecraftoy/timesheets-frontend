@@ -4,25 +4,22 @@ import { format, getDay } from 'date-fns'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
 import { t } from '../testUtils/testUtils'
-import { billingReportData } from '../testUtils/reportTestUtils'
-
-import BillingReportPreview from './BillingReportPreview'
-import BillingReportSummaryTable from './BillingReportSummaryTable'
+import { salaryReportData } from '../testUtils/reportTestUtils'
 import { formatDateFromString, minutesToHoursAndMinutes } from '../services/dateAndTimeService'
-import BillingReportDetailsTable from './BillingReportDetailsTable'
 import { weekdays } from '../common/constants'
+import SalaryReportPreview from './SalaryReportPreview'
 
 let component: RenderResult
 
-describe('BillingReportSummaryTable', () => {
-  const { projects } = billingReportData
-  const { grandTotal } = billingReportData
+describe('SalaryReportSummaryTable', () => {
+  const { clients } = salaryReportData
+  const { grandTotal } = salaryReportData
 
   beforeEach(async () => {
     await act(async () => {
       component = render(
         <I18nextProvider i18n={i18n}>
-          <BillingReportSummaryTable projects={projects} grandTotal={grandTotal} />
+          <SalaryReportSummaryTable clients={clients} grandTotal={grandTotal} />
         </I18nextProvider>
       )
       await component.findByText(t('report.preview.summary'))
@@ -30,22 +27,14 @@ describe('BillingReportSummaryTable', () => {
   })
 
   it('should render TableHeaderRow correctly', () => {
-    expect(component.container).toHaveTextContent(t('project.label'))
-    expect(component.container).toHaveTextContent(t('employee.label'))
+    expect(component.container).toHaveTextContent(t('client.label'))
     expect(component.container).toHaveTextContent(t('timeInput.time.label'))
   })
 
-  it('should render EmployeeRow correctly', () => {
-    const employee = billingReportData.projects[0].employees[0]
-    expect(component.container).toHaveTextContent(`${employee.firstName} ${employee.lastName}`)
-    expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(employee.employeeTotal))
-  })
-
-  it('should render ProjectRows correctly', () => {
-    const project = projects[0]
-    expect(component.container).toHaveTextContent(project.name)
-    expect(component.container).toHaveTextContent(t('report.preview.subTotal'))
-    expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(project.projectTotal))
+  it('should render ClientRow correctly', () => {
+    const client = salaryReportData.clients[0]
+    expect(component.container).toHaveTextContent(client.name)
+    expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(client.clientTotal))
   })
 
   it('should render grandTotal correctly', () => {
@@ -54,14 +43,14 @@ describe('BillingReportSummaryTable', () => {
   })
 })
 
-describe('BillingReportDetailsTable', () => {
-  const { projects } = billingReportData
+describe('SalaryReportDetailsTable', () => {
+  const { clients } = salaryReportData
 
   beforeEach(async () => {
     await act(async () => {
       component = render(
         <I18nextProvider i18n={i18n}>
-          <BillingReportDetailsTable projects={projects} />
+          <SalaryReportDetailsTable clients={clients} />
         </I18nextProvider>
       )
       await component.findByText(t('report.preview.details'))
@@ -69,13 +58,12 @@ describe('BillingReportDetailsTable', () => {
   })
 
   it('should render TableHeaderRow correctly', () => {
-    expect(component.container).toHaveTextContent(t('project.label'))
-    expect(component.container).toHaveTextContent(t('employee.label'))
+    expect(component.container).toHaveTextContent(t('client.label'))
     expect(component.container).toHaveTextContent(t('timeInput.time.label'))
   })
 
   it('should render TimeInputRow correctly', () => {
-    const timeInput = projects[0].employees[0].timeInputs[0]
+    const timeInput = clients[0].projects[0].timeInputs[0]
 
     const formatDate = () => {
       const date = new Date(timeInput.date)
@@ -88,31 +76,32 @@ describe('BillingReportDetailsTable', () => {
     expect(component.container).toHaveTextContent(timeInput.description)
   })
 
-  it('should render EmployeeRow correctly', () => {
-    const employee = billingReportData.projects[0].employees[0]
-    expect(component.container).toHaveTextContent(`${employee.firstName} ${employee.lastName}`)
+  it('should render ProjectRow correctly', () => {
+    const project = salaryReportData.clients[0].projects[0]
+    expect(component.container).toHaveTextContent(project.name)
   })
 })
 
-describe('BillingReportPreview', () => {
+describe('SalaryReportPreview', () => {
   beforeEach(async () => {
     await act(async () => {
       component = render(
         <I18nextProvider i18n={i18n}>
-          <BillingReportPreview data={billingReportData} />
+          <SalaryReportPreview data={salaryReportData} />
         </I18nextProvider>
       )
-      await component.findByText(t('report.billing.preview.title'))
+      await component.findByText(t('report.salary.preview.title'))
     })
   })
 
-  it('should show client name correctly', () => {
-    expect(component.container).toHaveTextContent(billingReportData.client.name)
+  it('should show employee name correctly', () => {
+    const { employee } = salaryReportData
+    expect(component.container).toHaveTextContent(`${employee.firstName} ${employee.lastName}`)
   })
 
   it('should show report start and end date correctly', () => {
-    expect(component.container).toHaveTextContent(formatDateFromString(billingReportData.startDate))
-    expect(component.container).toHaveTextContent(formatDateFromString(billingReportData.endDate))
+    expect(component.container).toHaveTextContent(formatDateFromString(salaryReportData.startDate))
+    expect(component.container).toHaveTextContent(formatDateFromString(salaryReportData.endDate))
   })
 
   it('should have summary report section', () => {
@@ -126,7 +115,7 @@ describe('BillingReportPreview', () => {
   it('should render grandTotal correctly', () => {
     expect(component.container).toHaveTextContent(t('report.preview.grandTotal'))
     expect(component.container).toHaveTextContent(
-      minutesToHoursAndMinutes(billingReportData.grandTotal)
+      minutesToHoursAndMinutes(salaryReportData.grandTotal)
     )
   })
 })

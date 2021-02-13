@@ -78,13 +78,13 @@ const BillingReportForm: React.FC<{
     validate: (values) => {
       const errors = []
       if (!values.client) {
-        errors.push({ client: t('client.error') })
+        errors.push({ client: t('client.error.chooseOne') })
       }
       if (values.projects.length === 0) {
         errors.push({ projects: t('project.error.empty') })
       }
       if (values.employees.length === 0) {
-        errors.push({ employees: t('employee.error.empty') })
+        errors.push({ employees: t('employee.error.atLeastOne') })
       }
       if (isBefore(values.endDate, values.startDate)) {
         errors.push({ startDate: t('startDate.error') })

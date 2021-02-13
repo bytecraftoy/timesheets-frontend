@@ -120,11 +120,7 @@ const BillingReportDetailsTable: React.FC<{ projects: ProjectStub[] }> = ({ proj
     <>
       <TableContainer component={Paper} className={classes.detailsTable}>
         <Table size="small">
-          <ReportTableTitle
-            title={t('report.billing.preview.details')}
-            open={open}
-            setOpen={setOpen}
-          />
+          <ReportTableTitle title={t('report.preview.details')} open={open} setOpen={setOpen} />
           {open && (
             <>
               <TableHeaderRow />
