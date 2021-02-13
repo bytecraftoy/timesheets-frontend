@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
   i,
-  project,
+  projectAndInputs,
   handleChange,
   handleBlur,
   errors,
@@ -67,7 +67,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
     >
       <Grid item xs={2}>
         <Typography className={classes.typographyBreakWord} variant="body1">
-          {project.name}
+          {projectAndInputs.name}
         </Typography>
       </Grid>
       <FieldArray name={`projects[${i}].inputs`} validateOnChange={false}>
@@ -79,7 +79,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
               let error: string | undefined
               if (value.length > 100) {
                 error = t('timeInput.description.error.tooLong')
-              } else if (project.inputs[j].time === '' && value !== '') {
+              } else if (projectAndInputs.inputs[j].time === '' && value !== '') {
                 error = t('timeInput.description.error.timeEmpty')
               }
               return error
@@ -99,7 +99,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
                       name={timeName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={project.inputs[j].time}
+                      value={projectAndInputs.inputs[j].time}
                       error={Boolean(getIn(errors, timeName))}
                       variant="outlined"
                       size="small"
@@ -119,7 +119,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
                         name={descriptionName}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={project.inputs[j].description}
+                        value={projectAndInputs.inputs[j].description}
                         error={Boolean(getIn(errors, descriptionName))}
                         variant="outlined"
                         size="small"

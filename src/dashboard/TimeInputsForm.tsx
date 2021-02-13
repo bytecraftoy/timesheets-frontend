@@ -31,7 +31,7 @@ const focusDifferentRow = (rowsToChange: number, length: number) => {
 }
 
 const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
-  projects,
+  projectsAndInputs,
   week,
   holidays,
   debounceMs,
@@ -45,11 +45,11 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   const formik = useFormik({
     validateOnChange: false,
     initialValues: {
-      projects: projectAndInputsWithIdToProjectAndInputs(projects),
+      projects: projectAndInputsWithIdToProjectAndInputs(projectsAndInputs),
     },
     onSubmit: async (values) => {
       try {
-        await updateHours(values.projects, projects, week)
+        await updateHours(values.projects, projectsAndInputs, week)
       } catch (error) {
         setNotification({ message: error, severity: 'error' })
       } finally {
@@ -93,13 +93,13 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   }, [formik.errors, setSaveMessage])
 
   useEffect(() => {
-    Mousetrap.bind('down', () => focusDifferentRow(1, projects.length))
-    Mousetrap.bind('up', () => focusDifferentRow(-1, projects.length))
+    Mousetrap.bind('down', () => focusDifferentRow(1, projectsAndInputs.length))
+    Mousetrap.bind('up', () => focusDifferentRow(-1, projectsAndInputs.length))
     return () => {
       Mousetrap.unbind('down')
       Mousetrap.unbind('up')
     }
-  }, [projects.length])
+  }, [projectsAndInputs.length])
 
   return (
     <FormikProvider value={formik}>
@@ -111,7 +111,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
                 <TimeInputsRow
                   key={project.id}
                   i={i}
-                  project={project}
+                  projectAndInputs={project}
                   handleChange={formik.handleChange}
                   handleBlur={formik.handleBlur}
                   errors={formik.errors}
