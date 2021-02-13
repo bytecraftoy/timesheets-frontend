@@ -166,7 +166,7 @@ const BillingReportForm: React.FC<{
           errors={formik.errors}
           touched={formik.touched}
         />
-        {toNext && <Redirect to="/reports/preview" />}
+        {toNext && <Redirect to="/reports/billing/preview" />}
         <SubmitButton
           className={classes.button}
           disabled={formik.isSubmitting}
