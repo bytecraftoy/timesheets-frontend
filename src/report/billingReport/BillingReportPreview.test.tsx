@@ -1,16 +1,18 @@
 import React from 'react'
 import { act, render, RenderResult } from '@testing-library/react'
-import { format, getDay } from 'date-fns'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../i18n'
-import { t } from '../testUtils/testUtils'
-import { billingReportData } from '../testUtils/reportTestUtils'
+import i18n from '../../i18n'
+import { t } from '../../testUtils/testUtils'
+import { billingReportData } from '../../testUtils/reportTestUtils'
 
 import BillingReportPreview from './BillingReportPreview'
 import BillingReportSummaryTable from './BillingReportSummaryTable'
-import { formatDateFromString, minutesToHoursAndMinutes } from '../services/dateAndTimeService'
+import {
+  formatDateFromString,
+  formatDateFromStringWithWeekday,
+  minutesToHoursAndMinutes,
+} from '../../services/dateAndTimeService'
 import BillingReportDetailsTable from './BillingReportDetailsTable'
-import { weekdays } from '../common/constants'
 
 let component: RenderResult
 
@@ -77,13 +79,7 @@ describe('BillingReportDetailsTable', () => {
   it('should render TimeInputRow correctly', () => {
     const timeInput = projects[0].employees[0].timeInputs[0]
 
-    const formatDate = () => {
-      const date = new Date(timeInput.date)
-      const weekday = weekdays[getDay(date)]
-      return `${weekday} ${format(date, 'd.M')}`
-    }
-
-    expect(component.container).toHaveTextContent(formatDate())
+    expect(component.container).toHaveTextContent(formatDateFromStringWithWeekday(timeInput.date))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(timeInput.input))
     expect(component.container).toHaveTextContent(timeInput.description)
   })

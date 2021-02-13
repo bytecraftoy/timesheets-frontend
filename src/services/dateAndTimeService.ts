@@ -9,6 +9,7 @@ import {
   subMonths,
   subYears,
   isWeekend,
+  getDay,
 } from 'date-fns'
 import { weekdays } from '../common/constants'
 
@@ -20,6 +21,12 @@ const formatDateFromString = (date: string): string => {
 
 const formatDateFromDate = (date: Date): string => {
   return format(date, 'dd.MM.yyyy')
+}
+
+const formatDateFromStringWithWeekday = (dateString: string): string => {
+  const date = new Date(dateString)
+  const weekday = weekdays[getDay(date)]
+  return `${weekday} ${format(date, 'd.M')}`
 }
 
 const getFirstDayOfMonth = (monthsAgo: number): Date => {
@@ -70,6 +77,7 @@ const getHolidays = (week: Date[]): boolean[] => {
 export {
   formatDateFromString,
   formatDateFromDate,
+  formatDateFromStringWithWeekday,
   getFirstDayOfMonth,
   getLastDayOfLastMonth,
   getFirstDayOfLastYear,

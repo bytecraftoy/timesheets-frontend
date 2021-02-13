@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { format, getDay } from 'date-fns'
 import {
   makeStyles,
   Paper,
@@ -8,15 +7,13 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
-  Typography,
 } from '@material-ui/core'
 import { indigo } from '@material-ui/core/colors'
-import { ProjectStub, EmployeeWithInputs, TimeInput } from '../common/types'
-import { weekdays } from '../common/constants'
-import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
-import ReportTableTitle from './ReportTableTitle'
+import { ProjectStub, EmployeeWithInputs } from '../../common/types'
+import ReportTableTitle from '../ReportTableTitle'
+import DetailsTableHeaderRow from '../DetailsTableHeaderRow'
+import TimeInputRow from '../TimeInputRow'
 
 const useStyles = makeStyles((theme) => ({
   detailsTable: {
@@ -34,45 +31,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }))
-
-const TableHeaderRow: React.FC = () => {
-  const { t } = useTranslation()
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell>
-          <Typography variant="subtitle1">{t('project.label')}</Typography>
-        </TableCell>
-        <TableCell>
-          <Typography variant="subtitle1">{t('employee.label')}</Typography>
-        </TableCell>
-        <TableCell align="center">
-          <Typography variant="subtitle1">{t('timeInput.label')}</Typography>
-        </TableCell>
-      </TableRow>
-    </TableHead>
-  )
-}
-
-const TimeInputRow: React.FC<{ timeInput: TimeInput }> = ({ timeInput }) => {
-  const classes = useStyles()
-
-  const formatDate = () => {
-    const date = new Date(timeInput.date)
-    const weekday = weekdays[getDay(date)]
-    return `${weekday} ${format(date, 'd.M')}`
-  }
-
-  return (
-    <TableRow className={classes.employeeRow}>
-      <TableCell />
-      <TableCell align="right">{formatDate()}</TableCell>
-      <TableCell align="center">{minutesToHoursAndMinutes(timeInput.input)}</TableCell>
-      <TableCell>{timeInput.description}</TableCell>
-    </TableRow>
-  )
-}
 
 const EmployeeRows: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) => {
   const classes = useStyles()
@@ -123,7 +81,10 @@ const BillingReportDetailsTable: React.FC<{ projects: ProjectStub[] }> = ({ proj
           <ReportTableTitle title={t('report.preview.details')} open={open} setOpen={setOpen} />
           {open && (
             <>
-              <TableHeaderRow />
+              <DetailsTableHeaderRow
+                leftLabel={t('project.label')}
+                centerLabel={t('employee.label')}
+              />
               <TableBody>
                 {projects.map((project) => (
                   <ProjectRows key={project.id} project={project} />

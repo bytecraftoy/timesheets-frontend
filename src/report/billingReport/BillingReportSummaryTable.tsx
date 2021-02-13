@@ -7,14 +7,15 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
-  Typography,
 } from '@material-ui/core'
 import { indigo } from '@material-ui/core/colors'
-import { ProjectStub, EmployeeWithInputs } from '../common/types'
-import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
-import ReportTableTitle from './ReportTableTitle'
+import { ProjectStub, EmployeeWithInputs } from '../../common/types'
+import { minutesToHoursAndMinutes } from '../../services/dateAndTimeService'
+import ReportTableTitle from '../ReportTableTitle'
+import SummaryTableHeaderRow from '../SummaryTableHeaderRow'
+import CountTotalRow from '../CountTotalRow'
+import SummaryTotalRow from '../SummaryTotalRow'
 
 const useStyles = makeStyles((theme) => ({
   summaryTable: {
@@ -25,65 +26,17 @@ const useStyles = makeStyles((theme) => ({
   projectRow: {
     backgroundColor: indigo[100],
   },
-  employeeRow: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: indigo[50],
-    },
-  },
   grandTotalRow: {
     backgroundColor: indigo[100],
   },
 }))
 
-const TableHeaderRow: React.FC = () => {
-  const { t } = useTranslation()
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell>
-          <Typography variant="subtitle1">{t('project.label')}</Typography>
-        </TableCell>
-        <TableCell>
-          <Typography variant="subtitle1">{t('employee.label')}</Typography>
-        </TableCell>
-        <TableCell />
-        <TableCell align="right">
-          <Typography variant="subtitle1">{t('timeInput.time.label')}</Typography>
-        </TableCell>
-      </TableRow>
-    </TableHead>
-  )
-}
-
 const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) => {
-  const classes = useStyles()
   return (
-    <TableRow className={classes.employeeRow}>
-      <TableCell />
-      <TableCell colSpan={2}>
-        {employee.firstName} {employee.lastName}
-      </TableCell>
-      <TableCell align="right">{minutesToHoursAndMinutes(employee.employeeTotal)}</TableCell>
-    </TableRow>
-  )
-}
-
-const CountTotalRow: React.FC<{ className?: string; label: string; total: string }> = ({
-  className,
-  label,
-  total,
-}) => {
-  return (
-    <TableRow className={className}>
-      <TableCell colSpan={2} />
-      <TableCell align="right">
-        <strong>{label}</strong>
-      </TableCell>
-      <TableCell align="right">
-        <strong>{total}</strong>
-      </TableCell>
-    </TableRow>
+    <SummaryTotalRow
+      label={`${employee.firstName} ${employee.lastName}`}
+      total={employee.employeeTotal}
+    />
   )
 }
 
@@ -124,7 +77,10 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
           <ReportTableTitle title={t('report.preview.summary')} open={open} setOpen={setOpen} />
           {open && (
             <>
-              <TableHeaderRow />
+              <SummaryTableHeaderRow
+                leftLabel={t('project.label')}
+                centerLabel={t('employee.label')}
+              />
               <TableBody>
                 {projects.map((project) => (
                   <ProjectRows key={project.id} project={project} />

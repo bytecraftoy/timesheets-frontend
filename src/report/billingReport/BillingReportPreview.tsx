@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
 import BillingReportSummaryTable from './BillingReportSummaryTable'
 import BillingReportDetailsTable from './BillingReportDetailsTable'
-import { BillingReportData } from '../common/types'
-import { formatDateFromString } from '../services/dateAndTimeService'
+import { BillingReportData } from '../../common/types'
+import { formatDateFromString } from '../../services/dateAndTimeService'
 
 const BillingReportPreview: React.FC<{ data: BillingReportData }> = ({ data }) => {
   const { t } = useTranslation()

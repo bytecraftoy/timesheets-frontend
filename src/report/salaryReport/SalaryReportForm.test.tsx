@@ -8,12 +8,11 @@ import {
   getFirstDayOfMonth,
   getLastDayOfLastMonth,
   getLastDayOfLastYear,
-} from '../services/dateAndTimeService'
-import i18n from '../i18n'
-import { t } from '../testUtils/testUtils'
-import * as projectTestUtils from '../testUtils/projectTestUtils'
-
-import BillingReportForm from './BillingReportForm'
+} from '../../services/dateAndTimeService'
+import i18n from '../../i18n'
+import { t } from '../../testUtils/testUtils'
+import * as projectTestUtils from '../../testUtils/projectTestUtils'
+import SalaryReportForm from './SalaryReportForm'
 
 jest.mock('axios')
 
@@ -22,20 +21,17 @@ const mockedAxios = axios as jest.Mocked<typeof axios>
 let component: RenderResult
 
 const pressGenerateButton = async (): Promise<void> => {
-  const submitButton = component.getByTestId('billingReportFormGenerate')
+  const submitButton = component.getByTestId('salaryReportFormGenerate')
   await act(async () => {
     fireEvent.click(submitButton)
   })
 }
 
-describe('billing report form', () => {
+describe('salary report form', () => {
   beforeEach(async () => {
     mockedAxios.get.mockImplementation((url: string) => {
-      if (url.includes('projects/employees')) {
+      if (url.includes('employees')) {
         return Promise.resolve({ data: projectTestUtils.employees })
-      }
-      if (url.includes('projects')) {
-        return Promise.resolve({ data: projectTestUtils.projects })
       }
       if (url.includes('clients')) {
         return Promise.resolve({ data: projectTestUtils.clients })
@@ -46,7 +42,7 @@ describe('billing report form', () => {
     await act(async () => {
       component = render(
         <I18nextProvider i18n={i18n}>
-          <BillingReportForm setReportData={jest.fn()} />
+          <SalaryReportForm setReportData={jest.fn()} />
         </I18nextProvider>
       )
       await component.findByText(t('button.generate'))
@@ -54,55 +50,20 @@ describe('billing report form', () => {
   })
 
   describe('empty form', () => {
-    it('has client, projects and employees select fields, and start date and end date text fields', () => {
-      const clientSelect = component.getByLabelText(t('client.label'))
-      const projectSelect = component.getByLabelText(t('project.label_plural'))
-      const employeeSelect = component.getByLabelText(t('employee.label_plural'))
+    it('has employee and clients select fields, and start date and end date text fields', () => {
+      const employeeSelect = component.getByLabelText(t('employee.label'))
+      const clientSelect = component.getByLabelText(t('client.label_plural'))
       const startDateSelect = component.getByLabelText(t('startDate.label'))
       const endDateSelect = component.getByLabelText(t('endDate.label'))
 
       expect(clientSelect).toHaveAttribute('role', 'button')
-      expect(projectSelect).toHaveAttribute('role', 'button')
       expect(employeeSelect).toHaveAttribute('role', 'button')
       expect(startDateSelect).toHaveAttribute('type', 'text')
       expect(endDateSelect).toHaveAttribute('type', 'text')
     })
 
-    it('has client select containing fetched clients', async () => {
-      const clientSelect = component.getByLabelText(t('client.label'))
-
-      await act(async () => {
-        fireEvent.mouseDown(clientSelect)
-      })
-
-      projectTestUtils.clients.forEach((client) => {
-        expect(component.getByText(client.name)).toBeInTheDocument()
-      })
-    })
-
-    it('has project select containing fetched projects after client is selected', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
-
-      const projectSelect = component.getByLabelText(t('project.label_plural'))
-
-      await act(async () => {
-        fireEvent.mouseDown(projectSelect)
-      })
-
-      projectTestUtils.projects.forEach((project) => {
-        expect(component.getByText(project.name)).toBeInTheDocument()
-      })
-    })
-
-    it('has employee select containing fetched employees after client and projects are selected', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
-
-      await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-      await component.findAllByText(projectTestUtils.projects[0].name)
-
-      const employeeSelect = component.getByLabelText(t('employee.label_plural'))
+    it('has employee select containing fetched employees', async () => {
+      const employeeSelect = component.getByLabelText(t('employee.label'))
 
       await act(async () => {
         fireEvent.mouseDown(employeeSelect)
@@ -114,76 +75,56 @@ describe('billing report form', () => {
         ).toBeInTheDocument()
       })
     })
+
+    it('has client select containing fetched clients after employee is selected', async () => {
+      const employee = projectTestUtils.employees[0]
+      await projectTestUtils.selectEmployee(component, employee)
+      await component.findByText(`${employee.firstName} ${employee.lastName}`)
+
+      const clientSelect = component.getByLabelText(t('client.label_plural'))
+
+      await act(async () => {
+        fireEvent.mouseDown(clientSelect)
+      })
+
+      projectTestUtils.clients.forEach((client) => {
+        expect(component.getByText(client.name)).toBeInTheDocument()
+      })
+    })
   })
 
   describe('selecing projects and employees', () => {
-    it('should select all projects with "select all projects" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+    it('should select all clients with "select all clients" button', async () => {
+      const employee = projectTestUtils.employees[0]
+      await projectTestUtils.selectEmployee(component, employee)
+      await component.findByText(`${employee.firstName} ${employee.lastName}`)
 
-      const selectAllButton = component.getByText(t('project.selectAll'))
+      const selectAllButton = component.getByText(t('client.selectAll'))
       await act(async () => {
         fireEvent.click(selectAllButton)
       })
 
-      projectTestUtils.projects.forEach((project) => {
-        expect(component.getByText(project.name)).toBeVisible()
+      projectTestUtils.clients.forEach((client) => {
+        expect(component.getByText(client.name)).toBeVisible()
       })
     })
 
     it('should unselect all projects with "unselect all projects" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+      const employee = projectTestUtils.employees[0]
+      await projectTestUtils.selectEmployee(component, employee)
+      await component.findByText(`${employee.firstName} ${employee.lastName}`)
 
-      const selectAllButton = component.getByText(t('project.selectAll'))
+      const selectAllButton = component.getByText(t('client.selectAll'))
       await act(async () => {
         fireEvent.click(selectAllButton)
       })
-      const unselectAllButton = component.getByText(t('project.unselectAll'))
+      const unselectAllButton = component.getByText(t('client.unselectAll'))
       await act(async () => {
         fireEvent.click(unselectAllButton)
       })
 
-      projectTestUtils.projects.forEach((project) => {
-        expect(component.queryByText(project.name)).toBeNull()
-      })
-    })
-
-    it('should selects all employees with "select all employees" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
-
-      await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-      await component.findAllByText(projectTestUtils.projects[0].name)
-
-      const selectAllButton = component.getByText(t('employee.selectAll'))
-      await act(async () => {
-        fireEvent.click(selectAllButton)
-      })
-
-      projectTestUtils.employees.forEach((employee) => {
-        expect(component.getByText(`${employee.firstName} ${employee.lastName}`)).toBeVisible()
-      })
-    })
-
-    it('should unselect all employees with "unselect all employees" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
-
-      await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-      await component.findAllByText(projectTestUtils.projects[0].name)
-
-      const selectAllButton = component.getByText(t('employee.selectAll'))
-      await act(async () => {
-        fireEvent.click(selectAllButton)
-      })
-      const unselectAllButton = component.getByText(t('employee.unselectAll'))
-      await act(async () => {
-        fireEvent.click(unselectAllButton)
-      })
-
-      projectTestUtils.employees.forEach((employee) => {
-        expect(component.queryByText(`${employee.firstName} ${employee.lastName}`)).toBeNull()
+      projectTestUtils.projects.forEach((client) => {
+        expect(component.queryByText(client.name)).toBeNull()
       })
     })
   })
@@ -281,21 +222,15 @@ describe('billing report form', () => {
   })
 
   describe('submitting with incorrect field values', () => {
-    it('should display validation error for empty client select field', async () => {
+    it('should display validation error for empty employee select field', async () => {
       await pressGenerateButton()
-      await waitFor(expect(component.getByText(t('client.error.chooseOne'))).toBeInTheDocument)
+      await waitFor(expect(component.getByText(t('employee.error.chooseOne'))).toBeInTheDocument)
       expect(axios.post).toBeCalledTimes(0)
     })
 
-    it('should display validation error for project field', async () => {
+    it('should display validation error for client field', async () => {
       await pressGenerateButton()
-      await waitFor(expect(component.getByText(t('project.error.empty'))).toBeInTheDocument)
-      expect(axios.post).toBeCalledTimes(0)
-    })
-
-    it('should display validation error for employee field', async () => {
-      await pressGenerateButton()
-      await waitFor(expect(component.getByText(t('employee.error.atLeastOne'))).toBeInTheDocument)
+      await waitFor(expect(component.getByText(t('client.error.atLeastOne'))).toBeInTheDocument)
       expect(axios.post).toBeCalledTimes(0)
     })
 

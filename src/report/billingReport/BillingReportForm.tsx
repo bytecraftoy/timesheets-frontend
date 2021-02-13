@@ -5,30 +5,30 @@ import { Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSetRecoilState } from 'recoil'
 import { Grid, makeStyles } from '@material-ui/core'
-import notificationState from '../common/atoms'
+import notificationState from '../../common/atoms'
 import {
   Employee,
   Client,
   Project,
   BillingReportFormValues,
   BillingReportData,
-} from '../common/types'
-import { getAllClients, getProjectsByClientId } from '../services/clientService'
-import { getEmployeesByProjectIds } from '../services/projectService'
-import FormSelect from '../form/FormSelect'
+} from '../../common/types'
+import { getAllClients, getProjectsByClientId } from '../../services/clientService'
+import { getEmployeesByProjectIds } from '../../services/projectService'
+import FormSelect from '../../form/FormSelect'
 import {
   employeesToFormSelectItem,
   clientToFormSelectItem,
   projectsToFormSelectItem,
-} from '../form/formService'
-import getBillingReportData from './ReportService'
-import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../services/dateAndTimeService'
-import { useAPIErrorHandler } from '../services/errorHandlingService'
-import TimeIntervalQuickSelects from '../button/TimeIntervalQuickSelects'
-import SubmitButton from '../button/SubmitButton'
-import TimeIntervalSelects from '../form/TimeIntervalSelects'
-import * as constants from '../common/constants'
-import FormSelectMultipleWithButtons from '../form/FormSelectMultipleWithButtons'
+} from '../../form/formService'
+import getBillingReportData from '../ReportService'
+import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
+import { useAPIErrorHandler } from '../../services/errorHandlingService'
+import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
+import SubmitButton from '../../button/SubmitButton'
+import TimeIntervalSelects from '../../form/TimeIntervalSelects'
+import * as constants from '../../common/constants'
+import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
 
 const useStyles = makeStyles((theme) => ({
   button: {

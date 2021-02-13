@@ -1,13 +1,17 @@
 import React from 'react'
 import { act, render, RenderResult } from '@testing-library/react'
-import { format, getDay } from 'date-fns'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../i18n'
-import { t } from '../testUtils/testUtils'
-import { salaryReportData } from '../testUtils/reportTestUtils'
-import { formatDateFromString, minutesToHoursAndMinutes } from '../services/dateAndTimeService'
-import { weekdays } from '../common/constants'
+import i18n from '../../i18n'
+import { t } from '../../testUtils/testUtils'
+import { salaryReportData } from '../../testUtils/reportTestUtils'
+import {
+  formatDateFromString,
+  formatDateFromStringWithWeekday,
+  minutesToHoursAndMinutes,
+} from '../../services/dateAndTimeService'
 import SalaryReportPreview from './SalaryReportPreview'
+import SalaryReportSummaryTable from './SalaryReportSummaryTable'
+import SalaryReportDetailsTable from './SalaryReportDetailsTable'
 
 let component: RenderResult
 
@@ -28,13 +32,20 @@ describe('SalaryReportSummaryTable', () => {
 
   it('should render TableHeaderRow correctly', () => {
     expect(component.container).toHaveTextContent(t('client.label'))
+    expect(component.container).toHaveTextContent(t('project.label'))
     expect(component.container).toHaveTextContent(t('timeInput.time.label'))
   })
 
-  it('should render ClientRow correctly', () => {
+  it('should render ClientRows correctly', () => {
     const client = salaryReportData.clients[0]
     expect(component.container).toHaveTextContent(client.name)
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(client.clientTotal))
+  })
+
+  it('should render ProjectRow correctly', () => {
+    const project = salaryReportData.clients[0].projects[0]
+    expect(component.container).toHaveTextContent(project.name)
+    expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(project.projectTotal))
   })
 
   it('should render grandTotal correctly', () => {
@@ -65,13 +76,7 @@ describe('SalaryReportDetailsTable', () => {
   it('should render TimeInputRow correctly', () => {
     const timeInput = clients[0].projects[0].timeInputs[0]
 
-    const formatDate = () => {
-      const date = new Date(timeInput.date)
-      const weekday = weekdays[getDay(date)]
-      return `${weekday} ${format(date, 'd.M')}`
-    }
-
-    expect(component.container).toHaveTextContent(formatDate())
+    expect(component.container).toHaveTextContent(formatDateFromStringWithWeekday(timeInput.date))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(timeInput.input))
     expect(component.container).toHaveTextContent(timeInput.description)
   })

@@ -103,6 +103,9 @@
             "message": {
                 "success": "Salary report for {{employee}} created succesfully!",
                 "error": "Report could not be generated."
+            },
+            "preview": {
+                "title": "Preview of salary report"
             }
         },
         "generate": "Generate report",
