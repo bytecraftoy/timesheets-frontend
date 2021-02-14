@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
-import { BillingReportData } from '../common/types'
+import { BillingReportData } from '../../common/types'
 import BillingReportForm from './BillingReportForm'
 import BillingReportPreview from './BillingReportPreview'
-import NoReportDataPlaceHolder from './NoReportDataPlaceholder'
+import NoReportDataPlaceHolder from '../NoReportDataPlaceholder'
 
 const BillingReport: React.FC = () => {
   const { path } = useRouteMatch()

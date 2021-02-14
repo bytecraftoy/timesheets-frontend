@@ -18,10 +18,18 @@ export interface BillingReportFormValues {
   projects: string[]
   employees: string[]
 }
+
 export interface Client {
   id: string
   name: string
   email?: string
+}
+
+export interface ClientWithProjectsAndInputs {
+  id: string
+  name: string
+  clientTotal: number
+  projects: ProjectWithInputsOfOneEmployee[]
 }
 
 export interface DateErrorProps {
@@ -81,7 +89,7 @@ export interface FormSelectMultipleProps extends Omit<FormSelectProps, 'value' |
 
 export interface FormSelectMultipleWithButtonsProps extends FormikSetFieldValue {
   formSelectItems: FormSelectItem[]
-  objects: (Project | Employee)[]
+  objects: (Project | Employee | Client)[]
   handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   value: string[]
   errors: string | string[] | undefined
@@ -188,8 +196,31 @@ export interface ProjectStub {
   projectTotal: number
 }
 
+export interface ProjectWithInputsOfOneEmployee {
+  id: string
+  name: string
+  projectTotal: number
+  timeInputs: TimeInput[]
+}
+
+export interface SalaryReportData {
+  startDate: string
+  endDate: string
+  employee: Employee
+  clients: ClientWithProjectsAndInputs[]
+  creationMillis: number
+  grandTotal: number
+}
+
+export interface SalaryReportFormValues {
+  startDate: Date
+  endDate: Date
+  employee: string
+  clients: string[]
+}
+
 export interface SelectAllButtonProps extends UnselectAllButtonProps {
-  objects: (Project | Employee)[]
+  objects: (Project | Employee | Client)[]
 }
 
 export type Severity = 'error' | 'success' | 'info' | 'warning' | undefined
@@ -231,7 +262,7 @@ export interface TimeInputsRowProps {
 }
 
 export interface TimeIntervalSelectsProps extends FormikSetFieldValue, DateErrorsProps {
-  values: BillingReportFormValues
+  values: BillingReportFormValues | SalaryReportFormValues
 }
 
 export interface UnselectAllButtonProps extends FormikSetFieldValue {

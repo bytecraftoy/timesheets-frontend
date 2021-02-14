@@ -99,6 +99,19 @@ const selectClient = async (component: RenderResult, client: Client): Promise<vo
   })
 }
 
+const selectEmployee = async (component: RenderResult, employee: Employee): Promise<void> => {
+  const employeeSelect = component.getByLabelText(t('employee.label'))
+  let listbox: HTMLElement
+  await act(async () => {
+    fireEvent.mouseDown(employeeSelect)
+    listbox = await component.findByText(`${employee.firstName} ${employee.lastName}`)
+  })
+  await act(async () => {
+    fireEvent.click(listbox)
+    await component.findByText(`${employee.firstName} ${employee.lastName}`)
+  })
+}
+
 const selectProject = async (component: RenderResult, project: Project): Promise<void> => {
   const projectSelect = component.getByLabelText(t('project.label_plural'))
   let listbox: HTMLElement
@@ -148,6 +161,7 @@ export {
   managers,
   clients,
   selectClient,
+  selectEmployee,
   selectManager,
   selectProject,
   changeNameInput,

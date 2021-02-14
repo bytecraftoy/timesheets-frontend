@@ -13,4 +13,9 @@ const getProjectsByClientId = async (clientId: string): Promise<Project[]> => {
   return data as Project[]
 }
 
-export { getAllClients, getProjectsByClientId }
+const getClientsByEmployeeId = async (employeeId: string): Promise<Client[]> => {
+  const { data } = await axios.get(`${baseUrl}/employees/${employeeId}/clients`)
+  return data as Client[]
+}
+
+export { getAllClients, getProjectsByClientId, getClientsByEmployeeId }

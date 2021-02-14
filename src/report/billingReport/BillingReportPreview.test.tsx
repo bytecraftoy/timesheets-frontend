@@ -1,16 +1,18 @@
 import React from 'react'
 import { act, render, RenderResult } from '@testing-library/react'
-import { format, getDay } from 'date-fns'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../i18n'
-import { t } from '../testUtils/testUtils'
-import { billingReportData } from '../testUtils/reportTestUtils'
+import i18n from '../../i18n'
+import { t } from '../../testUtils/testUtils'
+import { billingReportData } from '../../testUtils/reportTestUtils'
 
 import BillingReportPreview from './BillingReportPreview'
 import BillingReportSummaryTable from './BillingReportSummaryTable'
-import { formatDateFromString, minutesToHoursAndMinutes } from '../services/dateAndTimeService'
+import {
+  formatDateFromString,
+  formatDateFromStringWithWeekday,
+  minutesToHoursAndMinutes,
+} from '../../services/dateAndTimeService'
 import BillingReportDetailsTable from './BillingReportDetailsTable'
-import { weekdays } from '../common/constants'
 
 let component: RenderResult
 
@@ -25,7 +27,7 @@ describe('BillingReportSummaryTable', () => {
           <BillingReportSummaryTable projects={projects} grandTotal={grandTotal} />
         </I18nextProvider>
       )
-      await component.findByText(t('report.billing.preview.summary'))
+      await component.findByText(t('report.preview.summary'))
     })
   })
 
@@ -44,12 +46,12 @@ describe('BillingReportSummaryTable', () => {
   it('should render ProjectRows correctly', () => {
     const project = projects[0]
     expect(component.container).toHaveTextContent(project.name)
-    expect(component.container).toHaveTextContent(t('report.billing.preview.subTotal'))
+    expect(component.container).toHaveTextContent(t('report.preview.subTotal'))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(project.projectTotal))
   })
 
   it('should render grandTotal correctly', () => {
-    expect(component.container).toHaveTextContent(t('report.billing.preview.grandTotal'))
+    expect(component.container).toHaveTextContent(t('report.preview.grandTotal'))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(grandTotal))
   })
 })
@@ -64,7 +66,7 @@ describe('BillingReportDetailsTable', () => {
           <BillingReportDetailsTable projects={projects} />
         </I18nextProvider>
       )
-      await component.findByText(t('report.billing.preview.details'))
+      await component.findByText(t('report.preview.details'))
     })
   })
 
@@ -77,13 +79,7 @@ describe('BillingReportDetailsTable', () => {
   it('should render TimeInputRow correctly', () => {
     const timeInput = projects[0].employees[0].timeInputs[0]
 
-    const formatDate = () => {
-      const date = new Date(timeInput.date)
-      const weekday = weekdays[getDay(date)]
-      return `${weekday} ${format(date, 'd.M')}`
-    }
-
-    expect(component.container).toHaveTextContent(formatDate())
+    expect(component.container).toHaveTextContent(formatDateFromStringWithWeekday(timeInput.date))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(timeInput.input))
     expect(component.container).toHaveTextContent(timeInput.description)
   })
@@ -116,15 +112,15 @@ describe('BillingReportPreview', () => {
   })
 
   it('should have summary report section', () => {
-    expect(component.container).toHaveTextContent(t('report.billing.preview.summary'))
+    expect(component.container).toHaveTextContent(t('report.preview.summary'))
   })
 
   it('should have details report section', () => {
-    expect(component.container).toHaveTextContent(t('report.billing.preview.details'))
+    expect(component.container).toHaveTextContent(t('report.preview.details'))
   })
 
   it('should render grandTotal correctly', () => {
-    expect(component.container).toHaveTextContent(t('report.billing.preview.grandTotal'))
+    expect(component.container).toHaveTextContent(t('report.preview.grandTotal'))
     expect(component.container).toHaveTextContent(
       minutesToHoursAndMinutes(billingReportData.grandTotal)
     )
