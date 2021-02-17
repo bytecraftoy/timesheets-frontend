@@ -116,6 +116,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }))
 
+const PATHS = {
+  projects: '/projects',
+  billingReport: '/reports/billing',
+  salaryReport: '/reports/salary',
+}
+
 const TitleBar: React.FC<{ open: boolean; handleDrawerOpen: () => void }> = ({
   open,
   handleDrawerOpen,
@@ -162,7 +168,7 @@ const NavList: React.FC = () => {
         </ListItemIcon>
         <ListItemText data-cy="dashboard-nav" primary={t('dashboard.title')} />
       </ListItem>
-      <ListItem button component={Link} to="/projects">
+      <ListItem button component={Link} to={PATHS.projects}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
@@ -177,13 +183,13 @@ const NavList: React.FC = () => {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button component={Link} to="/reports/billing" className={classes.nested}>
+          <ListItem button component={Link} to={PATHS.billingReport} className={classes.nested}>
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
             <ListItemText data-cy="billing-reports-nav" primary="Billing" />
           </ListItem>
-          <ListItem button component={Link} to="/reports/salary" className={classes.nested}>
+          <ListItem button component={Link} to={PATHS.salaryReport} className={classes.nested}>
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
@@ -228,13 +234,13 @@ const Content: React.FC = () => {
       <div className={classes.appBarSpacer} />
       <Container maxWidth="lg" className={classes.container}>
         <Switch>
-          <Route path="/projects">
+          <Route path={PATHS.projects}>
             <ProjectsView />
           </Route>
-          <Route path="/reports/billing">
+          <Route path={PATHS.billingReport}>
             <BillingReport />
           </Route>
-          <Route path="/reports/salary">
+          <Route path={PATHS.salaryReport}>
             <SalaryReport />
           </Route>
           <Route path="/">
