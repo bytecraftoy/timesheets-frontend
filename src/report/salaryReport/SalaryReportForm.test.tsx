@@ -75,19 +75,21 @@ describe('salary report form', () => {
       })
     })
 
-    it('has client select containing fetched clients after employee is selected', async () => {
-      const employee = projectTestUtils.employees[0]
-      await projectTestUtils.selectEmployee(component, employee)
-      await component.findByText(getEmployeeFullName(employee))
+    describe('after havign selected an employee', () => {
+      it('has client select containing fetched clients', async () => {
+        const employee = projectTestUtils.employees[0]
+        await projectTestUtils.selectEmployee(component, employee)
+        await component.findByText(getEmployeeFullName(employee))
 
-      const clientSelect = component.getByLabelText(t('client.labelPlural'))
+        const clientSelect = component.getByLabelText(t('client.labelPlural'))
 
-      await act(async () => {
-        fireEvent.mouseDown(clientSelect)
-      })
+        await act(async () => {
+          fireEvent.mouseDown(clientSelect)
+        })
 
-      projectTestUtils.clients.forEach((client) => {
-        expect(component.getByText(client.name)).toBeInTheDocument()
+        projectTestUtils.clients.forEach((client) => {
+          expect(component.getByText(client.name)).toBeInTheDocument()
+        })
       })
     })
   })
@@ -145,21 +147,23 @@ describe('salary report form', () => {
       expect(endDateSelect).toHaveValue(endDate)
     })
 
-    it('should select last months with "last month" after first selecting some other interval', async () => {
-      const lastTwoMonthsButton = component.getByText(t('button.lastTwoMonths'))
-      await act(async () => {
-        fireEvent.click(lastTwoMonthsButton)
-      })
-      const lastMonthButton = component.getByText(t('button.lastMonth'))
-      await act(async () => {
-        fireEvent.click(lastMonthButton)
-      })
+    describe('after having first selected some other interval', () => {
+      it('should select last months with "last month"', async () => {
+        const lastTwoMonthsButton = component.getByText(t('button.lastTwoMonths'))
+        await act(async () => {
+          fireEvent.click(lastTwoMonthsButton)
+        })
+        const lastMonthButton = component.getByText(t('button.lastMonth'))
+        await act(async () => {
+          fireEvent.click(lastMonthButton)
+        })
 
-      const startDate = formatDateFromDate(getFirstDayOfMonth(1))
-      const endDate = formatDateFromDate(getLastDayOfLastMonth())
+        const startDate = formatDateFromDate(getFirstDayOfMonth(1))
+        const endDate = formatDateFromDate(getLastDayOfLastMonth())
 
-      expect(startDateSelect).toHaveValue(startDate)
-      expect(endDateSelect).toHaveValue(endDate)
+        expect(startDateSelect).toHaveValue(startDate)
+        expect(endDateSelect).toHaveValue(endDate)
+      })
     })
 
     it('should select last two months with "last two months" button', async () => {
