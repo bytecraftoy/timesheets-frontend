@@ -65,9 +65,8 @@ const getWeekDays = (dates: Date[]): string[] => {
 const minutesToHoursAndMinutes = (minutes: number): string => {
   const hours = minutes / 60
   const roundedHours = Math.floor(hours)
-  const minutesLeft = (hours - roundedHours) * 60
-  const roundedMinutes = Math.floor(minutesLeft)
-  return roundedMinutes === 0 ? `${roundedHours} h` : `${roundedHours} h ${roundedMinutes} m`
+  const minutesLeft = minutes - roundedHours * 60
+  return minutesLeft === 0 ? `${roundedHours} h` : `${roundedHours} h ${minutesLeft} m`
 }
 
 const getHolidays = (week: Date[]): boolean[] => {
