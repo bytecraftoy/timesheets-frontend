@@ -126,7 +126,7 @@ const BillingReportForm: React.FC<{
           <FormSelect
             objects={clientToFormSelectItem(clients)}
             className={classes.formControl}
-            name={constants.client}
+            name={constants.CLIENT}
             label={t('client.label')}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
@@ -143,8 +143,8 @@ const BillingReportForm: React.FC<{
           value={formik.values.projects}
           errors={formik.errors.projects}
           touched={formik.touched.projects}
-          label={constants.project}
-          name={constants.projects}
+          label={constants.PROJECT}
+          name={constants.PROJECTS}
           className={classes.formControl}
         />
         <FormSelectMultipleWithButtons
@@ -155,8 +155,8 @@ const BillingReportForm: React.FC<{
           value={formik.values.employees}
           errors={formik.errors.employees}
           touched={formik.touched.employees}
-          label={constants.employee}
-          name={constants.employees}
+          label={constants.EMPLOYEE}
+          name={constants.EMPLOYEES}
           className={classes.formControl}
         />
         <TimeIntervalQuickSelects setFieldValue={formik.setFieldValue} />

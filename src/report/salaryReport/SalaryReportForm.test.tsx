@@ -52,7 +52,7 @@ describe('salary report form', () => {
   describe('empty form', () => {
     it('has employee and clients select fields, and start date and end date text fields', () => {
       const employeeSelect = component.getByLabelText(t('employee.label'))
-      const clientSelect = component.getByLabelText(t('client.label_plural'))
+      const clientSelect = component.getByLabelText(t('client.labelPlural'))
       const startDateSelect = component.getByLabelText(t('startDate.label'))
       const endDateSelect = component.getByLabelText(t('endDate.label'))
 
@@ -81,7 +81,7 @@ describe('salary report form', () => {
       await projectTestUtils.selectEmployee(component, employee)
       await component.findByText(`${employee.firstName} ${employee.lastName}`)
 
-      const clientSelect = component.getByLabelText(t('client.label_plural'))
+      const clientSelect = component.getByLabelText(t('client.labelPlural'))
 
       await act(async () => {
         fireEvent.mouseDown(clientSelect)

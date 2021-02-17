@@ -26,7 +26,7 @@ const TimeIntervalSelects: React.FC<TimeIntervalSelectsProps> = ({
             label={t('startDate.label')}
             value={values.startDate}
             handleDateChange={(date) => {
-              setFieldValue(constants.startDate, date)
+              setFieldValue(constants.START_DATE, date)
             }}
             errors={errors.startDate}
             touched={touched.startDate}
@@ -36,7 +36,7 @@ const TimeIntervalSelects: React.FC<TimeIntervalSelectsProps> = ({
             label={t('endDate.label')}
             value={values.endDate}
             handleDateChange={(date) => {
-              setFieldValue(constants.endDate, date)
+              setFieldValue(constants.END_DATE, date)
             }}
             errors={errors.endDate}
             touched={touched.endDate}

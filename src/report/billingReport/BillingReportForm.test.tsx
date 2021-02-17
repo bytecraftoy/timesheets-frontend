@@ -56,8 +56,8 @@ describe('billing report form', () => {
   describe('empty form', () => {
     it('has client, projects and employees select fields, and start date and end date text fields', () => {
       const clientSelect = component.getByLabelText(t('client.label'))
-      const projectSelect = component.getByLabelText(t('project.label_plural'))
-      const employeeSelect = component.getByLabelText(t('employee.label_plural'))
+      const projectSelect = component.getByLabelText(t('project.labelPlural'))
+      const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
       const startDateSelect = component.getByLabelText(t('startDate.label'))
       const endDateSelect = component.getByLabelText(t('endDate.label'))
 
@@ -84,7 +84,7 @@ describe('billing report form', () => {
       await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
       await component.findByText(projectTestUtils.clients[0].name)
 
-      const projectSelect = component.getByLabelText(t('project.label_plural'))
+      const projectSelect = component.getByLabelText(t('project.labelPlural'))
 
       await act(async () => {
         fireEvent.mouseDown(projectSelect)
@@ -102,7 +102,7 @@ describe('billing report form', () => {
       await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
       await component.findAllByText(projectTestUtils.projects[0].name)
 
-      const employeeSelect = component.getByLabelText(t('employee.label_plural'))
+      const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
 
       await act(async () => {
         fireEvent.mouseDown(employeeSelect)

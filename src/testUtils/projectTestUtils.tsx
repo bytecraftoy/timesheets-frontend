@@ -113,7 +113,7 @@ const selectEmployee = async (component: RenderResult, employee: Employee): Prom
 }
 
 const selectProject = async (component: RenderResult, project: Project): Promise<void> => {
-  const projectSelect = component.getByLabelText(t('project.label_plural'))
+  const projectSelect = component.getByLabelText(t('project.labelPlural'))
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(projectSelect)
