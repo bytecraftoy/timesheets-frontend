@@ -123,7 +123,10 @@
     },
     "notification": {},
     "timeInputs": {
-        "title": "Input hours"
+        "title": "Input hours",
+        "supportedFormatsTitle": "Supported formats for inputting hours",
+        "shortcutsTitle": "Shortcuts for the hours inputting form",
+        "shortcuts": [{"key": "Up and down arrow keys", "action": "move between different rows."}, {"key": "Tab and shift + tab", "action": "moves focus forward or backward between text boxes."}, {"key": "Ctrl + alt + a", "action": "shows and hides description fields."}, {"key": "Ctrl + , and ctrl + .", "action": "changes current week forward or backward."}]
     },
     "week": {
         "title": "Week"

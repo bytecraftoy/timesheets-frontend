@@ -240,8 +240,14 @@ export interface TimeInput {
   lastEdited: number
 }
 
+export interface TimeInputsFormControlRowProps {
+  disableShowDescription: boolean
+  changeShowDescription: () => void
+  showDescription: boolean
+}
+
 export interface TimeInputsFormProps {
-  projects: ProjectAndInputsWithId[]
+  projectsAndInputs: ProjectAndInputsWithId[]
   week: Date[]
   holidays: boolean[]
   debounceMs: number
@@ -252,7 +258,7 @@ export interface TimeInputsFormProps {
 
 export interface TimeInputsRowProps {
   i: number
-  project: ProjectAndInputs
+  projectAndInputs: ProjectAndInputs
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   errors: FormikErrors<{ projects: ProjectAndInputs[] }>

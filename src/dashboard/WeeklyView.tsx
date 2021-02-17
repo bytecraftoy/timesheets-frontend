@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { IconButton, Typography } from '@material-ui/core'
+import React, { useEffect, useState, useCallback, useReducer } from 'react'
+import { Typography } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Mousetrap from 'mousetrap'
 import { getProjectHours, timeInputsToWeekInputs } from './DashboardService'
 import { getCurrentWeek, getHolidays } from '../services/dateAndTimeService'
@@ -11,6 +9,7 @@ import { Project, ProjectAndInputsWithId } from '../common/types'
 import WeekRow from './WeekRow'
 import WeekdaysRow from './WeekdaysRow'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
+import TimeInputsFormControlRow from './TimeInputsFormControlRow'
 
 const WeeklyView: React.FC<{
   projects: Project[]
@@ -19,7 +18,7 @@ const WeeklyView: React.FC<{
   const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectAndInputsWithId[]>([])
   const [disableWeekChange, setDisableWeekChange] = useState(false)
   const [isLoading, setLoading] = useState(true)
-  const [showDescription, setShowDescription] = useState(false)
+  const [showDescription, toggleShowDescription] = useReducer((status) => !status, false)
   const [week, setWeek] = useState<Date[]>(getCurrentWeek())
   const [holidays, setHolidays] = useState<boolean[]>([])
   const [saveMessage, setSaveMessage] = useState<string>('')
@@ -48,26 +47,28 @@ const WeeklyView: React.FC<{
     useCallback(() => setLoading(false), [])
   )
 
-  const toggleShowDescription = useCallback(() => {
+  const changeShowDescription = useCallback(() => {
     if (isLoading || disableWeekChange) {
       return
     }
-    setShowDescription(!showDescription)
-  }, [isLoading, disableWeekChange, showDescription])
+    toggleShowDescription()
+  }, [isLoading, disableWeekChange, toggleShowDescription])
 
   useEffect(() => {
-    Mousetrap.bind('ctrl+alt+a', toggleShowDescription)
+    Mousetrap.bind('ctrl+alt+a', changeShowDescription)
     return () => {
       Mousetrap.unbind('ctrl+alt+a')
     }
-  }, [toggleShowDescription])
+  }, [changeShowDescription])
 
   return (
     <>
       <Typography variant="body1">{saveMessage}</Typography>
-      <IconButton onClick={toggleShowDescription} disabled={isLoading || disableWeekChange}>
-        {showDescription ? <RemoveCircleOutlineIcon /> : <AddCircleOutlineIcon />}
-      </IconButton>
+      <TimeInputsFormControlRow
+        disableShowDescription={isLoading || disableWeekChange}
+        changeShowDescription={changeShowDescription}
+        showDescription={showDescription}
+      />
       <WeekRow
         week={week}
         setWeek={setWeek}
@@ -81,9 +82,8 @@ const WeeklyView: React.FC<{
         </div>
       )}
       {!isLoading && (
-        // TODO: rename projects-> projectsAndInputs and setProjecs->setProjectsAndInputs in all child components
         <TimeInputsForm
-          projects={projectsAndInputs}
+          projectsAndInputs={projectsAndInputs}
           week={week}
           debounceMs={debounceMs}
           disableWeekChange={disableWeekChange}
