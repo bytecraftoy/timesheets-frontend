@@ -12,6 +12,7 @@ import {
 import i18n from '../../i18n'
 import { t } from '../../testUtils/testUtils'
 import * as projectTestUtils from '../../testUtils/projectTestUtils'
+import { getEmployeeFullName } from '../../services/employeeService'
 
 import BillingReportForm from './BillingReportForm'
 
@@ -109,9 +110,7 @@ describe('billing report form', () => {
       })
 
       projectTestUtils.employees.forEach((employee) => {
-        expect(
-          component.getByText(`${employee.firstName} ${employee.lastName}`)
-        ).toBeInTheDocument()
+        expect(component.getByText(getEmployeeFullName(employee))).toBeInTheDocument()
       })
     })
   })
@@ -162,7 +161,7 @@ describe('billing report form', () => {
       })
 
       projectTestUtils.employees.forEach((employee) => {
-        expect(component.getByText(`${employee.firstName} ${employee.lastName}`)).toBeVisible()
+        expect(component.getByText(getEmployeeFullName(employee))).toBeVisible()
       })
     })
 
@@ -183,7 +182,7 @@ describe('billing report form', () => {
       })
 
       projectTestUtils.employees.forEach((employee) => {
-        expect(component.queryByText(`${employee.firstName} ${employee.lastName}`)).toBeNull()
+        expect(component.queryByText(getEmployeeFullName(employee))).toBeNull()
       })
     })
   })

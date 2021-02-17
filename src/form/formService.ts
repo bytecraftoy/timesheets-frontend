@@ -1,8 +1,9 @@
 import { Client, Manager, Project, FormSelectItem, Employee } from '../common/types'
+import { getEmployeeFullName } from '../services/employeeService'
 
 const employeesToFormSelectItem = (employees: Employee[]): FormSelectItem[] => {
   return employees.map((employee) => {
-    return { id: employee.id, name: `${employee.firstName} ${employee.lastName}` }
+    return { id: employee.id, name: getEmployeeFullName(employee) }
   })
 }
 

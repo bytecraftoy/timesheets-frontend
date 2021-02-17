@@ -9,6 +9,7 @@ import {
   getLastDayOfLastMonth,
   getLastDayOfLastYear,
 } from '../../services/dateAndTimeService'
+import { getEmployeeFullName } from '../../services/employeeService'
 import i18n from '../../i18n'
 import { t } from '../../testUtils/testUtils'
 import * as projectTestUtils from '../../testUtils/projectTestUtils'
@@ -70,16 +71,14 @@ describe('salary report form', () => {
       })
 
       projectTestUtils.employees.forEach((employee) => {
-        expect(
-          component.getByText(`${employee.firstName} ${employee.lastName}`)
-        ).toBeInTheDocument()
+        expect(component.getByText(getEmployeeFullName(employee))).toBeInTheDocument()
       })
     })
 
     it('has client select containing fetched clients after employee is selected', async () => {
       const employee = projectTestUtils.employees[0]
       await projectTestUtils.selectEmployee(component, employee)
-      await component.findByText(`${employee.firstName} ${employee.lastName}`)
+      await component.findByText(getEmployeeFullName(employee))
 
       const clientSelect = component.getByLabelText(t('client.labelPlural'))
 
@@ -97,7 +96,7 @@ describe('salary report form', () => {
     it('should select all clients with "select all clients" button', async () => {
       const employee = projectTestUtils.employees[0]
       await projectTestUtils.selectEmployee(component, employee)
-      await component.findByText(`${employee.firstName} ${employee.lastName}`)
+      await component.findByText(getEmployeeFullName(employee))
 
       const selectAllButton = component.getByText(t('client.selectAll'))
       await act(async () => {
@@ -112,7 +111,7 @@ describe('salary report form', () => {
     it('should unselect all clients with "unselect all clients" button', async () => {
       const employee = projectTestUtils.employees[0]
       await projectTestUtils.selectEmployee(component, employee)
-      await component.findByText(`${employee.firstName} ${employee.lastName}`)
+      await component.findByText(getEmployeeFullName(employee))
 
       const selectAllButton = component.getByText(t('client.selectAll'))
       await act(async () => {

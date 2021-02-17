@@ -17,7 +17,7 @@ import { clientToFormSelectItem, employeesToFormSelectItem } from '../../form/fo
 import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
 import { getSalaryReportData } from '../ReportService'
-import getAllEmployees from '../../services/employeeService'
+import { getAllEmployees } from '../../services/employeeService'
 import { getClientsByEmployeeId } from '../../services/clientService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
 
