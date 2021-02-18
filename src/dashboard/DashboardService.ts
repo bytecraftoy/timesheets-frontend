@@ -11,6 +11,7 @@ import {
   HoursWithSavedIndex,
   Input,
 } from '../common/types'
+import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -158,13 +159,9 @@ const timeInputsToWeekInputs = (timeInputs: TimeInput[], week: Date[]): InputWit
   for (let i = 0; i < week.length; i += 1) {
     const timeInput = findTimeInputWithDate(timeInputs, week[i])
     if (timeInput) {
-      const minutes = timeInput.input
-      const hours = minutes / 60
-      const roundedHours = Math.floor(hours)
-      const minutesLeft = (hours - roundedHours) * 60
-      const roundedMinutes = Math.floor(minutesLeft)
+      const timeInputInHoursAndMinutes = minutesToHoursAndMinutes(timeInput.input)
       inputs.push({
-        time: roundedMinutes === 0 ? `${roundedHours}h` : `${roundedHours}h ${roundedMinutes}m`,
+        time: timeInputInHoursAndMinutes,
         description: timeInput.description,
         id: timeInput.id,
       })

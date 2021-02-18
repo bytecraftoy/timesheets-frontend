@@ -1,6 +1,7 @@
 import { RenderResult, fireEvent, act } from '@testing-library/react'
 import { Client, Employee, Manager, Project } from '../common/types'
 import { t } from './testUtils'
+import { getEmployeeFullName } from '../services/employeeService'
 
 const projects: Project[] = [
   {
@@ -104,16 +105,16 @@ const selectEmployee = async (component: RenderResult, employee: Employee): Prom
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(employeeSelect)
-    listbox = await component.findByText(`${employee.firstName} ${employee.lastName}`)
+    listbox = await component.findByText(getEmployeeFullName(employee))
   })
   await act(async () => {
     fireEvent.click(listbox)
-    await component.findByText(`${employee.firstName} ${employee.lastName}`)
+    await component.findByText(getEmployeeFullName(employee))
   })
 }
 
 const selectProject = async (component: RenderResult, project: Project): Promise<void> => {
-  const projectSelect = component.getByLabelText(t('project.label_plural'))
+  const projectSelect = component.getByLabelText(t('project.labelPlural'))
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(projectSelect)

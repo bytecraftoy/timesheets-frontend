@@ -9,6 +9,7 @@ import {
   formatDateFromStringWithWeekday,
   minutesToHoursAndMinutes,
 } from '../../services/dateAndTimeService'
+import { getEmployeeFullName } from '../../services/employeeService'
 import SalaryReportPreview from './SalaryReportPreview'
 import SalaryReportSummaryTable from './SalaryReportSummaryTable'
 import SalaryReportDetailsTable from './SalaryReportDetailsTable'
@@ -101,7 +102,7 @@ describe('SalaryReportPreview', () => {
 
   it('should show employee name correctly', () => {
     const { employee } = salaryReportData
-    expect(component.container).toHaveTextContent(`${employee.firstName} ${employee.lastName}`)
+    expect(component.container).toHaveTextContent(getEmployeeFullName(employee))
   })
 
   it('should show report start and end date correctly', () => {

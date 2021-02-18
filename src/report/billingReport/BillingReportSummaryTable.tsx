@@ -12,6 +12,7 @@ import {
 import { indigo } from '@material-ui/core/colors'
 import { ProjectStub, EmployeeWithInputs } from '../../common/types'
 import { minutesToHoursAndMinutes } from '../../services/dateAndTimeService'
+import { getEmployeeFullName } from '../../services/employeeService'
 import ReportTableTitle from '../ReportTableTitle'
 import SummaryTableHeaderRow from '../SummaryTableHeaderRow'
 import CountTotalRow from '../CountTotalRow'
@@ -32,12 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) => {
-  return (
-    <SummaryTotalRow
-      label={`${employee.firstName} ${employee.lastName}`}
-      total={employee.employeeTotal}
-    />
-  )
+  return <SummaryTotalRow label={getEmployeeFullName(employee)} total={employee.employeeTotal} />
 }
 
 const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {

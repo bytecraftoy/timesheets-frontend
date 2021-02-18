@@ -1,13 +1,4 @@
-export const weekdays: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-export const client = 'client'
-export const clients = 'clients'
-export const employee = 'employee'
-export const employees = 'employees'
-export const endDate = 'endDate'
-export const project = 'project'
-export const projects = 'projects'
-export const startDate = 'startDate'
+export const WEEKDAYS: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export const TimeInputSupportedFormats = [
   ['1.2', '1,2', '1.2h', '1,2h'],
@@ -15,3 +6,11 @@ export const TimeInputSupportedFormats = [
   ['1h25', '1h25m', '1h25min'],
   ['5:30'],
 ]
+export const CLIENT = 'client'
+export const CLIENTS = 'clients'
+export const EMPLOYEE = 'employee'
+export const EMPLOYEES = 'employees'
+export const END_DATE = 'endDate'
+export const PROJECT = 'project'
+export const PROJECTS = 'projects'
+export const START_DATE = 'startDate'

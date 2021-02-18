@@ -27,7 +27,7 @@ const FormSelectMultipleWithButtons: React.FC<FormSelectMultipleWithButtonsProps
           objects={formSelectItems}
           className={className}
           name={name}
-          label={t(`${label}.label_plural`)}
+          label={t(`${label}.labelPlural`)}
           handleChange={(evt) => setFieldValue(name, evt.target.value as string[])}
           handleBlur={handleBlur}
           value={value}

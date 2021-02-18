@@ -8,4 +8,8 @@ const getAllEmployees = async (): Promise<Employee[]> => {
   return data as Employee[]
 }
 
-export default getAllEmployees
+const getEmployeeFullName = (employee: Employee): string => {
+  return `${employee.firstName} ${employee.lastName}`
+}
+
+export { getAllEmployees, getEmployeeFullName }

@@ -12,6 +12,7 @@ import {
 import i18n from '../../i18n'
 import { t } from '../../testUtils/testUtils'
 import * as projectTestUtils from '../../testUtils/projectTestUtils'
+import { getEmployeeFullName } from '../../services/employeeService'
 
 import BillingReportForm from './BillingReportForm'
 
@@ -56,8 +57,8 @@ describe('billing report form', () => {
   describe('empty form', () => {
     it('has client, projects and employees select fields, and start date and end date text fields', () => {
       const clientSelect = component.getByLabelText(t('client.label'))
-      const projectSelect = component.getByLabelText(t('project.label_plural'))
-      const employeeSelect = component.getByLabelText(t('employee.label_plural'))
+      const projectSelect = component.getByLabelText(t('project.labelPlural'))
+      const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
       const startDateSelect = component.getByLabelText(t('startDate.label'))
       const endDateSelect = component.getByLabelText(t('endDate.label'))
 
@@ -80,110 +81,116 @@ describe('billing report form', () => {
       })
     })
 
-    it('has project select containing fetched projects after client is selected', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+    describe('after having selected a client', () => {
+      it('has project select containing fetched projects', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await component.findByText(projectTestUtils.clients[0].name)
 
-      const projectSelect = component.getByLabelText(t('project.label_plural'))
+        const projectSelect = component.getByLabelText(t('project.labelPlural'))
 
-      await act(async () => {
-        fireEvent.mouseDown(projectSelect)
-      })
+        await act(async () => {
+          fireEvent.mouseDown(projectSelect)
+        })
 
-      projectTestUtils.projects.forEach((project) => {
-        expect(component.getByText(project.name)).toBeInTheDocument()
+        projectTestUtils.projects.forEach((project) => {
+          expect(component.getByText(project.name)).toBeInTheDocument()
+        })
       })
     })
 
-    it('has employee select containing fetched employees after client and projects are selected', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+    describe('after having selected a client and projects', () => {
+      it('has employee select containing fetched employees', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await component.findByText(projectTestUtils.clients[0].name)
 
-      await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-      await component.findAllByText(projectTestUtils.projects[0].name)
+        await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
+        await component.findAllByText(projectTestUtils.projects[0].name)
 
-      const employeeSelect = component.getByLabelText(t('employee.label_plural'))
+        const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
 
-      await act(async () => {
-        fireEvent.mouseDown(employeeSelect)
-      })
+        await act(async () => {
+          fireEvent.mouseDown(employeeSelect)
+        })
 
-      projectTestUtils.employees.forEach((employee) => {
-        expect(
-          component.getByText(`${employee.firstName} ${employee.lastName}`)
-        ).toBeInTheDocument()
+        projectTestUtils.employees.forEach((employee) => {
+          expect(component.getByText(getEmployeeFullName(employee))).toBeInTheDocument()
+        })
       })
     })
   })
 
-  describe('selecing projects and employees', () => {
-    it('should select all projects with "select all projects" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+  describe('selecting projects and employees', () => {
+    describe('selecting and unselecting all projects', () => {
+      it('should select all projects with select all projects button', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await component.findByText(projectTestUtils.clients[0].name)
 
-      const selectAllButton = component.getByText(t('project.selectAll'))
-      await act(async () => {
-        fireEvent.click(selectAllButton)
+        const selectAllButton = component.getByText(t('project.selectAll'))
+        await act(async () => {
+          fireEvent.click(selectAllButton)
+        })
+
+        projectTestUtils.projects.forEach((project) => {
+          expect(component.getByText(project.name)).toBeVisible()
+        })
       })
 
-      projectTestUtils.projects.forEach((project) => {
-        expect(component.getByText(project.name)).toBeVisible()
-      })
-    })
+      it('should unselect all projects with unselect all projects button', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await component.findByText(projectTestUtils.clients[0].name)
 
-    it('should unselect all projects with "unselect all projects" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+        const selectAllButton = component.getByText(t('project.selectAll'))
+        await act(async () => {
+          fireEvent.click(selectAllButton)
+        })
+        const unselectAllButton = component.getByText(t('project.unselectAll'))
+        await act(async () => {
+          fireEvent.click(unselectAllButton)
+        })
 
-      const selectAllButton = component.getByText(t('project.selectAll'))
-      await act(async () => {
-        fireEvent.click(selectAllButton)
-      })
-      const unselectAllButton = component.getByText(t('project.unselectAll'))
-      await act(async () => {
-        fireEvent.click(unselectAllButton)
-      })
-
-      projectTestUtils.projects.forEach((project) => {
-        expect(component.queryByText(project.name)).toBeNull()
-      })
-    })
-
-    it('should selects all employees with "select all employees" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
-
-      await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-      await component.findAllByText(projectTestUtils.projects[0].name)
-
-      const selectAllButton = component.getByText(t('employee.selectAll'))
-      await act(async () => {
-        fireEvent.click(selectAllButton)
-      })
-
-      projectTestUtils.employees.forEach((employee) => {
-        expect(component.getByText(`${employee.firstName} ${employee.lastName}`)).toBeVisible()
+        projectTestUtils.projects.forEach((project) => {
+          expect(component.queryByText(project.name)).toBeNull()
+        })
       })
     })
 
-    it('should unselect all employees with "unselect all employees" button', async () => {
-      await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-      await component.findByText(projectTestUtils.clients[0].name)
+    describe('select and unselect all employees button', () => {
+      it('should selects all employees with select all employees button', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await component.findByText(projectTestUtils.clients[0].name)
 
-      await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-      await component.findAllByText(projectTestUtils.projects[0].name)
+        await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
+        await component.findAllByText(projectTestUtils.projects[0].name)
 
-      const selectAllButton = component.getByText(t('employee.selectAll'))
-      await act(async () => {
-        fireEvent.click(selectAllButton)
+        const selectAllButton = component.getByText(t('employee.selectAll'))
+        await act(async () => {
+          fireEvent.click(selectAllButton)
+        })
+
+        projectTestUtils.employees.forEach((employee) => {
+          expect(component.getByText(getEmployeeFullName(employee))).toBeVisible()
+        })
       })
-      const unselectAllButton = component.getByText(t('employee.unselectAll'))
-      await act(async () => {
-        fireEvent.click(unselectAllButton)
-      })
 
-      projectTestUtils.employees.forEach((employee) => {
-        expect(component.queryByText(`${employee.firstName} ${employee.lastName}`)).toBeNull()
+      it('should unselect all employees with unselect all employees button', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await component.findByText(projectTestUtils.clients[0].name)
+
+        await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
+        await component.findAllByText(projectTestUtils.projects[0].name)
+
+        const selectAllButton = component.getByText(t('employee.selectAll'))
+        await act(async () => {
+          fireEvent.click(selectAllButton)
+        })
+        const unselectAllButton = component.getByText(t('employee.unselectAll'))
+        await act(async () => {
+          fireEvent.click(unselectAllButton)
+        })
+
+        projectTestUtils.employees.forEach((employee) => {
+          expect(component.queryByText(getEmployeeFullName(employee))).toBeNull()
+        })
       })
     })
   })
@@ -205,21 +212,23 @@ describe('billing report form', () => {
       expect(endDateSelect).toHaveValue(endDate)
     })
 
-    it('should select last months with "last month" after first selecting some other interval', async () => {
-      const lastTwoMonthsButton = component.getByText(t('button.lastTwoMonths'))
-      await act(async () => {
-        fireEvent.click(lastTwoMonthsButton)
-      })
-      const lastMonthButton = component.getByText(t('button.lastMonth'))
-      await act(async () => {
-        fireEvent.click(lastMonthButton)
-      })
+    describe('after having first selected some other interval', () => {
+      it('should select last months with "last month"', async () => {
+        const lastTwoMonthsButton = component.getByText(t('button.lastTwoMonths'))
+        await act(async () => {
+          fireEvent.click(lastTwoMonthsButton)
+        })
+        const lastMonthButton = component.getByText(t('button.lastMonth'))
+        await act(async () => {
+          fireEvent.click(lastMonthButton)
+        })
 
-      const startDate = formatDateFromDate(getFirstDayOfMonth(1))
-      const endDate = formatDateFromDate(getLastDayOfLastMonth())
+        const startDate = formatDateFromDate(getFirstDayOfMonth(1))
+        const endDate = formatDateFromDate(getLastDayOfLastMonth())
 
-      expect(startDateSelect).toHaveValue(startDate)
-      expect(endDateSelect).toHaveValue(endDate)
+        expect(startDateSelect).toHaveValue(startDate)
+        expect(endDateSelect).toHaveValue(endDate)
+      })
     })
 
     it('should select last two months with "last two months" button', async () => {

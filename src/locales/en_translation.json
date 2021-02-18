@@ -16,7 +16,7 @@
     },
     "client": {
         "label": "Client",
-        "label_plural": "Clients",
+        "labelPlural": "Clients",
         "name": "client",
         "error": {
             "chooseOne": "You must choose a client.",
@@ -30,12 +30,12 @@
     },
     "employee": {
         "label": "Employee",
-        "label_plural": "Employees",
+        "labelPlural": "Employees",
         "name": "employees",
         "selectAll": "Select all employees",
         "unselectAll": "Unselect all employees",
         "error": {
-            "atLeastOnet": "You must choose at least one employee.",
+            "atLeastOne": "You must choose at least one employee.",
             "project": "You must first select at least one project.",
             "chooseOne": "You must choose an employee."
         }
@@ -50,7 +50,7 @@
     },
     "project": {
         "label": "Project",
-        "label_plural": "Projects",
+        "labelPlural": "Projects",
         "title": "Projects",
         "name": "projects",
         "form": {

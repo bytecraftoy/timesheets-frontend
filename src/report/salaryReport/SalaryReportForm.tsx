@@ -17,7 +17,7 @@ import { clientToFormSelectItem, employeesToFormSelectItem } from '../../form/fo
 import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
 import { getSalaryReportData } from '../ReportService'
-import getAllEmployees from '../../services/employeeService'
+import { getAllEmployees } from '../../services/employeeService'
 import { getClientsByEmployeeId } from '../../services/clientService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
 
@@ -104,7 +104,7 @@ const SalaryReportForm: React.FC<{
           <FormSelect
             objects={employeesToFormSelectItem(employees)}
             className={classes.formControl}
-            name={constants.employee}
+            name={constants.EMPLOYEE}
             label={t('employee.label')}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
@@ -121,8 +121,8 @@ const SalaryReportForm: React.FC<{
           value={formik.values.clients}
           errors={formik.errors.clients}
           touched={formik.touched.clients}
-          label={constants.client}
-          name={constants.clients}
+          label={constants.CLIENT}
+          name={constants.CLIENTS}
           className={classes.formControl}
         />
         <TimeIntervalQuickSelects setFieldValue={formik.setFieldValue} />

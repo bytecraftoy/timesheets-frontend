@@ -12,6 +12,7 @@ import {
   formatDateFromStringWithWeekday,
   minutesToHoursAndMinutes,
 } from '../../services/dateAndTimeService'
+import { getEmployeeFullName } from '../../services/employeeService'
 import BillingReportDetailsTable from './BillingReportDetailsTable'
 
 let component: RenderResult
@@ -39,7 +40,7 @@ describe('BillingReportSummaryTable', () => {
 
   it('should render EmployeeRow correctly', () => {
     const employee = billingReportData.projects[0].employees[0]
-    expect(component.container).toHaveTextContent(`${employee.firstName} ${employee.lastName}`)
+    expect(component.container).toHaveTextContent(getEmployeeFullName(employee))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(employee.employeeTotal))
   })
 
@@ -86,7 +87,7 @@ describe('BillingReportDetailsTable', () => {
 
   it('should render EmployeeRow correctly', () => {
     const employee = billingReportData.projects[0].employees[0]
-    expect(component.container).toHaveTextContent(`${employee.firstName} ${employee.lastName}`)
+    expect(component.container).toHaveTextContent(getEmployeeFullName(employee))
   })
 })
 

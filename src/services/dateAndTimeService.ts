@@ -11,7 +11,7 @@ import {
   isWeekend,
   getDay,
 } from 'date-fns'
-import { weekdays } from '../common/constants'
+import { WEEKDAYS } from '../common/constants'
 
 const today = new Date()
 
@@ -25,7 +25,7 @@ const formatDateFromDate = (date: Date): string => {
 
 const formatDateFromStringWithWeekday = (dateString: string): string => {
   const date = new Date(dateString)
-  const weekday = weekdays[getDay(date)]
+  const weekday = WEEKDAYS[getDay(date)]
   return `${weekday} ${format(date, 'd.M')}`
 }
 
@@ -59,15 +59,14 @@ const getCurrentWeek = (): Date[] => {
 }
 
 const getWeekDays = (dates: Date[]): string[] => {
-  return dates.map((day) => `${weekdays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}.`)
+  return dates.map((day) => `${WEEKDAYS[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}.`)
 }
 
 const minutesToHoursAndMinutes = (minutes: number): string => {
   const hours = minutes / 60
   const roundedHours = Math.floor(hours)
-  const minutesLeft = (hours - roundedHours) * 60
-  const roundedMinutes = Math.floor(minutesLeft)
-  return roundedMinutes === 0 ? `${roundedHours} h` : `${roundedHours} h ${roundedMinutes} m`
+  const minutesLeft = minutes - roundedHours * 60
+  return minutesLeft === 0 ? `${roundedHours} h` : `${roundedHours} h ${minutesLeft} m`
 }
 
 const getHolidays = (week: Date[]): boolean[] => {
