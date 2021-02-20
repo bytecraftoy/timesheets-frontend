@@ -14,12 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const WeekRow: React.FC<WeekRowProps> = ({
-  week,
-  setWeek,
-  disableWeekChangeButtons,
-  setDisableWeekChange,
-}) => {
+const WeekRow: React.FC<WeekRowProps> = ({ week, setWeek, disableWeekChangeButtons }) => {
   const { t } = useTranslation()
   const classes = useStyles()
 
@@ -28,12 +23,10 @@ const WeekRow: React.FC<WeekRowProps> = ({
       if (disableWeekChangeButtons) {
         return
       }
-      setDisableWeekChange(true)
       const newWeek = week.map((date) => change(date))
       setWeek(newWeek)
-      setDisableWeekChange(false)
     },
-    [week, setWeek, disableWeekChangeButtons, setDisableWeekChange]
+    [week, setWeek, disableWeekChangeButtons]
   )
 
   const changeWeekBackwards = useCallback(() => changeWeek((a) => subDays(a, 7)), [changeWeek])

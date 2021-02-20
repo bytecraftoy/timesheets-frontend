@@ -16,12 +16,13 @@ const WeeklyView: React.FC<{
   debounceMs: number
 }> = ({ projects, debounceMs }) => {
   const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectAndInputsWithId[]>([])
-  const [disableWeekChange, setDisableWeekChange] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const [showDescription, toggleShowDescription] = useReducer((status) => !status, false)
   const [week, setWeek] = useState<Date[]>(getCurrentWeek())
   const [holidays, setHolidays] = useState<boolean[]>([])
-  const [saveMessage, setSaveMessage] = useState<string>('')
+  const [saveMessage, setSaveMessage] = useState<string>(
+    `Last saved: ${new Date().toLocaleTimeString()}`
+  )
 
   const fetchTimeInputs = useCallback(async () => {
     setLoading(true)
@@ -48,11 +49,11 @@ const WeeklyView: React.FC<{
   )
 
   const changeShowDescription = useCallback(() => {
-    if (isLoading || disableWeekChange) {
+    if (isLoading) {
       return
     }
     toggleShowDescription()
-  }, [isLoading, disableWeekChange, toggleShowDescription])
+  }, [isLoading, toggleShowDescription])
 
   useEffect(() => {
     Mousetrap.bind('ctrl+alt+a', changeShowDescription)
@@ -65,16 +66,11 @@ const WeeklyView: React.FC<{
     <>
       <Typography variant="body1">{saveMessage}</Typography>
       <TimeInputsFormControlRow
-        disableShowDescription={isLoading || disableWeekChange}
+        disableShowDescription={isLoading}
         changeShowDescription={changeShowDescription}
         showDescription={showDescription}
       />
-      <WeekRow
-        week={week}
-        setWeek={setWeek}
-        disableWeekChangeButtons={isLoading || disableWeekChange}
-        setDisableWeekChange={setDisableWeekChange}
-      />
+      <WeekRow week={week} setWeek={setWeek} disableWeekChangeButtons={isLoading} />
       <WeekdaysRow week={week} holidays={holidays} />
       {isLoading && (
         <div>
@@ -86,9 +82,8 @@ const WeeklyView: React.FC<{
           projectsAndInputs={projectsAndInputs}
           week={week}
           debounceMs={debounceMs}
-          disableWeekChange={disableWeekChange}
-          showDescription={showDescription}
           holidays={holidays}
+          showDescription={showDescription}
           setSaveMessage={setSaveMessage}
         />
       )}

@@ -21,8 +21,9 @@ const focusDifferentRow = (rowsToChange: number, length: number) => {
       if (/^projects\[\d+\]\.inputs\[\d+\]\.[\w\D]+$/.test(name)) {
         const index = parseInt((name.match(/\d+/) as RegExpMatchArray)[0], 10) + rowsToChange
         if (index < length && index >= 0) {
+          const fieldType = name.includes('time') ? 'input' : 'textarea'
           ;(document.querySelector(
-            `input[name='${name.replace(/\d+/, index.toString())}']`
+            `${fieldType}[name='${name.replace(/\d+/, index.toString())}']`
           ) as HTMLInputElement).focus()
         }
       }
@@ -35,7 +36,6 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   week,
   holidays,
   debounceMs,
-  disableWeekChange,
   showDescription,
   setSaveMessage,
 }) => {
@@ -54,7 +54,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
         setNotification({ message: error, severity: 'error' })
       } finally {
         const now = new Date()
-        setSaveMessage(`Last saved: ${now.toLocaleTimeString().substring(0, 5)}`)
+        setSaveMessage(`Last saved: ${now.toLocaleTimeString()}`)
       }
     },
   })
@@ -68,17 +68,11 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   )
 
   useEffect(() => {
-    debouncedSubmit.current = debounce(() => {
-      if (isMounted.current) {
-        formik.submitForm()
-      }
-    }, debounceMs)
-  }, [debouncedSubmit, formik, debounceMs])
-
-  useEffect(() => {
-    debouncedSubmit.current()
-    setSaveMessage('Saving...')
-  }, [debouncedSubmit, formik.values, setSaveMessage])
+    if (formik.dirty && Object.keys(formik.errors).length === 0) {
+      debouncedSubmit.current()
+      setSaveMessage('Saving...')
+    }
+  }, [debouncedSubmit, formik.values, formik.dirty, formik.errors, setSaveMessage])
 
   useEffect(() => {
     return () => {
@@ -115,7 +109,6 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
                   handleChange={formik.handleChange}
                   handleBlur={formik.handleBlur}
                   errors={formik.errors}
-                  disable={disableWeekChange}
                   showDescription={showDescription}
                   holidays={holidays}
                 />
