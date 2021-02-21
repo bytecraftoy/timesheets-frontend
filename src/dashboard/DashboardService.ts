@@ -187,20 +187,22 @@ const projectAndInputsWithIdToProjectAndInputs = (
   })
 
 const getErrorMessages = (errors: FormikErrors<{ projects: ProjectAndInputs[] }>): string[] => {
-  const inputErrors = (errors.projects as FormikErrors<ProjectAndInputs[]>).reduce<
+  const inputErrors = (errors.projects as FormikErrors<ProjectAndInputs>[]).reduce<
     FormikErrors<Input>[]
   >((filtered, project) => {
     if (project && project.inputs) {
-      filtered.push(project.inputs as FormikErrors<Input>)
+      return filtered.concat(project.inputs as FormikErrors<Input>[])
     }
     return filtered
   }, [])
   return inputErrors.reduce<string[]>((filtered, input) => {
-    if (input.time) {
-      filtered.push(input.time)
-    }
-    if (input.description) {
-      filtered.push(input.description)
+    if (input) {
+      if (input.time) {
+        filtered.push(input.time)
+      }
+      if (input.description) {
+        filtered.push(input.description)
+      }
     }
     return filtered
   }, [])

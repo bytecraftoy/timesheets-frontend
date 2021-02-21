@@ -240,6 +240,16 @@ export interface TimeInput {
   lastEdited: number
 }
 
+export interface TimeInputCellProps {
+  input: Input
+  timeInputName: string
+  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  errors: FormikErrors<{ projects: ProjectAndInputs[] }>
+  showDescription: boolean
+  isHoliday: boolean
+}
+
 export interface TimeInputsFormControlRowProps {
   disableShowDescription: boolean
   changeShowDescription: () => void
@@ -251,7 +261,6 @@ export interface TimeInputsFormProps {
   week: Date[]
   holidays: boolean[]
   debounceMs: number
-  disableWeekChange: boolean
   showDescription: boolean
   setSaveMessage: React.Dispatch<React.SetStateAction<string>>
 }
@@ -262,7 +271,6 @@ export interface TimeInputsRowProps {
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   errors: FormikErrors<{ projects: ProjectAndInputs[] }>
-  disable: boolean
   showDescription: boolean
   holidays: boolean[]
 }
@@ -280,5 +288,4 @@ export interface WeekRowProps {
   week: Date[]
   setWeek: React.Dispatch<React.SetStateAction<Date[]>>
   disableWeekChangeButtons: boolean
-  setDisableWeekChange: React.Dispatch<React.SetStateAction<boolean>>
 }
