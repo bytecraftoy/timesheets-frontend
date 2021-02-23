@@ -14,6 +14,7 @@ import { ClientWithProjectsAndInputs, ProjectWithInputsOfOneEmployee } from '../
 import ReportTableTitle from '../ReportTableTitle'
 import DetailsTableHeaderRow from '../DetailsTableHeaderRow'
 import TimeInputRow from '../TimeInputRow'
+import NoHoursRow from '../NoHoursRow'
 
 const useStyles = makeStyles((theme) => ({
   detailsTable: {
@@ -43,6 +44,7 @@ const ProjectRows: React.FC<{ project: ProjectWithInputsOfOneEmployee }> = ({ pr
           <strong>{project.name}</strong>
         </TableCell>
       </TableRow>
+      {project.timeInputs.length === 0 && <NoHoursRow numberOfIndent={2} />}
       {project.timeInputs.map((timeInput) => (
         <TimeInputRow key={timeInput.id} timeInput={timeInput} />
       ))}
@@ -60,6 +62,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
           <strong>{client.name}</strong>
         </TableCell>
       </TableRow>
+      {client.projects.length === 0 && <NoHoursRow numberOfIndent={1} />}
       {client.projects.map((project) => (
         <ProjectRows key={project.id} project={project} />
       ))}
