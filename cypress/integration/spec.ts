@@ -21,17 +21,6 @@ describe('Basic navigation', () => {
     cy.get('[data-cy=input-hours-title]').should('contain', 'Input hours')
   })
 
-  it('should show projects view', () => {
-    cy.get('[data-testid=projects-nav]').click()
-    cy.get('[data-cy=projects-title]').should('contain', 'Projects')
-  })
-
-  it('should open add projects form', () => {
-    cy.get('[data-testid=projects-nav]').click()
-    cy.get('[data-cy=add-project-button]').click()
-    cy.get('[data-cy=project-form-heading]').should('contain', 'Create new project')
-  })
-
   it('should open different reports navigation', () => {
     cy.get('[data-cy=reports-nav]').click()
     cy.get('[data-cy=billing-reports-nav]').should('contain', 'Billing')
@@ -43,7 +32,17 @@ describe('Basic navigation', () => {
     cy.get('[data-cy=reports-title]').should('contain', 'Reports')
     cy.get('[data-cy=billing-reports-subtitle]').should(
       'contain',
-      'Generate report for billing purposes.'
+      'Generate report for billing purposes'
+    )
+  })
+
+  it('should show salary reports view', () => {
+    cy.get('[data-cy=reports-nav]').click()
+    cy.get('[data-cy=salary-reports-nav]').click()
+    cy.get('[data-cy=reports-title]').should('contain', 'Reports')
+    cy.get('[data-cy=salary-reports-subtitle]').should(
+      'contain',
+      'Generate report for salary purposes'
     )
   })
 })
