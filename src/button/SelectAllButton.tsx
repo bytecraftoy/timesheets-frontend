@@ -11,6 +11,7 @@ const SelectAllButton: React.FC<SelectAllButtonProps> = ({
   return (
     <Grid item>
       <Button
+        data-cy={label.toLowerCase().split(' ').join('-')}
         variant="outlined"
         color="primary"
         onClick={() =>

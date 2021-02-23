@@ -19,7 +19,7 @@ const Toast: React.FC = () => {
   return (
     <>
       <Snackbar open={open}>
-        <Alert variant="filled" severity={notification.severity}>
+        <Alert variant="filled" severity={notification.severity} data-cy="alert">
           {notification.message}
           <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
             <CloseIcon fontSize="small" />

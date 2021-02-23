@@ -193,7 +193,7 @@ const NavList: React.FC = () => {
             <ListItemIcon>
               <AssessmentIcon />
             </ListItemIcon>
-            <ListItemText primary="Salary" />
+            <ListItemText data-cy="salary-reports-nav" primary="Salary" />
           </ListItem>
         </List>
       </Collapse>

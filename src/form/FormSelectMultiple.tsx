@@ -45,6 +45,7 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
     <FormControl className={className}>
       <InputLabel id={`mui-component-select-${name}`}>{label}</InputLabel>
       <Select
+        data-cy={`select-multiple-${name}`}
         multiple
         value={value}
         onChange={handleChange}

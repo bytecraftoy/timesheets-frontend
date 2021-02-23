@@ -60,7 +60,7 @@ const ProjectsTable: React.FC = () => {
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <ProjectsTableHead />
-        <TableBody>
+        <TableBody data-cy="projects-table">
           {projects.map((project: Project) => (
             <ProjectInfo key={project.id} project={project} />
           ))}

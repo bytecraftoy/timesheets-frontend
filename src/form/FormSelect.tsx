@@ -17,6 +17,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     <FormControl className={className}>
       <InputLabel id={`mui-component-select-${name}`}>{label}</InputLabel>
       <Select
+        data-cy={`select-${name}`}
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
