@@ -230,7 +230,7 @@ const billingReportData: BillingReportData = {
 const salaryReportData: SalaryReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
-  creationMillis: 1612329726188,
+  created: 1612329726188,
   employee: {
     id: '3',
     username: 'dev3',
