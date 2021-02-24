@@ -103,6 +103,7 @@ const BillingReportForm: React.FC<{
     if (formik.values.client) {
       const projectResponse = await getProjectsByClientId(formik.values.client)
       setProjects(projectResponse)
+      // TODO asiakasta vaihdettaessa varmista, että vanhat projektit ei jää valituiksi
     }
   }, [formik.values.client])
 
@@ -110,8 +111,12 @@ const BillingReportForm: React.FC<{
     if (formik.values.projects.length !== 0) {
       const employeeResponse = await getEmployeesByProjectIds(formik.values.projects)
       setEmployees(employeeResponse)
+      // TODO: tsekkaa että valittuina ei ole sellaisia työntekijöitä, jotka eivät ole valituissa projekteissa
+    } else {
+      setEmployees([])
+      formik.values.employees = []
     }
-  }, [formik.values.projects])
+  }, [formik.values])
 
   useAPIErrorHandler(fetchClients)
 

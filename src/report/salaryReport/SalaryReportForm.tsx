@@ -91,6 +91,7 @@ const SalaryReportForm: React.FC<{
     if (formik.values.employee) {
       const clientResponse = await getClientsByEmployeeId(formik.values.employee)
       setClients(clientResponse)
+      // TODO: poist vanha client valinta kun employee vaihtuu
     }
   }, [formik.values.employee])
 
