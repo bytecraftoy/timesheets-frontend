@@ -47,7 +47,7 @@ describe('BillingReportSummaryTable', () => {
   it('should render ProjectRows correctly', () => {
     const project = projects[0]
     expect(component.container).toHaveTextContent(project.name)
-    expect(component.container).toHaveTextContent(t('report.preview.subTotal'))
+    expect(component.container).toHaveTextContent(t('report.preview.projectSubTotal'))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(project.projectTotal))
   })
 

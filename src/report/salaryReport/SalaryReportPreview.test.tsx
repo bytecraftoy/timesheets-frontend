@@ -46,6 +46,7 @@ describe('SalaryReportSummaryTable', () => {
   it('should render ProjectRow correctly', () => {
     const project = salaryReportData.clients[0].projects[0]
     expect(component.container).toHaveTextContent(project.name)
+    expect(component.container).toHaveTextContent(t('report.preview.clientSubTotal'))
     expect(component.container).toHaveTextContent(minutesToHoursAndMinutes(project.projectTotal))
   })
 
