@@ -50,7 +50,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
         <ProjectRow key={project.id} project={project} />
       ))}
       <CountTotalRow
-        label={t('report.preview.subTotal')}
+        label={t('report.preview.clientSubTotal')}
         total={minutesToHoursAndMinutes(client.clientTotal)}
       />
     </>

@@ -52,6 +52,8 @@ describe('billing report form', () => {
     cy.contains(client).click()
     cy.get('[data-cy=select-client]').should('contain', client)
 
+    cy.get('[data-cy=select-multiple-projects]').should('not.contain', 'Nothing to select yet.')
+
     cy.get('[data-cy=select-all-projects]').click()
     cy.get('[data-cy=select-multiple-projects]')
       .should('contain', project1)

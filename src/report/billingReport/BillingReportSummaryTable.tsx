@@ -51,7 +51,7 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
         <EmployeeRow key={employee.id} employee={employee} />
       ))}
       <CountTotalRow
-        label={t('report.preview.subTotal')}
+        label={t('report.preview.projectSubTotal')}
         total={minutesToHoursAndMinutes(project.projectTotal)}
       />
     </>

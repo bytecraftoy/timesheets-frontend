@@ -208,7 +208,7 @@ export interface SalaryReportData {
   endDate: string
   employee: Employee
   clients: ClientWithProjectsAndInputs[]
-  creationMillis: number
+  created: number
   grandTotal: number
 }
 

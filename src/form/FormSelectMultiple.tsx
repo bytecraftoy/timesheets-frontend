@@ -57,13 +57,17 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
         }}
         renderValue={(selected) => (
           <div className={classes.chips}>
-            {(selected as string[]).map((selectedValue) => (
-              <Chip
-                key={selectedValue}
-                label={getObjectName(selectedValue)}
-                className={classes.chip}
-              />
-            ))}
+            {(selected as string[]).map(
+              (selectedValue) =>
+                // TODO: This is a temporary cosmetic fix and does not really fix the problem
+                getObjectName(selectedValue) && (
+                  <Chip
+                    key={selectedValue}
+                    label={getObjectName(selectedValue)}
+                    className={classes.chip}
+                  />
+                )
+            )}
           </div>
         )}
       >

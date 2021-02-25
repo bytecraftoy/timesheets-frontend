@@ -14,6 +14,7 @@ import { ProjectStub, EmployeeWithInputs } from '../../common/types'
 import ReportTableTitle from '../ReportTableTitle'
 import DetailsTableHeaderRow from '../DetailsTableHeaderRow'
 import TimeInputRow from '../TimeInputRow'
+import NoHoursRow from '../NoHoursRow'
 
 const useStyles = makeStyles((theme) => ({
   detailsTable: {
@@ -45,6 +46,7 @@ const EmployeeRows: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) 
           </strong>
         </TableCell>
       </TableRow>
+      {employee.timeInputs.length === 0 && <NoHoursRow numberOfIndent={2} />}
       {employee.timeInputs.map((timeInput) => (
         <TimeInputRow key={timeInput.id} timeInput={timeInput} />
       ))}
@@ -62,6 +64,7 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
           <strong>{project.name}</strong>
         </TableCell>
       </TableRow>
+      {project.employees.length === 0 && <NoHoursRow numberOfIndent={1} />}
       {project.employees.map((employee) => (
         <EmployeeRows key={employee.id} employee={employee} />
       ))}
