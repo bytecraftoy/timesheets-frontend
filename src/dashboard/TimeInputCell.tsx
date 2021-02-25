@@ -29,10 +29,40 @@ type FastFieldInnerProps<Values, Props> = FastFieldAttributes<Props> & {
   formik: FormikContextType<Values>
 }
 
-type FastFieldCustomProps = FastFieldInnerProps<
+type DescFastFieldProps = FastFieldInnerProps<
   unknown,
   { showDescription: boolean; isFocused: boolean }
 >
+
+type TimeFastFieldProps = FastFieldInnerProps<unknown, unknown>
+
+const timeFieldShouldUpdate = (thisProps: TimeFastFieldProps, props: TimeFastFieldProps) => {
+  if (
+    props.name !== thisProps.name ||
+    getIn(props.formik.values, thisProps.name) !== getIn(thisProps.formik.values, thisProps.name) ||
+    getIn(props.formik.errors, thisProps.name) !== getIn(thisProps.formik.errors, thisProps.name) ||
+    Object.keys(thisProps).length !== Object.keys(props).length ||
+    props.formik.isSubmitting !== thisProps.formik.isSubmitting ||
+    props.validate !== thisProps.validate
+  ) {
+    return true
+  }
+  return false
+}
+const descFieldShouldUpdate = (thisProps: DescFastFieldProps, props: DescFastFieldProps) => {
+  if (
+    props.name !== thisProps.name ||
+    getIn(props.formik.values, thisProps.name) !== getIn(thisProps.formik.values, thisProps.name) ||
+    getIn(props.formik.errors, thisProps.name) !== getIn(thisProps.formik.errors, thisProps.name) ||
+    Object.keys(thisProps).length !== Object.keys(props).length ||
+    props.formik.isSubmitting !== thisProps.formik.isSubmitting ||
+    props.showDescription !== thisProps.showDescription ||
+    props.isFocused !== thisProps.isFocused
+  ) {
+    return true
+  }
+  return false
+}
 
 const TimeInputCell: React.FC<TimeInputCellProps> = ({
   input,
@@ -48,7 +78,6 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
   const timeName = `${timeInputName}.time`
   const descriptionName = `${timeInputName}.description`
   const [isFocused, setFocused] = useState(false)
-
   const validateTime = useCallback(
     (value: string): string | undefined => {
       let error: string | undefined
@@ -74,22 +103,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
     }
     return error
   }
-  const descFieldShouldUpdate = (thisProps: FastFieldCustomProps, props: FastFieldCustomProps) => {
-    if (
-      props.name !== thisProps.name ||
-      getIn(props.formik.values, thisProps.name) !==
-        getIn(thisProps.formik.values, thisProps.name) ||
-      getIn(props.formik.errors, thisProps.name) !==
-        getIn(thisProps.formik.errors, thisProps.name) ||
-      Object.keys(thisProps).length !== Object.keys(props).length ||
-      props.formik.isSubmitting !== thisProps.formik.isSubmitting ||
-      props.showDescription !== thisProps.showDescription ||
-      props.isFocused !== thisProps.isFocused
-    ) {
-      return true
-    }
-    return false
-  }
+
   const descFieldOnFocus = () => setFocused(true)
   const descFieldOnBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFocused(false)
@@ -108,7 +122,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
       alignItems="flex-start"
     >
       <Grid item>
-        <FastField name={timeName} validate={validateTime}>
+        <FastField name={timeName} validate={validateTime} shouldUpdate={timeFieldShouldUpdate}>
           {() => (
             <TextField
               id={timeName}
@@ -120,6 +134,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
               variant="outlined"
               size="small"
               inputProps={{
+                'data-testid': timeName,
                 className: 'mousetrap',
               }}
             />
@@ -150,6 +165,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
                 variant="outlined"
                 size="small"
                 inputProps={{
+                  'data-testid': descriptionName,
                   className: 'mousetrap',
                 }}
               />

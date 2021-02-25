@@ -4,6 +4,7 @@ import Mousetrap from 'mousetrap'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
 import { useSetRecoilState } from 'recoil'
 import { Grid } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 import {
   updateHours,
   projectAndInputsWithIdToProjectAndInputs,
@@ -15,17 +16,15 @@ import notificationState from '../common/atoms'
 
 const focusDifferentRow = (rowsToChange: number, length: number) => {
   const elem = document.activeElement
-  if (elem !== null) {
-    if (elem.hasAttribute('name')) {
-      const name = elem.getAttribute('name') as string
-      if (/^projects\[\d+\]\.inputs\[\d+\]\.[\w\D]+$/.test(name)) {
-        const index = parseInt((name.match(/\d+/) as RegExpMatchArray)[0], 10) + rowsToChange
-        if (index < length && index >= 0) {
-          const fieldType = name.includes('time') ? 'input' : 'textarea'
-          ;(document.querySelector(
-            `${fieldType}[name='${name.replace(/\d+/, index.toString())}']`
-          ) as HTMLInputElement).focus()
-        }
+  if (elem && elem.hasAttribute('name')) {
+    const name = elem.getAttribute('name') as string
+    if (/^projects\[\d+\]\.inputs\[\d+\]\.[\w\D]+$/.test(name)) {
+      const index = parseInt((name.match(/\d+/) as RegExpMatchArray)[0], 10) + rowsToChange
+      if (index < length && index >= 0) {
+        const fieldType = name.includes('time') ? 'input' : 'textarea'
+        ;(document.querySelector(
+          `${fieldType}[name='${name.replace(/\d+/, index.toString())}']`
+        ) as HTMLInputElement).focus()
       }
     }
   }
@@ -41,6 +40,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
 }) => {
   const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
+  const { t } = useTranslation()
 
   const formik = useFormik({
     validateOnChange: false,
@@ -54,7 +54,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
         setNotification({ message: error, severity: 'error' })
       } finally {
         const now = new Date()
-        setSaveMessage(`Last saved: ${now.toLocaleTimeString()}`)
+        setSaveMessage(`${t('timeInputs.savedMessage')}: ${now.toLocaleTimeString()}`)
       }
     },
   })
@@ -70,9 +70,9 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   useEffect(() => {
     if (formik.dirty && Object.keys(formik.errors).length === 0) {
       debouncedSubmit.current()
-      setSaveMessage('Saving...')
+      setSaveMessage(t('timeInputs.savingMessage'))
     }
-  }, [debouncedSubmit, formik.values, formik.dirty, formik.errors, setSaveMessage])
+  }, [debouncedSubmit, formik.values, formik.dirty, formik.errors, setSaveMessage, t])
 
   useEffect(() => {
     return () => {
@@ -82,9 +82,9 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
 
   useEffect(() => {
     if (Object.keys(formik.errors).length > 0) {
-      setSaveMessage(`ERROR: ${getErrorMessages(formik.errors)[0]}`)
+      setSaveMessage(`${t('timeInputs.errorMessage')}: ${getErrorMessages(formik.errors)[0]}`)
     }
-  }, [formik.errors, setSaveMessage])
+  }, [formik.errors, setSaveMessage, t])
 
   useEffect(() => {
     Mousetrap.bind('down', () => focusDifferentRow(1, projectsAndInputs.length))
@@ -101,11 +101,11 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
         <Grid container spacing={1} direction="column" justify="flex-start" alignItems="center">
           <FieldArray name="projects" validateOnChange={false}>
             {() =>
-              formik.values.projects.map((project, i) => (
+              formik.values.projects.map((projectAndInputs, i) => (
                 <TimeInputsRow
-                  key={project.id}
+                  key={projectAndInputs.id}
                   i={i}
-                  projectAndInputs={project}
+                  projectAndInputs={projectAndInputs}
                   handleChange={formik.handleChange}
                   handleBlur={formik.handleBlur}
                   errors={formik.errors}

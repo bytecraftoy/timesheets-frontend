@@ -13,7 +13,7 @@ import {
 import Help from '@material-ui/icons/Help'
 import { useTranslation } from 'react-i18next'
 import { TimeInputsFormControlRowProps } from '../common/types'
-import { TimeInputSupportedFormats } from '../common/constants'
+import { TIMEINPUTSUPPORTEDFORMATS } from '../common/constants'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,7 +73,7 @@ const TimeInputsFormControlRow: React.FC<TimeInputsFormControlRowProps> = ({
               <Typography variant="body1" gutterBottom>
                 {t('timeInputs.supportedFormatsTitle')}
               </Typography>
-              {TimeInputSupportedFormats.map((formatGroup) => (
+              {TIMEINPUTSUPPORTEDFORMATS.map((formatGroup) => (
                 <Typography key={formatGroup[0]} variant="body2">
                   {formatGroup.join('\u2003')}
                 </Typography>

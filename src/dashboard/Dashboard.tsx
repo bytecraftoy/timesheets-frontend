@@ -7,7 +7,7 @@ import { getAllProjects } from '../services/projectService'
 import WeeklyView from './WeeklyView'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC<{ debounceMs: number }> = ({ debounceMs }) => {
   const { t } = useTranslation()
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setLoading] = useState(true)
@@ -32,7 +32,7 @@ const Dashboard: React.FC = () => {
           <HourglassEmptyIcon />
         </div>
       )}
-      {!isLoading && <WeeklyView projects={projects} debounceMs={2000} />}
+      {!isLoading && <WeeklyView projects={projects} debounceMs={debounceMs} />}
     </>
   )
 }
