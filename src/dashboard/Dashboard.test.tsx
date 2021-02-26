@@ -217,6 +217,30 @@ describe('weekly view', () => {
         expect(
           await component.findByText(t('timeInput.time.error.format'), { exact: false })
         ).toBeInTheDocument()
+        await changeFirstTimeInput(component, '2h4m1')
+        expect(
+          await component.findByText(t('timeInput.time.error.format'), { exact: false })
+        ).toBeInTheDocument()
+        await changeFirstTimeInput(component, '23h2hh4')
+        expect(
+          await component.findByText(t('timeInput.time.error.format'), { exact: false })
+        ).toBeInTheDocument()
+        await changeFirstTimeInput(component, '2h-60min')
+        expect(
+          await component.findByText(t('timeInput.time.error.format'), { exact: false })
+        ).toBeInTheDocument()
+        await changeFirstTimeInput(component, '2 :30')
+        expect(
+          await component.findByText(t('timeInput.time.error.format'), { exact: false })
+        ).toBeInTheDocument()
+        await changeFirstTimeInput(component, '1; 2')
+        expect(
+          await component.findByText(t('timeInput.time.error.format'), { exact: false })
+        ).toBeInTheDocument()
+        await changeFirstTimeInput(component, '-110min')
+        expect(
+          await component.findByText(t('timeInput.time.error.format'), { exact: false })
+        ).toBeInTheDocument()
         expect(axios.post).toBeCalledTimes(0)
         expect(axios.put).toBeCalledTimes(0)
       })
