@@ -215,4 +215,5 @@ export {
   timeInputsToWeekInputs,
   projectAndInputsWithIdToProjectAndInputs,
   getErrorMessages,
+  minutesToHoursAndMinutes,
 }

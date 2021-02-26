@@ -25,6 +25,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import MenuIcon from '@material-ui/icons/Menu'
+import { DEBOUNCEMS } from '../common/constants'
 import SalaryReport from '../report/salaryReport/SalaryReport'
 import ProjectsView from '../project/Projects'
 import BillingReport from '../report/billingReport/BillingReport'
@@ -244,7 +245,7 @@ const Content: React.FC = () => {
             <SalaryReport />
           </Route>
           <Route path="/">
-            <Dashboard />
+            <Dashboard debounceMs={DEBOUNCEMS} />
           </Route>
         </Switch>
       </Container>

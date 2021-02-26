@@ -5,7 +5,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
 import { t } from '../testUtils/testUtils'
 import * as projectTestUtils from '../testUtils/projectTestUtils'
-import * as timeInputTestUtils from '../testUtils/timeInputTestUtils'
+import { timeInputs1 } from '../testUtils/timeInputTestUtils'
 import App from './App'
 
 jest.mock('axios')
@@ -24,7 +24,7 @@ describe('app', () => {
         return Promise.resolve({ data: projectTestUtils.managers })
       }
       if (url.includes('hours')) {
-        return Promise.resolve({ data: timeInputTestUtils.timeInputs })
+        return Promise.resolve({ data: timeInputs1 })
       }
       if (url.includes('projects')) {
         return Promise.resolve({ data: projectTestUtils.projects })
@@ -62,7 +62,7 @@ describe('projects', () => {
         return Promise.resolve({ data: projectTestUtils.managers })
       }
       if (url.includes('hours')) {
-        return Promise.resolve({ data: timeInputTestUtils.timeInputs })
+        return Promise.resolve({ data: timeInputs1 })
       }
       if (url.includes('projects')) {
         return Promise.resolve({ data: projectTestUtils.projects })
