@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useReducer } from 'react'
 import { Typography } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import Mousetrap from 'mousetrap'
+import { useTranslation } from 'react-i18next'
 import { getProjectHours, timeInputsToWeekInputs } from './DashboardService'
 import { getCurrentWeek, getHolidays } from '../services/dateAndTimeService'
 import TimeInputsForm from './TimeInputsForm'
@@ -15,13 +16,14 @@ const WeeklyView: React.FC<{
   projects: Project[]
   debounceMs: number
 }> = ({ projects, debounceMs }) => {
+  const { t } = useTranslation()
   const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectAndInputsWithId[]>([])
   const [isLoading, setLoading] = useState(true)
   const [showDescription, toggleShowDescription] = useReducer((status) => !status, false)
   const [week, setWeek] = useState<Date[]>(getCurrentWeek())
   const [holidays, setHolidays] = useState<boolean[]>([])
   const [saveMessage, setSaveMessage] = useState<string>(
-    `Last saved: ${new Date().toLocaleTimeString()}`
+    `${t('timeInputs.savedMessage')}: ${new Date().toLocaleTimeString()}`
   )
 
   const fetchTimeInputs = useCallback(async () => {

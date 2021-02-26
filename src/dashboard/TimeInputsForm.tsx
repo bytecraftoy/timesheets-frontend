@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useLayoutEffect } from 'react'
 import debounce from 'just-debounce-it'
 import Mousetrap from 'mousetrap'
 import { useFormik, FieldArray, FormikProvider } from 'formik'
@@ -67,10 +67,15 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
     }, debounceMs)
   )
 
-  useEffect(() => {
-    if (formik.dirty && Object.keys(formik.errors).length === 0) {
-      debouncedSubmit.current()
-      setSaveMessage(t('timeInputs.savingMessage'))
+  useLayoutEffect(() => {
+    if (Object.keys(formik.errors).length === 0) {
+      if (formik.dirty) {
+        debouncedSubmit.current()
+        setSaveMessage(t('timeInputs.savingMessage'))
+      } else {
+        const now = new Date()
+        setSaveMessage(`${t('timeInputs.savedMessage')}: ${now.toLocaleTimeString()}`)
+      }
     }
   }, [debouncedSubmit, formik.values, formik.dirty, formik.errors, setSaveMessage, t])
 
