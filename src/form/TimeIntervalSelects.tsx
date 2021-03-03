@@ -13,7 +13,6 @@ const TimeIntervalSelects: React.FC<TimeIntervalSelectsProps> = ({
   values,
   setFieldValue,
   errors,
-  touched,
 }) => {
   const { t } = useTranslation()
 
@@ -29,7 +28,6 @@ const TimeIntervalSelects: React.FC<TimeIntervalSelectsProps> = ({
               setFieldValue(constants.START_DATE, date)
             }}
             errors={errors.startDate}
-            touched={touched.startDate}
           />
           <DatePicker
             id="end-date-picker"
@@ -39,11 +37,10 @@ const TimeIntervalSelects: React.FC<TimeIntervalSelectsProps> = ({
               setFieldValue(constants.END_DATE, date)
             }}
             errors={errors.endDate}
-            touched={touched.endDate}
           />
         </MuiPickersUtilsProvider>
       </Grid>
-      {(errors.startDate || errors.endDate) && <DateErrors errors={errors} touched={touched} />}
+      {(errors.startDate || errors.endDate) && <DateErrors errors={errors} />}
     </>
   )
 }
