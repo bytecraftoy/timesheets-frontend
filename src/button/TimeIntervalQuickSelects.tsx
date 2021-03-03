@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Grid } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import { FormikSetFieldValue } from '../common/types'
 import {
@@ -17,8 +17,29 @@ const LAST_TWO_MONTHS = 'lastTwoMonths'
 const LAST_SIX_MONTHS = 'lastSixMonths'
 const LAST_YEAR = 'lastYear'
 
+const useStyles = makeStyles({
+  root: {
+    borderColor: 'rgba(63, 81, 181, 0.5)',
+    color: '#3f51b5',
+    padding: '5px 15px',
+    '&:hover': {
+      border: '1px solid #3f51b5',
+      backgroundColor: 'rgba(63, 81, 181, 0.04)',
+    },
+    '&$selected': {
+      color: '#fff',
+      backgroundColor: 'rgba(63, 81, 181, 0.9)',
+      '&:hover': {
+        backgroundColor: 'rgba(48, 63, 159, 0.9)',
+      },
+    },
+  },
+  selected: {},
+})
+
 const TimeIntervalQuickSelects: React.FC<FormikSetFieldValue> = ({ setFieldValue }) => {
   const { t } = useTranslation()
+  const classes = useStyles()
   const [timeInterval, setTimeInterval] = useState<string | null>(LAST_MONTH)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>, newTimeInterval: string | null) => {
@@ -59,19 +80,39 @@ const TimeIntervalQuickSelects: React.FC<FormikSetFieldValue> = ({ setFieldValue
         onChange={handleClick}
         aria-label="text alignment"
       >
-        <ToggleButton aria-label={t('button.thisMonth')} value={THIS_MONTH}>
+        <ToggleButton
+          classes={{ root: classes.root, selected: classes.selected }}
+          aria-label={t('button.thisMonth')}
+          value={THIS_MONTH}
+        >
           {t('button.thisMonth')}
         </ToggleButton>
-        <ToggleButton aria-label={t('button.lastMonth')} value={LAST_MONTH}>
+        <ToggleButton
+          classes={{ root: classes.root, selected: classes.selected }}
+          aria-label={t('button.lastMonth')}
+          value={LAST_MONTH}
+        >
           {t('button.lastMonth')}
         </ToggleButton>
-        <ToggleButton aria-label={t('button.lastTwoMonths')} value={LAST_TWO_MONTHS}>
+        <ToggleButton
+          classes={{ root: classes.root, selected: classes.selected }}
+          aria-label={t('button.lastTwoMonths')}
+          value={LAST_TWO_MONTHS}
+        >
           {t('button.lastTwoMonths')}
         </ToggleButton>
-        <ToggleButton aria-label={t('button.lastSixMonths')} value={LAST_SIX_MONTHS}>
+        <ToggleButton
+          classes={{ root: classes.root, selected: classes.selected }}
+          aria-label={t('button.lastSixMonths')}
+          value={LAST_SIX_MONTHS}
+        >
           {t('button.lastSixMonths')}
         </ToggleButton>
-        <ToggleButton aria-label={t('button.lastYear')} value={LAST_YEAR}>
+        <ToggleButton
+          classes={{ root: classes.root, selected: classes.selected }}
+          aria-label={t('button.lastYear')}
+          value={LAST_YEAR}
+        >
           {t('button.lastYear')}
         </ToggleButton>
       </ToggleButtonGroup>
