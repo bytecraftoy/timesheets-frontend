@@ -5,12 +5,13 @@ import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 import { FormikSetFieldValue } from '../common/types'
 import {
   getFirstDayOfMonth,
+  getLastDayOfThisMonth,
   getLastDayOfLastMonth,
   getFirstDayOfLastYear,
   getLastDayOfLastYear,
 } from '../services/dateAndTimeService'
 
-// const THIS_MONTH = 'thisMonth'
+const THIS_MONTH = 'thisMonth'
 const LAST_MONTH = 'lastMonth'
 const LAST_TWO_MONTHS = 'lastTwoMonths'
 const LAST_SIX_MONTHS = 'lastSixMonths'
@@ -26,6 +27,10 @@ const TimeIntervalQuickSelects: React.FC<FormikSetFieldValue> = ({ setFieldValue
     }
 
     switch (newTimeInterval) {
+      case THIS_MONTH:
+        setFieldValue(t('startDate.name'), getFirstDayOfMonth(0))
+        setFieldValue(t('endDate.name'), getLastDayOfThisMonth())
+        break
       case LAST_MONTH:
         setFieldValue(t('startDate.name'), getFirstDayOfMonth(1))
         setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
@@ -54,6 +59,9 @@ const TimeIntervalQuickSelects: React.FC<FormikSetFieldValue> = ({ setFieldValue
         onChange={handleClick}
         aria-label="text alignment"
       >
+        <ToggleButton aria-label={t('button.thisMonth')} value={THIS_MONTH}>
+          {t('button.thisMonth')}
+        </ToggleButton>
         <ToggleButton aria-label={t('button.lastMonth')} value={LAST_MONTH}>
           {t('button.lastMonth')}
         </ToggleButton>
