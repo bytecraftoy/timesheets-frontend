@@ -99,24 +99,42 @@ const BillingReportForm: React.FC<{
     setClients(clientResponse)
   }, [])
 
+  const filterProjectValues = useCallback(
+    (currentProjects: Project[]) => {
+      return formik.values.projects.filter((item) => {
+        return currentProjects.map((project) => project.id).includes(item)
+      })
+    },
+    [formik.values.projects]
+  )
+
   const fetchProjects = useCallback(async () => {
     if (formik.values.client) {
       const projectResponse = await getProjectsByClientId(formik.values.client)
       setProjects(projectResponse)
-      // TODO asiakasta vaihdettaessa varmista, että vanhat projektit ei jää valituiksi
+      formik.values.projects = filterProjectValues(projectResponse)
     }
-  }, [formik.values.client])
+  }, [filterProjectValues, formik.values])
+
+  const filterEmployeeValues = useCallback(
+    (currentEmployees: Employee[]) => {
+      formik.values.employees = formik.values.employees.filter((item) => {
+        return currentEmployees.map((employee) => employee.id).includes(item)
+      })
+    },
+    [formik.values]
+  )
 
   const fetchEmployees = useCallback(async () => {
     if (formik.values.projects.length !== 0) {
       const employeeResponse = await getEmployeesByProjectIds(formik.values.projects)
       setEmployees(employeeResponse)
-      // TODO: tsekkaa että valittuina ei ole sellaisia työntekijöitä, jotka eivät ole valituissa projekteissa
+      filterEmployeeValues(employeeResponse)
     } else {
       setEmployees([])
-      formik.values.employees = []
+      filterEmployeeValues([])
     }
-  }, [formik.values])
+  }, [filterEmployeeValues, formik.values.projects])
 
   useAPIErrorHandler(fetchClients)
 

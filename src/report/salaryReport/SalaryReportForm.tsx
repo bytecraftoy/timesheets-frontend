@@ -87,13 +87,22 @@ const SalaryReportForm: React.FC<{
     setEmployees(employeeResponse)
   }, [])
 
+  const filterClientValues = useCallback(
+    (currentClients: Client[]) => {
+      return formik.values.clients.filter((item) => {
+        return currentClients.map((client) => client.id).includes(item)
+      })
+    },
+    [formik.values.clients]
+  )
+
   const fetchClients = useCallback(async () => {
     if (formik.values.employee) {
       const clientResponse = await getClientsByEmployeeId(formik.values.employee)
       setClients(clientResponse)
-      // TODO: poist vanha client valinta kun employee vaihtuu
+      formik.values.clients = filterClientValues(clientResponse)
     }
-  }, [formik.values.employee])
+  }, [filterClientValues, formik.values])
 
   useAPIErrorHandler(fetchEmployees)
   useAPIErrorHandler(fetchClients)
