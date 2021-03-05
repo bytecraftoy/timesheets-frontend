@@ -17,12 +17,7 @@ import SummaryTableHeaderRow from '../SummaryTableHeaderRow'
 import CountTotalRow from '../CountTotalRow'
 import SummaryTotalRow from '../SummaryTotalRow'
 
-const useStyles = makeStyles((theme) => ({
-  summaryTable: {
-    maxWidth: theme.spacing(75),
-    maxHeight: '80vh',
-    overflowY: 'auto',
-  },
+const useStyles = makeStyles(() => ({
   clientRow: {
     backgroundColor: indigo[100],
   },
@@ -67,7 +62,7 @@ const SalaryReportSummaryTable: React.FC<{
 
   return (
     <>
-      <TableContainer component={Paper} className={classes.summaryTable}>
+      <TableContainer component={Paper}>
         <Table size="small">
           <ReportTableTitle title={t('report.preview.summary')} open={open} setOpen={setOpen} />
           {open && (

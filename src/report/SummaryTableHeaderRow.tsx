@@ -17,10 +17,12 @@ const SummaryTableHeaderRow: React.FC<TableHeaderRowProps> = ({ leftLabel, cente
           <Typography variant="subtitle1">{leftLabel}</Typography>
         </TableCell>
         <TableCell>
-          <Typography variant="subtitle1">{centerLabel}</Typography>
+          <Typography align="right" variant="subtitle1">
+            {centerLabel}
+          </Typography>
         </TableCell>
         <TableCell />
-        <TableCell align="right">
+        <TableCell colSpan={2} align="right">
           <Typography variant="subtitle1">{t('timeInput.label')}</Typography>
         </TableCell>
       </TableRow>

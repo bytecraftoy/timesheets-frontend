@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
-import { salaryReportData } from '../../testUtils/reportTestUtils'
 import { SalaryReportData } from '../../common/types'
 import NoReportDataPlaceHolder from '../NoReportDataPlaceholder'
 import SalaryReportForm from './SalaryReportForm'
@@ -12,7 +11,7 @@ const BillingReport: React.FC = () => {
   const { path } = useRouteMatch()
   const { t } = useTranslation()
 
-  const [reportData, setReportData] = useState<SalaryReportData | undefined>(salaryReportData)
+  const [reportData, setReportData] = useState<SalaryReportData | undefined>()
 
   return (
     <>

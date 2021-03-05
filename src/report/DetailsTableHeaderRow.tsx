@@ -17,7 +17,9 @@ const DetailsTableHeaderRow: React.FC<TableHeaderRowProps> = ({ leftLabel, cente
           <Typography variant="subtitle1">{leftLabel}</Typography>
         </TableCell>
         <TableCell>
-          <Typography variant="subtitle1">{centerLabel}</Typography>
+          <Typography align="center" variant="subtitle1">
+            {centerLabel}
+          </Typography>
         </TableCell>
         <TableCell align="center">
           <Typography variant="subtitle1">{t('timeInput.label')}</Typography>
