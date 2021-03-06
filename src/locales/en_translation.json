@@ -27,7 +27,8 @@
         "unselectAll": "Unselect all clients"
     },
     "dashboard": {
-        "title": "Dashboard"
+        "title": "Dashboard",
+        "projectTotals": "Total per project"
     },
     "employee": {
         "label": "Employee",

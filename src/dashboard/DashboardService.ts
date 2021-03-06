@@ -155,7 +155,6 @@ const findTimeInputWithDate = (timeInputs: TimeInput[], date: Date): TimeInput |
 
 const timeInputsToWeekInputs = (timeInputs: TimeInput[], week: Date[]): InputWithId[] => {
   const inputs: InputWithId[] = []
-
   for (let i = 0; i < week.length; i += 1) {
     const timeInput = findTimeInputWithDate(timeInputs, week[i])
     if (timeInput) {
@@ -169,7 +168,6 @@ const timeInputsToWeekInputs = (timeInputs: TimeInput[], week: Date[]): InputWit
       inputs.push({ time: '', description: '', id: null })
     }
   }
-
   return inputs
 }
 
@@ -208,6 +206,19 @@ const getErrorMessages = (errors: FormikErrors<{ projects: ProjectAndInputs[] }>
   }, [])
 }
 
+const sumTimeInputs = (timeInputs: string[]): string => {
+  const totalTime = timeInputs
+    .map((input) => {
+      const number = timeStringToNumber(input)
+      if (Number.isNaN(number)) {
+        return 0
+      }
+      return number
+    })
+    .reduce((a, b) => a + b, 0)
+  return minutesToHoursAndMinutes(totalTime)
+}
+
 export {
   getProjectHours,
   updateHours,
@@ -216,4 +227,5 @@ export {
   projectAndInputsWithIdToProjectAndInputs,
   getErrorMessages,
   minutesToHoursAndMinutes,
+  sumTimeInputs,
 }
