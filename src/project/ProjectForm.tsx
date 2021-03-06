@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useLayoutEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import { useTranslation } from 'react-i18next'
-import { Button, FormControlLabel, Grid, Switch, Typography, makeStyles } from '@material-ui/core'
+import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
 import { useFormik } from 'formik'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import SubmitButton from '../button/SubmitButton'
@@ -12,11 +12,13 @@ import { getAllClients } from '../services/clientService'
 import { getAllEmployees } from '../services/employeeService'
 import getAllManagers from '../services/managerService'
 import notificationState from '../common/atoms'
+import * as constants from '../common/constants'
 import FormTextField from '../form/FormTextField'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
+import FormSwitch from '../form/FormSwitch'
 
 // TODO: refactor ProjectForm into smaller components
 
@@ -137,7 +139,7 @@ const ProjectForm: React.FC = () => {
           </Grid>
           <Grid item>
             <FormTextField
-              name="description"
+              name={constants.DESCRIPTION}
               multiline
               label={t('project.description.label')}
               handleChange={formik.handleChange}
@@ -152,7 +154,7 @@ const ProjectForm: React.FC = () => {
               <FormSelect
                 objects={clientSelectItems}
                 className={classes.formControl}
-                name="client"
+                name={constants.CLIENT}
                 label={t('client.label')}
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
@@ -165,7 +167,7 @@ const ProjectForm: React.FC = () => {
               <FormSelect
                 objects={managerSelectItems}
                 className={classes.formControl}
-                name="owner"
+                name={constants.OWNER}
                 label={t('owner.label')}
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
@@ -179,7 +181,7 @@ const ProjectForm: React.FC = () => {
             <FormSelectMultiple
               objects={employeeSelectItems}
               className={classes.formControl}
-              name="employees"
+              name={constants.EMPLOYEES}
               label={t('employee.label')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
@@ -189,17 +191,11 @@ const ProjectForm: React.FC = () => {
             />
           </Grid>
           <Grid item>
-            <FormControlLabel
-              control={
-                <Switch
-                  id="billable"
-                  name="billable"
-                  checked={formik.values.billable}
-                  onChange={formik.handleChange}
-                  color="primary"
-                  inputProps={{ 'aria-label': 'billable' }}
-                />
-              }
+            <FormSwitch
+              name={constants.BILLABLE}
+              checked={formik.values.billable}
+              handleChange={formik.handleChange}
+              ariaLabel={constants.BILLABLE}
               label={t('billable.label')}
             />
           </Grid>

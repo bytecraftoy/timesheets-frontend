@@ -109,6 +109,10 @@ export interface FormSelectMultipleWithButtonsProps extends FormikSetFieldValue 
   className: string
 }
 
+export interface FormSwitchProps extends FormCheckboxProps {
+  disabled?: boolean
+}
+
 export interface FormTextFieldProps {
   className?: string
   name: string

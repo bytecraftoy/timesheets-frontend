@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import {
-  Switch,
-  FormControlLabel,
   Popover,
   Grid,
   Typography,
@@ -13,7 +11,8 @@ import {
 import Help from '@material-ui/icons/Help'
 import { useTranslation } from 'react-i18next'
 import { TimeInputsFormControlRowProps } from '../common/types'
-import { TIMEINPUTSUPPORTEDFORMATS } from '../common/constants'
+import * as constants from '../common/constants'
+import FormSwitch from '../form/FormSwitch'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,19 +37,16 @@ const TimeInputsFormControlRow: React.FC<TimeInputsFormControlRowProps> = ({
   return (
     <Grid container direction="row" justify="space-between" alignItems="flex-start">
       <Grid item>
-        <FormControlLabel
+        <FormSwitch
+          name={constants.SHOW_DESCRIPTION}
+          checked={showDescription}
+          handleChange={(e) => {
+            changeShowDescription()
+            e.currentTarget.blur()
+          }}
+          ariaLabel={constants.SHOW_DESCRIPTION}
+          disabled={disableShowDescription}
           label={t('project.description.label')}
-          control={
-            <Switch
-              onChange={(e) => {
-                changeShowDescription()
-                e.currentTarget.blur()
-              }}
-              disabled={disableShowDescription}
-              color="primary"
-              checked={showDescription}
-            />
-          }
         />
       </Grid>
       <Grid item>
@@ -73,7 +69,7 @@ const TimeInputsFormControlRow: React.FC<TimeInputsFormControlRowProps> = ({
               <Typography variant="body1" gutterBottom>
                 {t('timeInputs.supportedFormatsTitle')}
               </Typography>
-              {TIMEINPUTSUPPORTEDFORMATS.map((formatGroup) => (
+              {constants.TIMEINPUTSUPPORTEDFORMATS.map((formatGroup) => (
                 <Typography key={formatGroup[0]} variant="body2">
                   {formatGroup.join('\u2003')}
                 </Typography>
