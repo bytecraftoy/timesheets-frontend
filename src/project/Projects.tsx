@@ -27,7 +27,6 @@ const ProjectsTableHead: React.FC = () => {
         <TableCell>Project name</TableCell>
         <TableCell align="right">Client</TableCell>
         <TableCell align="center">Owner</TableCell>
-        <TableCell align="center">Tags</TableCell>
         <TableCell align="right">Actions</TableCell>
       </TableRow>
     </TableHead>

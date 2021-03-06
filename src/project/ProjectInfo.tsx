@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   Avatar,
   Box,
-  Chip,
   Collapse,
   IconButton,
   Table,
@@ -13,7 +12,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core'
-import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import EditIcon from '@material-ui/icons/Edit'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
@@ -31,19 +30,6 @@ const useStyles = makeStyles({
     paddingTop: 0,
   },
 })
-
-const Tags: React.FC<{ tags: string[] | undefined }> = ({ tags }) => {
-  if (tags) {
-    return (
-      <TableCell align="center">
-        {tags.map((tag: string) => (
-          <Chip size="small" key={tag} label={tag} />
-        ))}
-      </TableCell>
-    )
-  }
-  return <TableCell />
-}
 
 const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
   const classes = useStyles()
@@ -67,12 +53,11 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
         </TableCell>
         <TableCell align="right">{project.client.name}</TableCell>
         <TableCell align="center">
-          <Avatar>{projectOwner}</Avatar>
+          <Avatar style={{ margin: 'auto' }}>{projectOwner}</Avatar>
         </TableCell>
-        <Tags tags={project.tags} />
         <TableCell align="right">
           <EditIcon />
-          <DeleteIcon />
+          <DeleteOutlinedIcon />
         </TableCell>
       </TableRow>
       {/* Collapsible part */}
