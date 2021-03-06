@@ -169,7 +169,6 @@ const BillingReportForm: React.FC<{
           values={formik.values}
           setFieldValue={formik.setFieldValue}
           errors={formik.errors}
-          touched={formik.touched}
         />
         {toNext && <Redirect to="/reports/billing/preview" />}
         <SubmitButton

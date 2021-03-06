@@ -34,6 +34,11 @@ const getFirstDayOfMonth = (monthsAgo: number): Date => {
   return firstDay
 }
 
+const getLastDayOfThisMonth = (): Date => {
+  const lastDay = lastDayOfMonth(today)
+
+  return lastDay
+}
 const getLastDayOfLastMonth = (): Date => {
   const lastDay = lastDayOfMonth(subMonths(today, 1))
 
@@ -78,6 +83,7 @@ export {
   formatDateFromDate,
   formatDateFromStringWithWeekday,
   getFirstDayOfMonth,
+  getLastDayOfThisMonth,
   getLastDayOfLastMonth,
   getFirstDayOfLastYear,
   getLastDayOfLastYear,

@@ -4,14 +4,7 @@ import { Grid } from '@material-ui/core'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import { DatePickerProps } from '../common/types'
 
-const DatePicker: React.FC<DatePickerProps> = ({
-  id,
-  label,
-  value,
-  handleDateChange,
-  errors,
-  touched,
-}) => {
+const DatePicker: React.FC<DatePickerProps> = ({ id, label, value, handleDateChange, errors }) => {
   return (
     <Grid item>
       <KeyboardDatePicker
@@ -23,7 +16,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         label={label}
         value={value}
         onChange={handleDateChange}
-        error={Boolean(errors && touched)}
+        error={Boolean(errors)}
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}

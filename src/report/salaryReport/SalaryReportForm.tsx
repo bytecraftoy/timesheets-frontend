@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useState } from 'react'
 import { isBefore } from 'date-fns'
 import { useFormik } from 'formik'
@@ -131,7 +130,6 @@ const SalaryReportForm: React.FC<{
           values={formik.values}
           setFieldValue={formik.setFieldValue}
           errors={formik.errors}
-          touched={formik.touched}
         />
         {toNext && <Redirect to="/reports/salary/preview" />}
         <SubmitButton

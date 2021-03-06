@@ -9,6 +9,7 @@
         "generate": "Generate",
         "create": "Create",
         "cancel": "Cancel",
+        "thisMonth": "This month",
         "lastMonth": "Last month",
         "lastTwoMonths": "Last 2 months",
         "lastSixMonths": "Last 6 months",

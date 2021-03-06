@@ -8,21 +8,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const DateError: React.FC<DateErrorProps> = ({ errors, touched }) => {
+const DateError: React.FC<DateErrorProps> = ({ errors }) => {
   const classes = useStyles()
 
   return (
     <Grid item className={classes.dateErrorText}>
-      {errors && touched && <FormHelperText>{errors}</FormHelperText>}
+      {errors && <FormHelperText>{errors}</FormHelperText>}
     </Grid>
   )
 }
 
-const DateErrors: React.FC<DateErrorsProps> = ({ errors, touched }) => {
+const DateErrors: React.FC<DateErrorsProps> = ({ errors }) => {
   return (
     <Grid container item spacing={6}>
-      <DateError errors={errors.startDate} touched={touched.startDate} />
-      <DateError errors={errors.endDate} touched={touched.endDate} />
+      <DateError errors={errors.startDate} />
+      <DateError errors={errors.endDate} />
     </Grid>
   )
 }

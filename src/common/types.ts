@@ -1,6 +1,6 @@
 // Let's try to keep this sorted alphabethically to have some order here :)
 
-import { FormikErrors, FormikTouched } from 'formik'
+import { FormikErrors } from 'formik'
 
 export interface BillingReportData {
   startDate: string
@@ -34,12 +34,10 @@ export interface ClientWithProjectsAndInputs {
 
 export interface DateErrorProps {
   errors: FormikErrors<Date> | undefined
-  touched: FormikTouched<Date> | undefined
 }
 
 export interface DateErrorsProps {
   errors: FormikErrors<BillingReportFormValues>
-  touched: FormikTouched<BillingReportFormValues>
 }
 
 export interface DatePickerProps extends DateErrorProps {
