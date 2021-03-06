@@ -26,7 +26,7 @@ const formatDateFromDate = (date: Date): string => {
 const formatDateFromStringWithWeekday = (dateString: string): string => {
   const date = new Date(dateString)
   const weekday = WEEKDAYS[getDay(date)]
-  return `${weekday} ${format(date, 'd.M')}`
+  return `${weekday} ${format(date, 'd.M.')}`
 }
 
 const getFirstDayOfMonth = (monthsAgo: number): Date => {

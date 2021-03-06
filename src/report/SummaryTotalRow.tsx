@@ -16,8 +16,10 @@ const SummaryTotalRow: React.FC<{ label: string; total: number }> = ({ label, to
   return (
     <TableRow className={classes.subTitleRow}>
       <TableCell />
-      <TableCell colSpan={2}>{label}</TableCell>
-      <TableCell align="right">{minutesToHoursAndMinutes(total)}</TableCell>
+      <TableCell align="right">{label}</TableCell>
+      <TableCell colSpan={2} align="right">
+        {minutesToHoursAndMinutes(total)}
+      </TableCell>
     </TableRow>
   )
 }

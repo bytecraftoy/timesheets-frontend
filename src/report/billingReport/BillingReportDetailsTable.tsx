@@ -15,13 +15,11 @@ import ReportTableTitle from '../ReportTableTitle'
 import DetailsTableHeaderRow from '../DetailsTableHeaderRow'
 import TimeInputRow from '../TimeInputRow'
 import NoHoursRow from '../NoHoursRow'
+import { getEmployeeFullName } from '../../services/employeeService'
 
 const useStyles = makeStyles((theme) => ({
   detailsTable: {
-    maxWidth: theme.spacing(100),
-    maxHeight: '80vh',
-    overflowY: 'auto',
-    marginTop: theme.spacing(2.5),
+    marginTop: theme.spacing(5),
   },
   projectRow: {
     backgroundColor: indigo[100],
@@ -40,11 +38,10 @@ const EmployeeRows: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) 
     <>
       <TableRow className={classes.employeeRow}>
         <TableCell />
-        <TableCell colSpan={3}>
-          <strong>
-            {employee.firstName} {employee.lastName}
-          </strong>
+        <TableCell align="center">
+          <strong>{getEmployeeFullName(employee)}</strong>
         </TableCell>
+        <TableCell colSpan={2} />
       </TableRow>
       {employee.timeInputs.length === 0 && <NoHoursRow numberOfIndent={2} />}
       {employee.timeInputs.map((timeInput) => (
