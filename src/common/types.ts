@@ -69,6 +69,13 @@ export interface FormikSetFieldValue {
   ) => Promise<void> | Promise<FormikErrors<BillingReportFormValues>>
 }
 
+export interface FormCheckboxProps {
+  name: string
+  checked: boolean
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
+  ariaLabel: string
+  label: string
+}
 export interface FormSelectItem {
   id: string
   name: string
