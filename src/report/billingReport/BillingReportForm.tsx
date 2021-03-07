@@ -24,7 +24,7 @@ import {
 import { getBillingReportData } from '../ReportService'
 import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
-import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
+import TimeIntervalQuickSelects from '../TimeIntervalQuickSelects'
 import SubmitButton from '../../button/SubmitButton'
 import TimeIntervalSelects from '../../form/TimeIntervalSelects'
 import * as constants from '../../common/constants'

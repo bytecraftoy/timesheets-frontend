@@ -14,7 +14,7 @@ import {
   UserContextType,
 } from '../../common/types'
 import FormSelect from '../../form/FormSelect'
-import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
+import TimeIntervalQuickSelects from '../TimeIntervalQuickSelects'
 import TimeIntervalSelects from '../../form/TimeIntervalSelects'
 import SubmitButton from '../../button/SubmitButton'
 import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
