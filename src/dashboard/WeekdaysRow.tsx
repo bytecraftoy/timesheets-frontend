@@ -1,19 +1,22 @@
 import React from 'react'
 import { Grid, Typography, Container, makeStyles } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 import { getWeekDays } from '../services/dateAndTimeService'
 
 const useStyles = makeStyles((theme) => ({
   grayBackground: {
     backgroundColor: theme.palette.grey[300],
   },
+  projectTotalsText: {
+    paddingLeft: theme.spacing(0.2),
+  },
 }))
 
 const WeekdaysRow: React.FC<{ week: Date[]; holidays: boolean[] }> = ({ week, holidays }) => {
   const classes = useStyles()
+  const { t } = useTranslation()
   return (
     <Grid
-      item
-      xs={12}
       container
       spacing={0}
       direction="row"
@@ -22,8 +25,8 @@ const WeekdaysRow: React.FC<{ week: Date[]; holidays: boolean[] }> = ({ week, ho
       wrap="nowrap"
     >
       <Grid item xs={2}>
-        <Typography align="center" variant="overline">
-          <strong>Project</strong>
+        <Typography variant="overline">
+          <strong>{t('project.label')}</strong>
         </Typography>
       </Grid>
       {getWeekDays(week).map((day, i) => {
@@ -43,6 +46,11 @@ const WeekdaysRow: React.FC<{ week: Date[]; holidays: boolean[] }> = ({ week, ho
           </Grid>
         )
       })}
+      <Grid item xs={1}>
+        <Typography className={classes.projectTotalsText} variant="body2">
+          {t('dashboard.projectTotals')}
+        </Typography>
+      </Grid>
     </Grid>
   )
 }
