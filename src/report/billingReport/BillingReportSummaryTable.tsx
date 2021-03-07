@@ -25,10 +25,23 @@ const useStyles = makeStyles(() => ({
   grandTotalRow: {
     backgroundColor: indigo[100],
   },
+  stripedRow: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: indigo[50],
+    },
+  },
 }))
 
 const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) => {
-  return <SummaryTotalRow label={getEmployeeFullName(employee)} total={employee.employeeTotal} />
+  const classes = useStyles()
+
+  return (
+    <SummaryTotalRow
+      label={getEmployeeFullName(employee)}
+      total={employee.employeeTotal}
+      className={classes.stripedRow}
+    />
+  )
 }
 
 const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
@@ -46,6 +59,7 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
         <EmployeeRow key={employee.id} employee={employee} />
       ))}
       <CountTotalRow
+        className={classes.stripedRow}
         label={t('report.preview.projectSubTotal')}
         total={minutesToHoursAndMinutes(project.projectTotal)}
       />
