@@ -1,3 +1,9 @@
+export const PATHS = {
+  projects: '/projects',
+  billingReport: '/reports/billing',
+  salaryReport: '/reports/salary',
+}
+
 export const WEEKDAYS: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export const TIMEINPUTSUPPORTEDFORMATS = [
@@ -7,6 +13,8 @@ export const TIMEINPUTSUPPORTEDFORMATS = [
   ['5:30'],
 ]
 export const DEBOUNCEMS = 2000
+
+export const DRAWER_WIDTH = 240
 
 export const CLIENT = 'client'
 export const CLIENTS = 'clients'
