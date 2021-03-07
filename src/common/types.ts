@@ -9,6 +9,8 @@ export interface BillingReportData {
   projects: ProjectStub[]
   creationMillis: number
   grandTotal: number
+  billable: boolean
+  nonBillable: boolean
 }
 
 export interface BillingReportFormValues {
@@ -17,6 +19,8 @@ export interface BillingReportFormValues {
   client: string
   projects: string[]
   employees: string[]
+  billable: boolean
+  nonBillable: boolean
 }
 
 export interface Client {
@@ -213,6 +217,8 @@ export interface SalaryReportData {
   clients: ClientWithProjectsAndInputs[]
   created: number
   grandTotal: number
+  billable: boolean
+  nonBillable: boolean
 }
 
 export interface SalaryReportFormValues {
@@ -220,6 +226,8 @@ export interface SalaryReportFormValues {
   endDate: Date
   employee: string
   clients: string[]
+  billable: boolean
+  nonBillable: boolean
 }
 
 export interface SelectAllButtonProps extends UnselectAllButtonProps {

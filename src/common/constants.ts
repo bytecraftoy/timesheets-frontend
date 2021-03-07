@@ -18,11 +18,14 @@ export const DEBOUNCEMS = 2000
 
 export const DRAWER_WIDTH = 240
 
+export const BILLABLE = 'billable'
+export const NON_BILLABLE = 'nonbillable'
 export const CLIENT = 'client'
 export const CLIENTS = 'clients'
 export const EMPLOYEE = 'employee'
 export const EMPLOYEES = 'employees'
 export const END_DATE = 'endDate'
+export const NON_BILLABLE = 'nonBillable'
 export const PROJECT = 'project'
 export const PROJECTS = 'projects'
 export const START_DATE = 'startDate'

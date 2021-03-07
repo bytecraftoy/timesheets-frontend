@@ -19,6 +19,8 @@ const getBillingReportData = async (
       endDate: format(values.endDate, 'yyyy-MM-dd'),
       projects: values.projects,
       employees: values.employees,
+      billable: values.billable,
+      nonBillable: values.nonBillable,
     },
     paramsSerializer: (params) => {
       return qs.stringify(params, { arrayFormat: 'repeat' })
@@ -33,6 +35,8 @@ const getSalaryReportData = async (values: SalaryReportFormValues): Promise<Sala
       startDate: format(values.startDate, 'yyyy-MM-dd'),
       endDate: format(values.endDate, 'yyyy-MM-dd'),
       clients: values.clients,
+      billable: values.billable,
+      nonBillable: values.nonBillable,
     },
     paramsSerializer: (params) => {
       return qs.stringify(params, { arrayFormat: 'repeat' })

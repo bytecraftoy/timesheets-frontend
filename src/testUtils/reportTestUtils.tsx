@@ -4,6 +4,8 @@ const billingReportData: BillingReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
   creationMillis: 1612329726188,
+  billable: true,
+  nonBillable: true,
   client: {
     id: '1',
     name: 'Client 1',
@@ -231,6 +233,8 @@ const salaryReportData: SalaryReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
   created: 1612329726188,
+  billable: true,
+  nonBillable: true,
   employee: {
     id: '3',
     username: 'dev3',
