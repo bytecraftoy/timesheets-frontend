@@ -206,7 +206,7 @@ const getErrorMessages = (errors: FormikErrors<{ projects: ProjectAndInputs[] }>
   }, [])
 }
 
-const sumTimeInputs = (timeInputs: string[]): string => {
+const sumTimeInputs = (timeInputs: string[]): number => {
   const totalTime = timeInputs
     .map((input) => {
       const number = timeStringToNumber(input)
@@ -216,7 +216,7 @@ const sumTimeInputs = (timeInputs: string[]): string => {
       return number
     })
     .reduce((a, b) => a + b, 0)
-  return minutesToHoursAndMinutes(totalTime)
+  return totalTime
 }
 
 export {

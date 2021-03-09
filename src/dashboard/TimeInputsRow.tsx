@@ -3,7 +3,7 @@ import { Grid, Typography, makeStyles } from '@material-ui/core'
 import { FieldArray } from 'formik'
 import { TimeInputsRowProps } from '../common/types'
 import TimeInputCell from './TimeInputCell'
-import { sumTimeInputs } from './DashboardService'
+import { sumTimeInputs, minutesToHoursAndMinutes } from './DashboardService'
 
 const useStyles = makeStyles((theme) => ({
   totalHoursText: {
@@ -22,7 +22,8 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
 }) => {
   const classes = useStyles()
   const projectWeekHours = useMemo(
-    () => sumTimeInputs(projectAndInputs.inputs.map((input) => input.time)),
+    () =>
+      minutesToHoursAndMinutes(sumTimeInputs(projectAndInputs.inputs.map((input) => input.time))),
     [projectAndInputs]
   )
   return (

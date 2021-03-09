@@ -1,25 +1,18 @@
 import React, { useMemo } from 'react'
-import { Grid, Typography, Container, makeStyles } from '@material-ui/core'
+import { Grid, Typography, Container } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import { ProjectAndInputs } from '../common/types'
-import { sumTimeInputs } from './DashboardService'
-
-const useStyles = makeStyles((theme) => ({
-  totalHoursText: {
-    paddingTop: theme.spacing(1),
-  },
-}))
+import { sumTimeInputs, minutesToHoursAndMinutes } from './DashboardService'
 
 const DailyTotalRow: React.FC<{ projectsAndInputs: ProjectAndInputs[] }> = ({
   projectsAndInputs,
 }) => {
-  const classes = useStyles()
   const { t } = useTranslation()
-  const dailyTotals = useMemo(() => {
+  const dailyNumberTotals = useMemo(() => {
     const projectsTimeInputs = projectsAndInputs.map((project) =>
       project.inputs.map((input) => input.time)
     )
-    const totals: string[] = []
+    const totals: number[] = []
     for (let j = 0; j < 7; j += 1) {
       const dailyTimeInputs: string[] = []
       for (let i = 0; i < projectsTimeInputs.length; i += 1) {
@@ -29,8 +22,17 @@ const DailyTotalRow: React.FC<{ projectsAndInputs: ProjectAndInputs[] }> = ({
     }
     return totals
   }, [projectsAndInputs])
+  const weeklyTotal = useMemo(
+    () => minutesToHoursAndMinutes(dailyNumberTotals.reduce((a, b) => a + b, 0)),
+    [dailyNumberTotals]
+  )
+  const dailyTotals = useMemo(
+    () => dailyNumberTotals.map((total) => minutesToHoursAndMinutes(total)),
+    [dailyNumberTotals]
+  )
   return (
     <Grid
+      item
       container
       spacing={0}
       direction="row"
@@ -39,20 +41,22 @@ const DailyTotalRow: React.FC<{ projectsAndInputs: ProjectAndInputs[] }> = ({
       wrap="nowrap"
     >
       <Grid item xs={2}>
-        <Typography className={classes.totalHoursText} variant="body2">
-          {t('dashboard.dailyTotals')}
-        </Typography>
+        <Typography variant="body2">{t('dashboard.dailyTotals')}</Typography>
       </Grid>
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
         <Grid item key={i} xs zeroMinWidth>
           <Container disableGutters>
-            <Typography className={classes.totalHoursText} align="center" variant="body2">
+            <Typography align="center" variant="body2">
               {dailyTotals[i]}
             </Typography>
           </Container>
         </Grid>
       ))}
-      <Grid item xs={1} />
+      <Grid item xs={1}>
+        <Typography variant="body2">
+          {t('dashboard.weeklyTotal')} {weeklyTotal}
+        </Typography>
+      </Grid>
     </Grid>
   )
 }
