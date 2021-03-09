@@ -13,6 +13,7 @@ import {
 import TimeInputsRow from './TimeInputsRow'
 import { TimeInputsFormProps } from '../common/types'
 import notificationState from '../common/atoms'
+import DailyTotalRow from './DailyTotalRow'
 
 const focusDifferentRow = (rowsToChange: number, length: number) => {
   const elem = document.activeElement
@@ -122,6 +123,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
           </FieldArray>
         </Grid>
       </form>
+      <DailyTotalRow projectsAndInputs={formik.values.projects} />
     </FormikProvider>
   )
 }
