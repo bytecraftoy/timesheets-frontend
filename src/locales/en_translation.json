@@ -29,7 +29,8 @@
     "dashboard": {
         "title": "Dashboard",
         "projectTotals": "Total per project",
-        "dailyTotals": "Daily total"
+        "dailyTotals": "Daily total",
+        "weeklyTotal": "Weekly total"
     },
     "employee": {
         "label": "Employee",

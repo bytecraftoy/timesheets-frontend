@@ -121,9 +121,9 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
               ))
             }
           </FieldArray>
+          <DailyTotalRow projectsAndInputs={formik.values.projects} />
         </Grid>
       </form>
-      <DailyTotalRow projectsAndInputs={formik.values.projects} />
     </FormikProvider>
   )
 }
