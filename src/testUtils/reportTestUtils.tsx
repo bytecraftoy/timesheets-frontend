@@ -236,6 +236,7 @@ const salaryReportData: SalaryReportData = {
     username: 'dev3',
     firstName: 'Some',
     lastName: 'Developer',
+    isManager: false,
   },
   clients: [
     {
