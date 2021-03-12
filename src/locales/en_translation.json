@@ -93,6 +93,7 @@
             "form": {
                 "title": "Generate report for billing purposes"
             },
+            "label": "Billing",
             "message": {
                 "success": "Billing report for {{client}} created succesfully!",
                 "error": "Report could not be generated."
@@ -105,6 +106,7 @@
             "form": {
                 "title": "Generate report for salary purposes"
             },
+            "label": "Salary",
             "message": {
                 "success": "Salary report for {{employee}} created succesfully!",
                 "error": "Report could not be generated."
