@@ -52,9 +52,10 @@ export interface Employee {
   username: string
   firstName: string
   lastName: string
+  isManager: boolean
 }
 
-export interface EmployeeWithInputs extends Employee {
+export interface EmployeeWithInputs extends Omit<Employee, 'isManager'> {
   timeInputs: TimeInput[]
   employeeTotal: number
 }
@@ -136,12 +137,7 @@ export interface InputWithId extends Input {
   id: string | null
 }
 
-export interface Manager {
-  id: string
-  username: string
-  firstName: string
-  lastName: string
-}
+export type Manager = Employee
 
 export interface NotificationMessage {
   message: string | null
@@ -280,6 +276,12 @@ export interface TimeIntervalSelectsProps extends FormikSetFieldValue, DateError
 export interface UnselectAllButtonProps extends FormikSetFieldValue {
   label: string
   fieldName: string
+}
+
+export interface UserContextType {
+  id: string
+  name: string
+  isManager: boolean
 }
 
 export interface WeekRowProps {
