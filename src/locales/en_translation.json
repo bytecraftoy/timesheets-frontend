@@ -54,6 +54,7 @@
     },
     "project": {
         "label": "Project",
+        "myProjectsLabel": "My projects",
         "labelPlural": "Projects",
         "title": "Projects",
         "name": "projects",
@@ -115,8 +116,7 @@
                 "title": "Preview of salary report"
             }
         },
-        "generate": "Generate report",
-        "noReport": "There is no report to show."
+        "generate": "Generate report"
     },
     "startDate": {
         "label": "Start date",

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
 import { BillingReportData } from '../../common/types'
+import { PATHS } from '../../common/constants'
 import BillingReportForm from './BillingReportForm'
 import BillingReportPreview from './BillingReportPreview'
-import NoReportDataPlaceHolder from '../NoReportDataPlaceholder'
 
 const BillingReport: React.FC = () => {
   const { path } = useRouteMatch()
@@ -26,7 +26,7 @@ const BillingReport: React.FC = () => {
           <BillingReportForm setReportData={setReportData} />
         </Route>
         <Route path={`${path}/preview`}>
-          {!reportData && <NoReportDataPlaceHolder linkTo="/reports/billing" />}
+          {!reportData && <Redirect to={PATHS.billingReport} />}
           {reportData && <BillingReportPreview data={reportData} />}
         </Route>
       </Switch>

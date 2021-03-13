@@ -140,7 +140,7 @@ const SalaryReportForm: React.FC<{
           setFieldValue={formik.setFieldValue}
           errors={formik.errors}
         />
-        {toNext && <Redirect to="/reports/salary/preview" />}
+        {toNext && <Redirect to={constants.PATHS.salaryReportPreview} />}
         <SubmitButton
           className={classes.button}
           disabled={formik.isSubmitting}
