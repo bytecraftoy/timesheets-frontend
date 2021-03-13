@@ -48,7 +48,7 @@ const WeekdaysRow: React.FC<{ week: Date[]; holidays: boolean[] }> = ({ week, ho
       })}
       <Grid item xs={1}>
         <Typography className={classes.projectTotalsText} variant="body2">
-          {t('dashboard.projectTotals')}
+          <em>{t('dashboard.projectTotals')}</em>
         </Typography>
       </Grid>
     </Grid>

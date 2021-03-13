@@ -41,20 +41,26 @@ const DailyTotalRow: React.FC<{ projectsAndInputs: ProjectAndInputs[] }> = ({
       wrap="nowrap"
     >
       <Grid item xs={2}>
-        <Typography variant="body2">{t('dashboard.dailyTotals')}</Typography>
+        <Typography variant="body2">
+          <em>{t('dashboard.dailyTotals')}</em>
+        </Typography>
       </Grid>
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
         <Grid item key={i} xs zeroMinWidth>
           <Container disableGutters>
             <Typography align="center" variant="body2">
-              {dailyTotals[i]}
+              <em>{dailyTotals[i]}</em>
             </Typography>
           </Container>
         </Grid>
       ))}
       <Grid item xs={1}>
         <Typography variant="body2">
-          {t('dashboard.weeklyTotal')} {weeklyTotal}
+          <em>
+            <b>
+              {t('dashboard.weeklyTotal')} {weeklyTotal}
+            </b>
+          </em>
         </Typography>
       </Grid>
     </Grid>
