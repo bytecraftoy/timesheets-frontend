@@ -280,7 +280,8 @@ export interface UnselectAllButtonProps extends FormikSetFieldValue {
 
 export interface UserContextType {
   id: string
-  name: string
+  firstName: string
+  lastName: string
   isManager: boolean
 }
 

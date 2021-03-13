@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Employee, EmployeeWithInputs } from '../common/types'
+import { Employee, EmployeeWithInputs, UserContextType } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -8,7 +8,7 @@ const getAllEmployees = async (): Promise<Employee[]> => {
   return data as Employee[]
 }
 
-const getEmployeeFullName = (employee: Employee | EmployeeWithInputs): string => {
+const getEmployeeFullName = (employee: Employee | EmployeeWithInputs | UserContextType): string => {
   return `${employee.firstName} ${employee.lastName}`
 }
 
