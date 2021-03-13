@@ -4,9 +4,8 @@
 describe('billing report form', () => {
   const client = 'Esimerkkiasiakas'
   const project1 = 'Testi_projekti'
-  const project2 = 'Toinen projekti'
   const employee1 = 'Eka E_sukunimi'
-  const employee2 = 'Taina Taitava'
+  const employee2 = 'Toka T_sukunimi'
 
   beforeEach(() => {
     cy.visit('http://localhost:3000/reports/billing')
@@ -23,11 +22,8 @@ describe('billing report form', () => {
 
     cy.get('[data-cy=select-multiple-projects]').click()
     cy.contains(project1).click()
-    cy.contains(project2).click()
     cy.get('body').click(0, 0)
-    cy.get('[data-cy=select-multiple-projects]')
-      .should('contain', project1)
-      .and('contain', project2)
+    cy.get('[data-cy=select-multiple-projects]').should('contain', project1)
 
     cy.get('[data-cy=select-multiple-employees]').click()
     cy.contains(employee1).click()
@@ -42,7 +38,6 @@ describe('billing report form', () => {
     cy.get('body')
       .should('contain', 'Preview of billing report')
       .and('contain', project1)
-      .and('contain', project2)
       .and('contain', employee1)
       .and('contain', employee2)
   })
@@ -52,12 +47,8 @@ describe('billing report form', () => {
     cy.contains(client).click()
     cy.get('[data-cy=select-client]').should('contain', client)
 
-    cy.get('[data-cy=select-multiple-projects]').should('not.contain', 'Nothing to select yet.')
-
     cy.get('[data-cy=select-all-projects]').click()
-    cy.get('[data-cy=select-multiple-projects]')
-      .should('contain', project1)
-      .and('contain', project2)
+    cy.get('[data-cy=select-multiple-projects]').should('contain', project1)
 
     cy.get('[data-cy=select-all-employees]').click()
     cy.get('[data-cy=select-multiple-employees]')
@@ -69,7 +60,6 @@ describe('billing report form', () => {
     cy.get('body')
       .should('contain', 'Preview of billing report')
       .and('contain', project1)
-      .and('contain', project2)
       .and('contain', employee1)
       .and('contain', employee2)
   })
