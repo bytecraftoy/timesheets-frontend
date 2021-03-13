@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { isBefore } from 'date-fns'
 import { useFormik } from 'formik'
 import { Redirect } from 'react-router-dom'
@@ -6,7 +6,13 @@ import { useTranslation } from 'react-i18next'
 import { useSetRecoilState } from 'recoil'
 import { Grid, makeStyles } from '@material-ui/core'
 import notificationState from '../../common/atoms'
-import { Client, Employee, SalaryReportData, SalaryReportFormValues } from '../../common/types'
+import {
+  Client,
+  Employee,
+  SalaryReportData,
+  SalaryReportFormValues,
+  UserContextType,
+} from '../../common/types'
 import FormSelect from '../../form/FormSelect'
 import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
 import TimeIntervalSelects from '../../form/TimeIntervalSelects'
@@ -16,9 +22,10 @@ import { clientToFormSelectItem, employeesToFormSelectItem } from '../../form/fo
 import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
 import { getSalaryReportData } from '../ReportService'
-import { getAllEmployees } from '../../services/employeeService'
+import { getAllEmployees, getEmployeeFullName } from '../../services/employeeService'
 import { getClientsByEmployeeId } from '../../services/clientService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
+import UserContext from '../../context/UserContext'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -36,7 +43,9 @@ const SalaryReportForm: React.FC<{
   const { t } = useTranslation()
   const classes = useStyles()
 
-  const [employees, setEmployees] = useState<Employee[]>([])
+  const user = useContext(UserContext)
+
+  const [employees, setEmployees] = useState<(Employee | UserContextType)[]>([])
   const [clients, setClients] = useState<Client[]>([])
   const [toNext, setToNext] = useState(false)
   const setNotification = useSetRecoilState(notificationState)
@@ -56,7 +65,7 @@ const SalaryReportForm: React.FC<{
         setReportData(response)
         setNotification({
           message: t('report.salary.message.success', {
-            employee: `${response.employee.firstName} ${response.employee.lastName}`,
+            employee: getEmployeeFullName(response.employee),
           }),
           severity: 'success',
         })
@@ -82,9 +91,13 @@ const SalaryReportForm: React.FC<{
   })
 
   const fetchEmployees = useCallback(async () => {
-    const employeeResponse = await getAllEmployees()
-    setEmployees(employeeResponse)
-  }, [])
+    if (user.isManager) {
+      const employeeResponse = await getAllEmployees()
+      setEmployees(employeeResponse)
+    } else {
+      setEmployees([user])
+    }
+  }, [user])
 
   const filterClientValues = useCallback(
     (currentClients: Client[]) => {
