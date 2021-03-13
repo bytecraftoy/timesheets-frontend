@@ -28,7 +28,7 @@
     },
     "dashboard": {
         "title": "Dashboard",
-        "projectTotals": "Total per project",
+        "projectTotals": "Project total",
         "dailyTotals": "Daily total",
         "weeklyTotal": "Weekly total"
     },

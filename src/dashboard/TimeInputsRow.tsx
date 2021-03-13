@@ -60,7 +60,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
       </FieldArray>
       <Grid item xs={1}>
         <Typography className={classes.totalHoursText} variant="body2">
-          {projectWeekHours}
+          <em>{projectWeekHours}</em>
         </Typography>
       </Grid>
     </Grid>
