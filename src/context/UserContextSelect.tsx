@@ -23,7 +23,12 @@ const useStyles = makeStyles((theme) => ({
 
 const employeesToUserContextItem = (employees: Employee[]): UserContextType[] => {
   return employees.map((employee) => {
-    return { id: employee.id, name: getEmployeeFullName(employee), isManager: employee.isManager }
+    return {
+      id: employee.id,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      isManager: employee.isManager,
+    }
   })
 }
 
@@ -32,14 +37,11 @@ const UserContextSelect: React.FC<{
 }> = ({ setContext }) => {
   const classes = useStyles()
 
-  const guestUser = useContext(UserContext)
-
-  const [user, setUser] = useState<string>(guestUser.id)
+  const user = useContext(UserContext).id
   const [users, setUsers] = useState<UserContextType[]>([])
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const selectedValue: string = event.target.value as string
-    setUser(selectedValue)
     const selectedUser = users.find((u) => u.id === selectedValue)
     if (selectedUser) {
       setContext(selectedUser)
@@ -63,7 +65,6 @@ const UserContextSelect: React.FC<{
           value={user}
           onChange={handleChange}
         >
-          <MenuItem value={guestUser.id}>Guest user</MenuItem>
           {users.length === 0 && (
             <MenuItem disabled value="">
               Fetching other users
@@ -72,7 +73,7 @@ const UserContextSelect: React.FC<{
           {users.map((obj) => {
             return (
               <MenuItem key={obj.id} value={obj.id}>
-                {obj.name}
+                {getEmployeeFullName(obj)}
               </MenuItem>
             )
           })}

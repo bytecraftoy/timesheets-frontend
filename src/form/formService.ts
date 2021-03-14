@@ -1,8 +1,15 @@
-import { Client, Manager, Project, FormSelectItem, Employee } from '../common/types'
+import {
+  Client,
+  Manager,
+  Project,
+  FormSelectItem,
+  Employee,
+  UserContextType,
+} from '../common/types'
 import { getEmployeeFullName } from '../services/employeeService'
 
-const employeesToFormSelectItem = (employees: Employee[]): FormSelectItem[] => {
-  return employees.map((employee) => {
+const employeesToFormSelectItem = (employees: (Employee | UserContextType)[]): FormSelectItem[] => {
+  return employees.map((employee: Employee | UserContextType) => {
     return { id: employee.id, name: getEmployeeFullName(employee) }
   })
 }

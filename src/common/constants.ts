@@ -1,7 +1,9 @@
 export const PATHS = {
   projects: '/projects',
   billingReport: '/reports/billing',
+  billingReportPreview: '/reports/billing/preview',
   salaryReport: '/reports/salary',
+  salaryReportPreview: '/reports/salary/preview',
 }
 
 export const WEEKDAYS: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']

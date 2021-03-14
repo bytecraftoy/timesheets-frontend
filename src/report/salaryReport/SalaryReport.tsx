@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Typography } from '@material-ui/core'
 import { SalaryReportData } from '../../common/types'
-import NoReportDataPlaceHolder from '../NoReportDataPlaceholder'
+import { PATHS } from '../../common/constants'
 import SalaryReportForm from './SalaryReportForm'
 import SalaryReportPreview from './SalaryReportPreview'
 
@@ -26,7 +26,7 @@ const BillingReport: React.FC = () => {
           <SalaryReportForm setReportData={setReportData} />
         </Route>
         <Route path={`${path}/preview`}>
-          {!reportData && <NoReportDataPlaceHolder linkTo="reports/salary" />}
+          {!reportData && <Redirect to={PATHS.salaryReport} />}
           {reportData && <SalaryReportPreview data={reportData} />}
         </Route>
       </Switch>
