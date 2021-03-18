@@ -171,6 +171,7 @@ export interface ProjectFormValues {
   client: string
   owner: string
   billable: boolean
+  employees: string[]
 }
 
 export interface ProjectAndInputs {

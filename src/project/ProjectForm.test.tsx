@@ -9,6 +9,7 @@ import { t } from '../testUtils/testUtils'
 import * as projectTestUtils from '../testUtils/projectTestUtils'
 import i18n from '../i18n'
 import ProjectForm from './ProjectForm'
+import { getEmployeeFullName } from '../services/employeeService'
 
 jest.mock('axios')
 
@@ -33,6 +34,9 @@ describe('add project form', () => {
         if (url.includes('managers')) {
           return Promise.resolve({ data: projectTestUtils.managers })
         }
+        if (url.includes('employees')) {
+          return Promise.resolve({ data: projectTestUtils.employees })
+        }
         return Promise.reject(new Error('not found'))
       })
 
@@ -46,27 +50,31 @@ describe('add project form', () => {
       })
     })
 
-    it('has name, description text fields, billabe info and client & owner selects', () => {
+    it('has name, description text fields, billabe info and employee, client & owner selects', () => {
       const nameInput = component.getByLabelText(t('project.form.nameLabel'))
       const desciptionInput = component.getByLabelText(t('project.description.label'))
       const clientSelect = component.getByLabelText(t('client.label'))
       const ownerSelect = component.getByLabelText(t('owner.label'))
       const billableCheckbox = component.getByLabelText(t('billable.label'))
+      const employeeSelect = component.getByLabelText(t('employee.label'))
 
       expect(nameInput).toHaveAttribute('type', 'text')
-      expect(desciptionInput).toHaveAttribute('type', 'text')
+      expect(desciptionInput).toBeInTheDocument()
       expect(billableCheckbox).toHaveAttribute('type', 'checkbox')
       expect(clientSelect).toHaveAttribute('role', 'button')
       expect(ownerSelect).toHaveAttribute('role', 'button')
+      expect(employeeSelect).toHaveAttribute('role', 'button')
     })
 
-    it('has client and owner selects containing fetched clients and managers', async () => {
+    it('has employee, client and owner selects containing fetched employees, clients and managers', async () => {
       const clientSelect = component.getByLabelText(t('client.label'))
       const ownerSelect = component.getByLabelText(t('owner.label'))
+      const employeeSelect = component.getByLabelText(t('employee.label'))
 
       await act(async () => {
         fireEvent.mouseDown(clientSelect)
         fireEvent.mouseDown(ownerSelect)
+        fireEvent.mouseDown(employeeSelect)
       })
 
       projectTestUtils.clients.forEach((client) => {
@@ -74,7 +82,11 @@ describe('add project form', () => {
       })
 
       projectTestUtils.managers.forEach((manager) => {
-        expect(component.getByText(`${manager.firstName} ${manager.lastName}`)).toBeInTheDocument()
+        expect(component.getByText(getEmployeeFullName(manager))).toBeInTheDocument()
+      })
+
+      projectTestUtils.employees.forEach((employee) => {
+        expect(component.getByText(getEmployeeFullName(employee))).toBeInTheDocument()
       })
     })
   })
@@ -87,6 +99,9 @@ describe('add project form', () => {
         }
         if (url.includes('managers')) {
           return Promise.resolve({ data: projectTestUtils.managers })
+        }
+        if (url.includes('employees')) {
+          return Promise.resolve({ data: projectTestUtils.employees })
         }
         return Promise.reject(new Error('not found'))
       })
@@ -161,6 +176,7 @@ describe('add project form', () => {
       description: 'a',
       client: projectTestUtils.clients[0].id,
       owner: projectTestUtils.managers[0].id,
+      employees: projectTestUtils.employees.map((employee) => employee.id),
       billable: true,
     }
 
@@ -171,6 +187,9 @@ describe('add project form', () => {
         }
         if (url.includes('managers')) {
           return Promise.resolve({ data: projectTestUtils.managers })
+        }
+        if (url.includes('employees')) {
+          return Promise.resolve({ data: projectTestUtils.employees })
         }
         return Promise.reject(new Error('not found'))
       })
@@ -200,6 +219,8 @@ describe('add project form', () => {
       await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
       await projectTestUtils.changeNameInput(component, newTestProjectJson.name)
       await projectTestUtils.changeDesciptionInput(component, newTestProjectJson.description)
+      await projectTestUtils.selectEmployee(component, projectTestUtils.employees[0])
+      await projectTestUtils.selectEmployee(component, projectTestUtils.employees[1])
 
       await pressSubmitButton()
       await component.findByText('Redirect')
