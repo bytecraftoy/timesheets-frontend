@@ -73,7 +73,7 @@ export interface FormSelectItem {
   id: string
   name: string
 }
-export interface FormSelectProps extends Omit<FormTextFieldProps, 'handleChange'> {
+export interface FormSelectProps extends Omit<FormTextFieldProps, 'handleChange' | 'multiline'> {
   handleChange: (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
     child: React.ReactNode
@@ -99,7 +99,7 @@ export interface FormSelectMultipleWithButtonsProps extends FormikSetFieldValue 
 }
 
 export interface FormTextFieldProps {
-  className: string
+  className?: string
   name: string
   label: string
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
@@ -107,6 +107,7 @@ export interface FormTextFieldProps {
   value: string
   errors: string | undefined
   touched: boolean | undefined
+  multiline?: boolean
 }
 export interface Hours {
   input: number

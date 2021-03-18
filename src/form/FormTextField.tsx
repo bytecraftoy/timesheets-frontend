@@ -11,6 +11,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
   value,
   errors,
   touched,
+  multiline = false,
 }) => {
   return (
     <TextField
@@ -23,6 +24,8 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
       onBlur={handleBlur}
       error={Boolean(errors && touched)}
       helperText={errors && touched && errors}
+      multiline={multiline}
+      rows={3}
     />
   )
 }

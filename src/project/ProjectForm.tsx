@@ -18,26 +18,9 @@ import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
 // TODO: refactor ProjectForm into smaller components
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  textFieldWide: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '55ch',
-  },
+const useStyles = makeStyles(() => ({
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: theme.spacing(30),
-  },
-  button: {
-    margin: theme.spacing(1),
+    minWidth: 230,
   },
 }))
 
@@ -73,23 +56,23 @@ const ProjectForm: React.FC = () => {
       }
     },
     validate: (values) => {
-      const errors = []
+      const errors: { [key: string]: string } = {}
       if (!values.name) {
-        errors.push({ name: t('project.error.name.empty') })
+        errors.name = t('project.error.name.empty')
       }
       if (values.name.length > 100) {
-        errors.push({ name: t('project.error.tooLong') })
+        errors.name = t('project.error.tooLong')
       }
       if (values.description.length > 400) {
-        errors.push({ description: t('project.description.error') })
+        errors.description = t('project.description.error')
       }
       if (!values.client) {
-        errors.push({ client: t('client.error.chooseOne') })
+        errors.client = t('client.error.chooseOne')
       }
       if (!values.owner) {
-        errors.push({ owner: t('owner.error') })
+        errors.owner = t('owner.error')
       }
-      return Object.assign({}, ...errors)
+      return errors
     },
   })
 
@@ -105,6 +88,8 @@ const ProjectForm: React.FC = () => {
     useCallback(() => setLoading(false), [])
   )
 
+  const clientSelectItems = useMemo(() => clientToFormSelectItem(clients), [clients])
+  const managerSelectItems = useMemo(() => managerToFormSelectItem(managers), [managers])
   if (isLoading) {
     return (
       <div>
@@ -118,11 +103,10 @@ const ProjectForm: React.FC = () => {
       <Typography variant="h6" data-cy="project-form-heading">
         {t('project.createNew')}
       </Typography>
-      <form onSubmit={formik.handleSubmit} className={classes.root}>
+      <form onSubmit={formik.handleSubmit}>
         <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
           <Grid item>
             <FormTextField
-              className={classes.textField}
               name="name"
               label={t('project.form.nameLabel')}
               handleChange={formik.handleChange}
@@ -134,8 +118,8 @@ const ProjectForm: React.FC = () => {
           </Grid>
           <Grid item>
             <FormTextField
-              className={classes.textFieldWide}
               name="description"
+              multiline
               label={t('project.description.label')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
@@ -144,9 +128,10 @@ const ProjectForm: React.FC = () => {
               touched={formik.touched.description}
             />
           </Grid>
+          <Grid item container spacing={3}>
           <Grid item>
             <FormSelect
-              objects={clientToFormSelectItem(clients)}
+                objects={clientSelectItems}
               className={classes.formControl}
               name="client"
               label={t('client.label')}
@@ -156,8 +141,10 @@ const ProjectForm: React.FC = () => {
               errors={formik.errors.client}
               touched={formik.touched.client}
             />
+            </Grid>
+            <Grid item>
             <FormSelect
-              objects={managerToFormSelectItem(managers)}
+                objects={managerSelectItems}
               className={classes.formControl}
               name="owner"
               label={t('owner.label')}
@@ -184,16 +171,14 @@ const ProjectForm: React.FC = () => {
             />
           </Grid>
           {toNext && <Redirect to="/projects" />}
-          <Grid container item>
+          <Grid container item spacing={1}>
             <SubmitButton
-              className={classes.button}
               disabled={formik.isSubmitting}
               testId="projectFormSubmit"
               label={t('button.create')}
             />
             <Grid item>
               <Button
-                className={classes.button}
                 disabled={formik.isSubmitting}
                 variant="contained"
                 onClick={() => setToNext(true)}
