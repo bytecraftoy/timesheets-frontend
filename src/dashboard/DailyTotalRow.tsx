@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Grid, Typography, Container } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import { ProjectAndInputs } from '../common/types'
-import { sumTimeInputs, minutesToHoursAndMinutes } from './DashboardService'
+import { sumTimeInputs, minutesToHoursAndMinutes } from './dashboardService'
 
 const DailyTotalRow: React.FC<{ projectsAndInputs: ProjectAndInputs[] }> = ({
   projectsAndInputs,

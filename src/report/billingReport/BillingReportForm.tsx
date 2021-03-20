@@ -13,15 +13,16 @@ import {
   BillingReportFormValues,
   BillingReportData,
 } from '../../common/types'
-import { getAllClients, getProjectsByClientId } from '../../services/clientService'
-import { getEmployeesByProjectIds } from '../../services/projectService'
+import { getAllClients } from '../../services/clientService'
+import { getProjectsByClientId } from '../../services/projectService'
+import { getEmployeesByProjectIds } from '../../services/employeeService'
 import FormSelect from '../../form/FormSelect'
 import {
   employeesToFormSelectItem,
   clientToFormSelectItem,
   projectsToFormSelectItem,
 } from '../../form/formService'
-import { getBillingReportData } from '../ReportService'
+import { getBillingReportData } from '../reportService'
 import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
 import TimeIntervalQuickSelects from '../TimeIntervalQuickSelects'

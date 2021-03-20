@@ -21,7 +21,7 @@ import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAn
 import { clientToFormSelectItem, employeesToFormSelectItem } from '../../form/formService'
 import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
-import { getSalaryReportData } from '../ReportService'
+import { getSalaryReportData } from '../reportService'
 import { getAllEmployees, getEmployeeFullName } from '../../services/employeeService'
 import { getClientsByEmployeeId } from '../../services/clientService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
