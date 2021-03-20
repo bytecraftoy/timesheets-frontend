@@ -42,6 +42,15 @@ const TimeIntervalQuickSelects: React.FC<FormikSetFieldValue> = ({ setFieldValue
   const classes = useStyles()
   const [timeInterval, setTimeInterval] = useState<string | null>(LAST_MONTH)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setFieldValueWithTimeout = (field: string, value: any) => {
+    // Using setTimeout() is a temporary fix for validation issue when calling setFieldValue multiple times consecutively
+    // See here: https://github.com/formium/formik/issues/2266
+    setTimeout(() => {
+      setFieldValue(field, value)
+    }, 0)
+  }
+
   const handleClick = (event: React.MouseEvent<HTMLElement>, newTimeInterval: string | null) => {
     if (newTimeInterval !== null) {
       setTimeInterval(newTimeInterval)
@@ -49,24 +58,24 @@ const TimeIntervalQuickSelects: React.FC<FormikSetFieldValue> = ({ setFieldValue
 
     switch (newTimeInterval) {
       case THIS_MONTH:
-        setFieldValue(t('startDate.name'), getFirstDayOfMonth(0))
-        setFieldValue(t('endDate.name'), getLastDayOfThisMonth())
+        setFieldValueWithTimeout(t('startDate.name'), getFirstDayOfMonth(0))
+        setFieldValueWithTimeout(t('endDate.name'), getLastDayOfThisMonth())
         break
       case LAST_MONTH:
-        setFieldValue(t('startDate.name'), getFirstDayOfMonth(1))
-        setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
+        setFieldValueWithTimeout(t('startDate.name'), getFirstDayOfMonth(1))
+        setFieldValueWithTimeout(t('endDate.name'), getLastDayOfLastMonth())
         break
       case LAST_TWO_MONTHS:
-        setFieldValue(t('startDate.name'), getFirstDayOfMonth(2))
-        setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
+        setFieldValueWithTimeout(t('startDate.name'), getFirstDayOfMonth(2))
+        setFieldValueWithTimeout(t('endDate.name'), getLastDayOfLastMonth())
         break
       case LAST_SIX_MONTHS:
-        setFieldValue(t('startDate.name'), getFirstDayOfMonth(6))
-        setFieldValue(t('endDate.name'), getLastDayOfLastMonth())
+        setFieldValueWithTimeout(t('startDate.name'), getFirstDayOfMonth(6))
+        setFieldValueWithTimeout(t('endDate.name'), getLastDayOfLastMonth())
         break
       case LAST_YEAR:
-        setFieldValue(t('startDate.name'), getFirstDayOfLastYear())
-        setFieldValue(t('endDate.name'), getLastDayOfLastYear())
+        setFieldValueWithTimeout(t('startDate.name'), getFirstDayOfLastYear())
+        setFieldValueWithTimeout(t('endDate.name'), getLastDayOfLastYear())
         break
       default:
     }
