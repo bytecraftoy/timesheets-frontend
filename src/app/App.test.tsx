@@ -67,6 +67,9 @@ describe('projects', () => {
       if (url.includes('projects')) {
         return Promise.resolve({ data: projectTestUtils.projects })
       }
+      if (url.includes('employees')) {
+        return Promise.resolve({ data: projectTestUtils.employees })
+      }
       return Promise.reject(new Error('not found'))
     })
 
