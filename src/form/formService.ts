@@ -15,7 +15,7 @@ const clientToFormSelectItem = (clients: Client[]): FormSelectItem[] => {
 
 const managerToFormSelectItem = (managers: Manager[]): FormSelectItem[] => {
   return managers.map((manager) => {
-    return { id: manager.id, name: `${manager.firstName} ${manager.lastName}` }
+    return { id: manager.id, name: getEmployeeFullName(manager) }
   })
 }
 

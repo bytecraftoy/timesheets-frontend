@@ -16,8 +16,8 @@ import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import EditIcon from '@material-ui/icons/Edit'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-
 import { Project } from '../common/types'
+import { getEmployeeFullName } from '../services/employeeService'
 
 const useStyles = makeStyles({
   root: {
@@ -82,16 +82,12 @@ const ProjectInfo: React.FC<{ project: Project }> = ({ project }) => {
                   <TableRow>
                     <TableCell>Created</TableCell>
                     <TableCell>{created}</TableCell>
-                    <TableCell>
-                      {project.creator.firstName} {project.creator.lastName}
-                    </TableCell>
+                    <TableCell>{getEmployeeFullName(project.creator)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Last modified</TableCell>
                     <TableCell>{edited}</TableCell>
-                    <TableCell>
-                      {project.lastEditor.firstName} {project.lastEditor.lastName}
-                    </TableCell>
+                    <TableCell>{getEmployeeFullName(project.lastEditor)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
