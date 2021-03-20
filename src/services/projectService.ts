@@ -1,25 +1,23 @@
-import axios from 'axios'
+import axios from './axiosConfig'
 import { Project, ProjectFormValues } from '../common/types'
 
-const baseUrl = process.env.REACT_APP_BACKEND_HOST
-
 const getAllProjects = async (): Promise<Project[]> => {
-  const { data } = await axios.get(`${baseUrl}/projects`)
+  const { data } = await axios.get('/projects')
   return data as Project[]
 }
 
 const getProjectsByEmployeeId = async (employeeId: string): Promise<Project[]> => {
-  const { data } = await axios.get(`${baseUrl}/employees/${employeeId}/projects`)
+  const { data } = await axios.get(`/employees/${employeeId}/projects`)
   return data as Project[]
 }
 
 const getProjectsByClientId = async (clientId: string): Promise<Project[]> => {
-  const { data } = await axios.get(`${baseUrl}/clients/${clientId}/projects`)
+  const { data } = await axios.get(`/clients/${clientId}/projects`)
   return data as Project[]
 }
 
 const createProject = async (newProject: ProjectFormValues): Promise<Project> => {
-  const { data } = await axios.post(`${baseUrl}/projects`, newProject)
+  const { data } = await axios.post(`/projects`, newProject)
   return data as Project
 }
 

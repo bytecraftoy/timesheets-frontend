@@ -1,15 +1,13 @@
-import axios from 'axios'
+import axios from './axiosConfig'
 import { Client } from '../common/types'
 
-const baseUrl = process.env.REACT_APP_BACKEND_HOST
-
 const getAllClients = async (): Promise<Client[]> => {
-  const { data } = await axios.get(`${baseUrl}/clients`)
+  const { data } = await axios.get('/clients')
   return data as Client[]
 }
 
 const getClientsByEmployeeId = async (employeeId: string): Promise<Client[]> => {
-  const { data } = await axios.get(`${baseUrl}/employees/${employeeId}/clients`)
+  const { data } = await axios.get(`/employees/${employeeId}/clients`)
   return data as Client[]
 }
 
