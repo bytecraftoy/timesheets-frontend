@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { Grid, TextField, makeStyles } from '@material-ui/core'
 import { FastField, getIn, FastFieldAttributes, FormikContextType } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { timeStringToNumber } from './DashboardService'
+import { timeStringToNumber } from './dashboardService'
 import { TimeInputCellProps } from '../common/types'
 
 const useStyles = makeStyles((theme) => ({
