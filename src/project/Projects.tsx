@@ -37,11 +37,12 @@ const ProjectsTableHead: React.FC = () => {
 const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
+  const { user } = useUserContext()
 
   const fetchProjects = useCallback(async () => {
-    const result = await getAllProjects()
+    const result = await getAllProjects(user.id)
     setProjects(result)
-  }, [])
+  }, [user])
 
   useAPIErrorHandlerWithFinally(
     fetchProjects,

@@ -30,6 +30,7 @@ import SubmitButton from '../../button/SubmitButton'
 import TimeIntervalSelects from '../../form/TimeIntervalSelects'
 import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
+import { useUserContext } from '../../context/UserContext'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -46,6 +47,7 @@ const BillingReportForm: React.FC<{
 }> = ({ setReportData }) => {
   const { t } = useTranslation()
   const classes = useStyles()
+  const { user } = useUserContext()
 
   const [clients, setClients] = useState<Client[]>([])
   const [projects, setProjects] = useState<Project[]>([])
@@ -65,7 +67,7 @@ const BillingReportForm: React.FC<{
     initialValues,
     onSubmit: async (values) => {
       try {
-        const response = await getBillingReportData(values)
+        const response = await getBillingReportData(values, user.id)
         setReportData(response)
         setNotification({
           message: t('report.billing.message.success', { client: response.client.name }),
@@ -96,9 +98,9 @@ const BillingReportForm: React.FC<{
   })
 
   const fetchClients = useCallback(async () => {
-    const clientResponse = await getAllClients()
+    const clientResponse = await getAllClients(user.id)
     setClients(clientResponse)
-  }, [])
+  }, [user])
 
   const filterProjectValues = useCallback(
     (currentProjects: Project[]) => {
@@ -111,11 +113,11 @@ const BillingReportForm: React.FC<{
 
   const fetchProjects = useCallback(async () => {
     if (formik.values.client) {
-      const projectResponse = await getProjectsByClientId(formik.values.client)
+      const projectResponse = await getProjectsByClientId(formik.values.client, user.id)
       setProjects(projectResponse)
       formik.values.projects = filterProjectValues(projectResponse)
     }
-  }, [filterProjectValues, formik.values])
+  }, [filterProjectValues, formik.values, user])
 
   const filterEmployeeValues = useCallback(
     (currentEmployees: Employee[]) => {
@@ -128,14 +130,14 @@ const BillingReportForm: React.FC<{
 
   const fetchEmployees = useCallback(async () => {
     if (formik.values.projects.length !== 0) {
-      const employeeResponse = await getEmployeesByProjectIds(formik.values.projects)
+      const employeeResponse = await getEmployeesByProjectIds(formik.values.projects, user.id)
       setEmployees(employeeResponse)
       filterEmployeeValues(employeeResponse)
     } else {
       setEmployees([])
       filterEmployeeValues([])
     }
-  }, [filterEmployeeValues, formik.values.projects])
+  }, [filterEmployeeValues, formik.values.projects, user])
 
   useAPIErrorHandler(fetchClients)
 

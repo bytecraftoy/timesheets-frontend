@@ -61,7 +61,7 @@ const SalaryReportForm: React.FC<{
     initialValues,
     onSubmit: async (values) => {
       try {
-        const response = await getSalaryReportData(values)
+        const response = await getSalaryReportData(values, user.id)
         setReportData(response)
         setNotification({
           message: t('report.salary.message.success', {
@@ -92,7 +92,7 @@ const SalaryReportForm: React.FC<{
 
   const fetchEmployees = useCallback(async () => {
     if (user.isManager) {
-      const employeeResponse = await getAllEmployees()
+      const employeeResponse = await getAllEmployees(user.id)
       setEmployees(employeeResponse)
     } else {
       setEmployees([user])
@@ -110,11 +110,11 @@ const SalaryReportForm: React.FC<{
 
   const fetchClients = useCallback(async () => {
     if (formik.values.employee) {
-      const clientResponse = await getClientsByEmployeeId(formik.values.employee)
+      const clientResponse = await getClientsByEmployeeId(formik.values.employee, user.id)
       setClients(clientResponse)
       formik.values.clients = filterClientValues(clientResponse)
     }
-  }, [filterClientValues, formik.values])
+  }, [filterClientValues, formik.values, user])
 
   useAPIErrorHandler(fetchEmployees)
   useAPIErrorHandler(fetchClients)

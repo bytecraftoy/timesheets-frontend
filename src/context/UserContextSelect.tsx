@@ -42,7 +42,7 @@ const UserContextSelect: React.FC = () => {
   }
 
   const fetchEmployees = useCallback(async () => {
-    const userResponse = await getAllEmployees()
+    const userResponse = await getAllEmployees('')
     setUsers(employeesToUserContextItem(userResponse))
   }, [])
 
@@ -60,7 +60,7 @@ const UserContextSelect: React.FC = () => {
         >
           {users.length === 0 && (
             <MenuItem disabled value="">
-              {t('user.fetch')}
+              {t('user.fetching')}
             </MenuItem>
           )}
           {users.map((obj) => {

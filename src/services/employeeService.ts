@@ -2,13 +2,16 @@ import qs from 'qs'
 import axios from './axiosConfig'
 import { Employee, User, UserContextType } from '../common/types'
 
-const getAllEmployees = async (): Promise<Employee[]> => {
-  const { data } = await axios.get('/employees')
+const getAllEmployees = async (userId: string): Promise<Employee[]> => {
+  const { data } = await axios(userId).get('/employees')
   return data as Employee[]
 }
 
-const getEmployeesByProjectIds = async (projectIds: string[]): Promise<Employee[]> => {
-  const { data } = await axios.get('/projects/employees', {
+const getEmployeesByProjectIds = async (
+  projectIds: string[],
+  userId: string
+): Promise<Employee[]> => {
+  const { data } = await axios(userId).get('/projects/employees', {
     params: {
       projects: projectIds,
     },

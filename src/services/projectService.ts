@@ -1,23 +1,23 @@
 import axios from './axiosConfig'
 import { Project, ProjectFormValues } from '../common/types'
 
-const getAllProjects = async (): Promise<Project[]> => {
-  const { data } = await axios.get('/projects')
+const getAllProjects = async (userId: string): Promise<Project[]> => {
+  const { data } = await axios(userId).get('/projects')
   return data as Project[]
 }
 
-const getProjectsByEmployeeId = async (employeeId: string): Promise<Project[]> => {
-  const { data } = await axios.get(`/employees/${employeeId}/projects`)
+const getProjectsByEmployeeId = async (employeeId: string, userId: string): Promise<Project[]> => {
+  const { data } = await axios(userId).get(`/employees/${employeeId}/projects`)
   return data as Project[]
 }
 
-const getProjectsByClientId = async (clientId: string): Promise<Project[]> => {
-  const { data } = await axios.get(`/clients/${clientId}/projects`)
+const getProjectsByClientId = async (clientId: string, userId: string): Promise<Project[]> => {
+  const { data } = await axios(userId).get(`/clients/${clientId}/projects`)
   return data as Project[]
 }
 
-const createProject = async (newProject: ProjectFormValues): Promise<Project> => {
-  const { data } = await axios.post(`/projects`, newProject)
+const createProject = async (newProject: ProjectFormValues, userId: string): Promise<Project> => {
+  const { data } = await axios(userId).post(`/projects`, newProject)
   return data as Project
 }
 

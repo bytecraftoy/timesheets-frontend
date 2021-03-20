@@ -1,8 +1,8 @@
 import axios from './axiosConfig'
 import { Manager } from '../common/types'
 
-const getAllManagers = async (): Promise<Manager[]> => {
-  const { data } = await axios.get('/managers')
+const getAllManagers = async (userId: string): Promise<Manager[]> => {
+  const { data } = await axios(userId).get('/managers')
   return data as Manager[]
 }
 

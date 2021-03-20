@@ -17,6 +17,7 @@ import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
+import { useUserContext } from '../context/UserContext'
 
 // TODO: refactor ProjectForm into smaller components
 
@@ -29,6 +30,7 @@ const useStyles = makeStyles(() => ({
 const ProjectForm: React.FC = () => {
   const { t } = useTranslation()
   const classes = useStyles()
+  const { user } = useUserContext()
 
   const [isLoading, setLoading] = useState(true)
   const [clients, setClients] = useState<Client[]>([])
@@ -50,7 +52,7 @@ const ProjectForm: React.FC = () => {
     initialValues,
     onSubmit: async (values) => {
       try {
-        const response = await createProject(values)
+        const response = await createProject(values, user.id)
         setNotification({
           message: t('project.message.success', { project: response.name }),
           severity: 'success',
@@ -83,12 +85,12 @@ const ProjectForm: React.FC = () => {
   })
 
   const fetchEmployeesManagersAndClients = useCallback(async () => {
-    const clientPromise = getAllClients()
-    const employeePromise = getAllEmployees()
-    setManagers(await getAllManagers())
+    const clientPromise = getAllClients(user.id)
+    const employeePromise = getAllEmployees(user.id)
+    setManagers(await getAllManagers(user.id))
     setClients(await clientPromise)
     setEmployees(await employeePromise)
-  }, [])
+  }, [user])
 
   useAPIErrorHandlerWithFinally(
     fetchEmployeesManagersAndClients,

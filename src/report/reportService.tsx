@@ -9,9 +9,10 @@ import {
 } from '../common/types'
 
 const getBillingReportData = async (
-  values: BillingReportFormValues
+  values: BillingReportFormValues,
+  userId: string
 ): Promise<BillingReportData> => {
-  const { data } = await axios.get(`/report/client/${values.client}`, {
+  const { data } = await axios(userId).get(`/report/client/${values.client}`, {
     params: {
       startDate: format(values.startDate, 'yyyy-MM-dd'),
       endDate: format(values.endDate, 'yyyy-MM-dd'),
@@ -25,8 +26,11 @@ const getBillingReportData = async (
   return data as BillingReportData
 }
 
-const getSalaryReportData = async (values: SalaryReportFormValues): Promise<SalaryReportData> => {
-  const { data } = await axios.get(`/report/employee/${values.employee}`, {
+const getSalaryReportData = async (
+  values: SalaryReportFormValues,
+  userId: string
+): Promise<SalaryReportData> => {
+  const { data } = await axios(userId).get(`/report/employee/${values.employee}`, {
     params: {
       startDate: format(values.startDate, 'yyyy-MM-dd'),
       endDate: format(values.endDate, 'yyyy-MM-dd'),
