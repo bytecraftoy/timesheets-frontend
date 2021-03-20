@@ -41,7 +41,7 @@ const NavList: React.FC = () => {
           linkTo={PATHS.salaryReport}
           icon={<AssessmentIcon />}
           testId="salary-reports-nav"
-          label="My salary report"
+          label={t('report.salary.mySalaryReportLabel')}
         />
       )}
       {user.isManager && (
