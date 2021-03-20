@@ -3,36 +3,38 @@ import { Client, Employee, Manager, Project } from '../common/types'
 import { t } from './testUtils'
 import { getEmployeeFullName } from '../services/employeeService'
 
+const defaultPerson = { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true }
+
 const projects: Project[] = [
   {
     id: '1000',
     name: 'Projekti',
     description: '',
     client: { id: '1', name: 'Client 1' },
-    owner: { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true },
-    creator: { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true },
-    managers: [{ id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true }],
+    owner: defaultPerson,
+    creator: defaultPerson,
+    managers: [defaultPerson],
     billable: true,
     employees: [],
     tags: ['front-end'],
     creationTimestamp: 1608652437257,
     lastEdited: 1608652437257,
-    lastEditor: { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true },
+    lastEditor: defaultPerson,
   },
   {
     id: '1001',
     name: 'Toinen projekti',
     description: '',
     client: { id: '1', name: 'Client 1' },
-    owner: { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true },
-    creator: { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true },
-    managers: [{ id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true }],
+    owner: defaultPerson,
+    creator: defaultPerson,
+    managers: [defaultPerson],
     billable: true,
     employees: [],
     tags: ['front-end'],
     creationTimestamp: 1608652437257,
     lastEdited: 1608652437257,
-    lastEditor: { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true },
+    lastEditor: defaultPerson,
   },
 ]
 
@@ -133,7 +135,7 @@ const selectProject = async (component: RenderResult, project: Project): Promise
 
 const selectManager = async (component: RenderResult, manager: Manager): Promise<void> => {
   const ownerSelect = component.getByLabelText(t('owner.label'))
-  const value = `${manager.firstName} ${manager.lastName}`
+  const value = getEmployeeFullName(manager)
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(ownerSelect)
