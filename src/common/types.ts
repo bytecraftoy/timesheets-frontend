@@ -280,6 +280,13 @@ export interface UnselectAllButtonProps extends FormikSetFieldValue {
   fieldName: string
 }
 
+export interface UserContextProps {
+  user: UserContextType
+  setUserContext: SetUserContextType
+}
+
+export type SetUserContextType = React.Dispatch<React.SetStateAction<UserContextType>>
+
 export interface UserContextType {
   id: string
   firstName: string

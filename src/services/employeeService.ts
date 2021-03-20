@@ -12,4 +12,15 @@ const getEmployeeFullName = (employee: Employee | EmployeeWithInputs | UserConte
   return `${employee.firstName} ${employee.lastName}`
 }
 
-export { getAllEmployees, getEmployeeFullName }
+const employeesToUserContextItem = (employees: Employee[]): UserContextType[] => {
+  return employees.map((employee) => {
+    return {
+      id: employee.id,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      isManager: employee.isManager,
+    }
+  })
+}
+
+export { getAllEmployees, getEmployeeFullName, employeesToUserContextItem }

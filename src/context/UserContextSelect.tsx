@@ -1,10 +1,15 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import { AccountCircle } from '@material-ui/icons'
 import { FormControl, MenuItem, Select } from '@material-ui/core'
-import UserContext from './UserContext'
-import { Employee, UserContextType } from '../common/types'
-import { getAllEmployees, getEmployeeFullName } from '../services/employeeService'
+import { useUserContext } from './UserContext'
+import { UserContextType } from '../common/types'
+import {
+  getAllEmployees,
+  getEmployeeFullName,
+  employeesToUserContextItem,
+} from '../services/employeeService'
 import { useAPIErrorHandler } from '../services/errorHandlingService'
 
 const useStyles = makeStyles((theme) => ({
@@ -21,30 +26,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const employeesToUserContextItem = (employees: Employee[]): UserContextType[] => {
-  return employees.map((employee) => {
-    return {
-      id: employee.id,
-      firstName: employee.firstName,
-      lastName: employee.lastName,
-      isManager: employee.isManager,
-    }
-  })
-}
-
-const UserContextSelect: React.FC<{
-  setContext: React.Dispatch<React.SetStateAction<UserContextType>>
-}> = ({ setContext }) => {
+const UserContextSelect: React.FC = () => {
   const classes = useStyles()
+  const { t } = useTranslation()
 
-  const user = useContext(UserContext).id
+  const { user, setUserContext } = useUserContext()
   const [users, setUsers] = useState<UserContextType[]>([])
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const selectedValue: string = event.target.value as string
     const selectedUser = users.find((u) => u.id === selectedValue)
     if (selectedUser) {
-      setContext(selectedUser)
+      setUserContext(selectedUser)
     }
   }
 
@@ -62,12 +55,12 @@ const UserContextSelect: React.FC<{
         <Select
           className={classes.userSelect}
           id="user-select"
-          value={user}
+          value={user.id}
           onChange={handleChange}
         >
           {users.length === 0 && (
             <MenuItem disabled value="">
-              Fetching other users
+              {t('user.fetch')}
             </MenuItem>
           )}
           {users.map((obj) => {

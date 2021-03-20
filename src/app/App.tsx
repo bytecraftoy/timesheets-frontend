@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import { makeStyles } from '@material-ui/core/styles'
@@ -6,8 +6,7 @@ import TitleBar from '../navigation/TitleBar'
 import SideBar from '../navigation/SideBar'
 import Content from '../navigation/Content'
 import Notification from '../toast/Notification'
-import UserContext from '../context/UserContext'
-import { UserContextType } from '../common/types'
+import { UserProvider } from '../context/UserContext'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -19,7 +18,6 @@ const App: React.FC = () => {
   const classes = useStyles()
 
   const [open, setOpen] = useState(true)
-  const [context, setContext] = useState<UserContextType>(useContext(UserContext))
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -30,16 +28,16 @@ const App: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <UserContext.Provider value={context}>
+      <UserProvider>
         <RecoilRoot>
           <Notification />
-          <TitleBar open={open} handleDrawerOpen={handleDrawerOpen} setContext={setContext} />
+          <TitleBar open={open} handleDrawerOpen={handleDrawerOpen} />
           <Router>
             <SideBar open={open} handleDrawerClose={handleDrawerClose} />
             <Content />
           </Router>
         </RecoilRoot>
-      </UserContext.Provider>
+      </UserProvider>
     </div>
   )
 }

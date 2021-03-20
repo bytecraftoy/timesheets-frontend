@@ -128,7 +128,9 @@
         "name": "endDate",
         "error": "End date must be after start date."
     },
-    "notification": {},
+    "user": {
+        "fetching": "Fetching users"
+    },
     "timeInputs": {
         "title": "Input hours",
         "savedMessage": "Last saved",

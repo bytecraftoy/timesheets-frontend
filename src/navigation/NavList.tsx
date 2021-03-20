@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Collapse, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import AssessmentIcon from '@material-ui/icons/Assessment'
@@ -8,7 +8,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import { PATHS } from '../common/constants'
 import useStyles from './styles'
 import NavListItem from './NavListItem'
-import UserContext from '../context/UserContext'
+import { useUserContext } from '../context/UserContext'
 
 // Navigation links in side bar menu go here.
 const NavList: React.FC = () => {
@@ -16,7 +16,7 @@ const NavList: React.FC = () => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
-  const user = useContext(UserContext)
+  const { user } = useUserContext()
 
   const handleClick = () => {
     setOpen(!open)
