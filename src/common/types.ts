@@ -227,6 +227,11 @@ export interface SubmitButtonProps {
   label: string
   testId?: string
 }
+
+export interface TableHeaderRowProps {
+  leftLabel: string
+  centerLabel: string
+}
 export interface TimeInput {
   id: string
   input: number
