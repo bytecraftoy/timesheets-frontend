@@ -5,6 +5,7 @@ import SalaryReportSummaryTable from './SalaryReportSummaryTable'
 import SalaryReportDetailsTable from './SalaryReportDetailsTable'
 import { SalaryReportData } from '../../common/types'
 import { formatDateFromString } from '../../services/dateAndTimeService'
+import { getEmployeeFullName } from '../../services/employeeService'
 
 const SalaryReportPreview: React.FC<{ data: SalaryReportData }> = ({ data }) => {
   const { t } = useTranslation()
@@ -12,7 +13,7 @@ const SalaryReportPreview: React.FC<{ data: SalaryReportData }> = ({ data }) => 
   return (
     <>
       <Typography variant="subtitle1">{t('report.salary.preview.title')}</Typography>
-      <Typography variant="h6">{`${data.employee.firstName} ${data.employee.lastName}`}</Typography>
+      <Typography variant="h6">{getEmployeeFullName(data.employee)}</Typography>
       <Typography variant="h6">
         {formatDateFromString(data.startDate)}
         {' – '}

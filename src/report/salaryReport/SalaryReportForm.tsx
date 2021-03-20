@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { isBefore } from 'date-fns'
 import { useFormik } from 'formik'
 import { Redirect } from 'react-router-dom'
@@ -25,7 +25,7 @@ import { getSalaryReportData } from '../ReportService'
 import { getAllEmployees, getEmployeeFullName } from '../../services/employeeService'
 import { getClientsByEmployeeId } from '../../services/clientService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
-import UserContext from '../../context/UserContext'
+import { useUserContext } from '../../context/UserContext'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -43,7 +43,7 @@ const SalaryReportForm: React.FC<{
   const { t } = useTranslation()
   const classes = useStyles()
 
-  const user = useContext(UserContext)
+  const { user } = useUserContext()
 
   const [employees, setEmployees] = useState<(Employee | UserContextType)[]>([])
   const [clients, setClients] = useState<Client[]>([])

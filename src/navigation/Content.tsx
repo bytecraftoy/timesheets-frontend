@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { DEBOUNCEMS, PATHS } from '../common/constants'
@@ -7,12 +7,12 @@ import ProjectsView from '../project/Projects'
 import BillingReport from '../report/billingReport/BillingReport'
 import Dashboard from '../dashboard/Dashboard'
 import useStyles from './styles'
-import UserContext from '../context/UserContext'
+import { useUserContext } from '../context/UserContext'
 
 // Routes to different content go here inside Switch component.
 const Content: React.FC = () => {
   const classes = useStyles()
-  const user = useContext(UserContext)
+  const { user } = useUserContext()
 
   return (
     <main className={classes.content}>

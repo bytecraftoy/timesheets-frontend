@@ -1,11 +1,7 @@
 import React from 'react'
 import { TableCell, TableHead, TableRow, Typography } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
-
-interface TableHeaderRowProps {
-  leftLabel: string
-  centerLabel: string
-}
+import { TableHeaderRowProps } from '../common/types'
 
 const SummaryTableHeaderRow: React.FC<TableHeaderRowProps> = ({ leftLabel, centerLabel }) => {
   const { t } = useTranslation()

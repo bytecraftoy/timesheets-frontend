@@ -47,6 +47,7 @@
     "form": {
         "nothingToSelect": "Nothing to select yet."
     },
+    "notification": {},
     "owner": {
         "label": "Owner",
         "name": "owner",
@@ -108,6 +109,7 @@
                 "title": "Generate report for salary purposes"
             },
             "label": "Salary",
+            "mySalaryReportLabel": "My salary report",
             "message": {
                 "success": "Salary report for {{employee}} created succesfully!",
                 "error": "Report could not be generated."
@@ -128,7 +130,9 @@
         "name": "endDate",
         "error": "End date must be after start date."
     },
-    "notification": {},
+    "user": {
+        "fetching": "Fetching users"
+    },
     "timeInputs": {
         "title": "Input hours",
         "savedMessage": "Last saved",
@@ -155,9 +159,6 @@
             }
         ]
     },
-    "week": {
-        "title": "Week"
-    },
     "timeInput": {
         "label": "Timeinput",
         "description": {
@@ -174,5 +175,8 @@
                 "empty": "Time field cannot be empty"
             }
         }
+    },
+    "week": {
+        "title": "Week"
     }
 }

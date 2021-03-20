@@ -4,14 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import useStyles from './styles'
-import { UserContextType } from '../common/types'
 import UserContextSelect from '../context/UserContextSelect'
 
 const TitleBar: React.FC<{
   open: boolean
   handleDrawerOpen: () => void
-  setContext: React.Dispatch<React.SetStateAction<UserContextType>>
-}> = ({ open, handleDrawerOpen, setContext }) => {
+}> = ({ open, handleDrawerOpen }) => {
   const classes = useStyles()
   const { t } = useTranslation()
 
@@ -31,7 +29,7 @@ const TitleBar: React.FC<{
         <Typography variant="h6" className={classes.title} data-cy="app-title">
           {t('app.title')}
         </Typography>
-        <UserContextSelect setContext={setContext} />
+        <UserContextSelect />
       </Toolbar>
     </AppBar>
   )

@@ -227,6 +227,11 @@ export interface SubmitButtonProps {
   label: string
   testId?: string
 }
+
+export interface TableHeaderRowProps {
+  leftLabel: string
+  centerLabel: string
+}
 export interface TimeInput {
   id: string
   input: number
@@ -279,6 +284,15 @@ export interface UnselectAllButtonProps extends FormikSetFieldValue {
   label: string
   fieldName: string
 }
+
+export type User = Employee | EmployeeWithInputs | UserContextType
+
+export interface UserContextProps {
+  user: UserContextType
+  setUserContext: SetUserContextType
+}
+
+export type SetUserContextType = React.Dispatch<React.SetStateAction<UserContextType>>
 
 export interface UserContextType {
   id: string
