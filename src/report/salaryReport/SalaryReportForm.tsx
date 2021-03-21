@@ -14,7 +14,7 @@ import {
   UserContextType,
 } from '../../common/types'
 import FormSelect from '../../form/FormSelect'
-import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
+import TimeIntervalQuickSelects from '../TimeIntervalQuickSelects'
 import TimeIntervalSelects from '../../form/TimeIntervalSelects'
 import SubmitButton from '../../button/SubmitButton'
 import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
@@ -26,6 +26,7 @@ import { getAllEmployees, getEmployeeFullName } from '../../services/employeeSer
 import { getClientsByEmployeeId } from '../../services/clientService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
 import { useUserContext } from '../../context/UserContext'
+import BillableCheckboxGroup from '../BillableCheckboxGroup'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -55,6 +56,8 @@ const SalaryReportForm: React.FC<{
     endDate: getLastDayOfLastMonth(),
     employee: '',
     clients: [],
+    billable: true,
+    nonBillable: true,
   }
 
   const formik = useFormik({
@@ -146,6 +149,11 @@ const SalaryReportForm: React.FC<{
           label={constants.CLIENT}
           name={constants.CLIENTS}
           className={classes.formControl}
+        />
+        <BillableCheckboxGroup
+          billable={formik.values.billable}
+          nonBillable={formik.values.nonBillable}
+          handleChange={formik.handleChange}
         />
         <TimeIntervalQuickSelects setFieldValue={formik.setFieldValue} />
         <TimeIntervalSelects

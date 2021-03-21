@@ -3,7 +3,12 @@
         "title": "Timesheets"
     },
     "billable": {
-        "label": "Is billable"
+        "label": "Is billable",
+        "includeBillable": "Include billable projects",
+        "includeNonBillable": "Include non-billable projects",
+        "error": "At least one must be selected.",
+        "onlyBillable": "Showing only billable projects.",
+        "onlyNonBillable": "Showing only non-billable projects."
     },
     "button": {
         "generate": "Generate",
@@ -89,7 +94,8 @@
             "details": "Details",
             "grandTotal": "Grand total",
             "projectSubTotal": "Project subtotal",
-            "clientSubTotal": "Client subtotal"
+            "clientSubTotal": "Client subtotal",
+            "noHours": "No hours"
         },
         "billing": {
             "form": {

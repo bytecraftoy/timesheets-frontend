@@ -24,10 +24,22 @@ const useStyles = makeStyles(() => ({
   grandTotalRow: {
     backgroundColor: indigo[100],
   },
+  stripedRow: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: indigo[50],
+    },
+  },
 }))
 
 const ProjectRow: React.FC<{ project: ProjectWithInputsOfOneEmployee }> = ({ project }) => {
-  return <SummaryTotalRow label={project.name} total={project.projectTotal} />
+  const classes = useStyles()
+  return (
+    <SummaryTotalRow
+      label={project.name}
+      total={project.projectTotal}
+      className={classes.stripedRow}
+    />
+  )
 }
 
 const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client }) => {
@@ -45,6 +57,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
         <ProjectRow key={project.id} project={project} />
       ))}
       <CountTotalRow
+        className={classes.stripedRow}
         label={t('report.preview.clientSubTotal')}
         total={minutesToHoursAndMinutes(client.clientTotal)}
       />

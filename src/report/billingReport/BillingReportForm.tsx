@@ -24,11 +24,12 @@ import {
 import { getBillingReportData } from '../ReportService'
 import { getFirstDayOfMonth, getLastDayOfLastMonth } from '../../services/dateAndTimeService'
 import { useAPIErrorHandler } from '../../services/errorHandlingService'
-import TimeIntervalQuickSelects from '../../button/TimeIntervalQuickSelects'
+import TimeIntervalQuickSelects from '../TimeIntervalQuickSelects'
 import SubmitButton from '../../button/SubmitButton'
 import TimeIntervalSelects from '../../form/TimeIntervalSelects'
 import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
+import BillableCheckboxGroup from '../BillableCheckboxGroup'
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -58,6 +59,8 @@ const BillingReportForm: React.FC<{
     client: '',
     projects: [],
     employees: [],
+    billable: true,
+    nonBillable: true,
   }
 
   const formik = useFormik({
@@ -169,6 +172,11 @@ const BillingReportForm: React.FC<{
           label={constants.PROJECT}
           name={constants.PROJECTS}
           className={classes.formControl}
+        />
+        <BillableCheckboxGroup
+          billable={formik.values.billable}
+          nonBillable={formik.values.nonBillable}
+          handleChange={formik.handleChange}
         />
         <FormSelectMultipleWithButtons
           formSelectItems={employeesToFormSelectItem(employees)}
