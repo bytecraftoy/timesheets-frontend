@@ -13,12 +13,13 @@ import {
   Typography,
 } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
-import { Project } from '../common/types'
+import { Employee, Project } from '../common/types'
 import ProjectInfo from './ProjectInfo'
 import ProjectForm from './ProjectForm'
 import { getAllProjects } from '../services/projectService'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 import { useUserContext } from '../context/UserContext'
+import { getAllEmployees } from '../services/employeeService'
 
 const ProjectsTableHead: React.FC = () => {
   return (
@@ -37,10 +38,12 @@ const ProjectsTableHead: React.FC = () => {
 const ProjectsTable: React.FC = () => {
   const [isLoading, setLoading] = useState(true)
   const [projects, setProjects] = useState<Project[]>([])
+  const [employees, setEmployees] = useState<Employee[]>([])
 
   const fetchProjects = useCallback(async () => {
-    const result = await getAllProjects()
-    setProjects(result)
+    const projectPromise = getAllProjects()
+    setEmployees(await getAllEmployees())
+    setProjects(await projectPromise)
   }, [])
 
   useAPIErrorHandlerWithFinally(
@@ -62,7 +65,7 @@ const ProjectsTable: React.FC = () => {
         <ProjectsTableHead />
         <TableBody data-cy="projects-table">
           {projects.map((project: Project) => (
-            <ProjectInfo key={project.id} project={project} />
+            <ProjectInfo key={project.id} project={project} employees={employees} />
           ))}
         </TableBody>
       </Table>

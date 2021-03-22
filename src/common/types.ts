@@ -189,6 +189,10 @@ export interface ProjectFormValues {
   employees: string[]
 }
 
+export interface ProjectUpdateValues extends ProjectFormValues {
+  id: string
+}
+
 export interface ProjectAndInputs {
   id: string
   name: string

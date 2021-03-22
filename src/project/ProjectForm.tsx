@@ -16,7 +16,7 @@ import * as constants from '../common/constants'
 import FormTextField from '../form/FormTextField'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
-import { clientToFormSelectItem, managerToFormSelectItem } from '../form/formService'
+import { clientToFormSelectItem, employeesToFormSelectItem } from '../form/formService'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 import FormSwitch from '../form/FormSwitch'
 
@@ -54,7 +54,7 @@ const ProjectForm: React.FC = () => {
       try {
         const response = await createProject(values)
         setNotification({
-          message: t('project.message.success', { project: response.name }),
+          message: t('project.message.createSuccess', { project: response.name }),
           severity: 'success',
         })
       } catch (error) {
@@ -98,10 +98,12 @@ const ProjectForm: React.FC = () => {
   )
 
   const clientSelectItems = useMemo(() => clientToFormSelectItem(clients), [clients])
-  const managerSelectItems = useMemo(() => managerToFormSelectItem(managers), [managers])
+  const managerSelectItems = useMemo(() => employeesToFormSelectItem(managers), [managers])
   const employeeSelectItems = useMemo(
     () =>
-      managerToFormSelectItem(employees.filter((employee) => employee.id !== formik.values.owner)),
+      employeesToFormSelectItem(
+        employees.filter((employee) => employee.id !== formik.values.owner)
+      ),
     [employees, formik.values.owner]
   )
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Project, ProjectFormValues } from '../common/types'
+import { Project, ProjectFormValues, ProjectUpdateValues } from '../common/types'
 
 const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
@@ -18,4 +18,9 @@ const createProject = async (newProject: ProjectFormValues): Promise<Project> =>
   return data as Project
 }
 
-export { getAllProjects, getProjectsByClientId, createProject }
+const updateProject = async (project: ProjectUpdateValues): Promise<Project> => {
+  const { data } = await axios.put(`${baseUrl}/projects`, project)
+  return data as Project
+}
+
+export { getAllProjects, getProjectsByClientId, createProject, updateProject }

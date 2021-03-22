@@ -13,6 +13,7 @@
     "button": {
         "generate": "Generate",
         "create": "Create",
+        "update": "Update",
         "cancel": "Cancel",
         "thisMonth": "This month",
         "lastMonth": "Last month",
@@ -62,13 +63,22 @@
         "label": "Project",
         "myProjectsLabel": "My projects",
         "labelPlural": "Projects",
+        "projectName": "Project name",
+        "projectActions": "Actions",
+        "details": "Project Details",
+        "updateEmployees": "Update employees",
+        "time": "Time",
+        "createdBy": "By",
+        "created": "Created",
+        "modified": "Last modified",
         "title": "Projects",
         "name": "projects",
         "form": {
             "nameLabel": "Project's Name"
         },
         "message": {
-            "success": "{{project}} created succesfully!"
+            "createSuccess": "{{project}} created succesfully!",
+            "updateSuccess": "{{project}} updated succesfully!"
         },
         "description": {
             "label": "Description",
