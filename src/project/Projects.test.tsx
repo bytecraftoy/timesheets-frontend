@@ -12,7 +12,7 @@ describe('single project', () => {
     component = render(
       <table>
         <tbody>
-          <ProjectInfo project={project} />
+          <ProjectInfo project={project} employees={project.employees} />
         </tbody>
       </table>
     )
