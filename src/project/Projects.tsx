@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, Link, useRouteMatch, Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   Button,
@@ -18,6 +18,7 @@ import ProjectInfo from './ProjectInfo'
 import ProjectForm from './ProjectForm'
 import { getAllProjects } from '../services/projectService'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
+import { useUserContext } from '../context/UserContext'
 
 const ProjectsTableHead: React.FC = () => {
   return (
@@ -72,6 +73,7 @@ const ProjectsTable: React.FC = () => {
 const ProjectsView: React.FC = () => {
   const { path, url } = useRouteMatch()
   const { t } = useTranslation()
+  const { user } = useUserContext()
 
   return (
     <div>
@@ -80,19 +82,21 @@ const ProjectsView: React.FC = () => {
       </Typography>
       <Switch>
         <Route exact path={path}>
-          <Button
-            variant="outlined"
-            color="primary"
-            data-cy="add-project-button"
-            component={Link}
-            to={`${url}/new-project`}
-          >
-            {t('project.addProject')}
-          </Button>
+          {user.isManager && (
+            <Button
+              variant="outlined"
+              color="primary"
+              data-cy="add-project-button"
+              component={Link}
+              to={`${url}/new-project`}
+            >
+              {t('project.addProject')}
+            </Button>
+          )}
           <ProjectsTable />
         </Route>
         <Route path={`${path}/new-project`}>
-          <ProjectForm />
+          {!user.isManager ? <Redirect to={path} /> : <ProjectForm />}
         </Route>
       </Switch>
     </div>

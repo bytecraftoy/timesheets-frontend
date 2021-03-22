@@ -9,7 +9,7 @@ import {
   updateHours,
   projectAndInputsWithIdToProjectAndInputs,
   getErrorMessages,
-} from './DashboardService'
+} from './dashboardService'
 import TimeInputsRow from './TimeInputsRow'
 import { TimeInputsFormProps } from '../common/types'
 import notificationState from '../common/atoms'
