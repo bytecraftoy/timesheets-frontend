@@ -11,6 +11,11 @@ const getProjectsByClientId = async (clientId: string): Promise<Project[]> => {
   return data as Project[]
 }
 
+const getProjectsByEmployeeId = async (employeeId: string): Promise<Project[]> => {
+  const { data } = await axios.get(`/employees/${employeeId}/projects`)
+  return data as Project[]
+}
+
 const createProject = async (newProject: ProjectFormValues): Promise<Project> => {
   const { data } = await axios.post('/projects', newProject)
   return data as Project
@@ -21,4 +26,10 @@ const updateProject = async (project: ProjectUpdateValues): Promise<Project> => 
   return data as Project
 }
 
-export { getAllProjects, getProjectsByClientId, createProject, updateProject }
+export {
+  getAllProjects,
+  getProjectsByClientId,
+  getProjectsByEmployeeId,
+  createProject,
+  updateProject,
+}
