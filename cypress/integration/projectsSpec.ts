@@ -26,8 +26,8 @@ describe('add project', () => {
   })
 
   it('should input project description', () => {
-    cy.get('input[name="description"]').type('cypress testi projektin kuvaus')
-    cy.get('input[name="description"]').should('have.value', 'cypress testi projektin kuvaus')
+    cy.get('textarea[name="description"]').type('cypress testi projektin kuvaus')
+    cy.get('textarea[name="description"]').should('have.value', 'cypress testi projektin kuvaus')
   })
 
   // TODO: is it possible to select the first item on the list
