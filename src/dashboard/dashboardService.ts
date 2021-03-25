@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { format, isSameDay } from 'date-fns'
 import { FormikErrors } from 'formik'
+import axios from 'axios'
 import {
   ProjectAndInputs,
   ProjectAndInputsWithId,
@@ -12,8 +12,6 @@ import {
   Input,
 } from '../common/types'
 import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
-
-const baseUrl = process.env.REACT_APP_BACKEND_HOST
 
 const hoursToMinutes = (hours: string) => Math.round(Number(hours) * 60)
 
@@ -116,9 +114,7 @@ const updateHours = async (
   }
   if (hoursToPost.length > 0) {
     const responses = await Promise.all(
-      hoursToPost.map((hourWithSavedIndex) =>
-        axios.post(`${baseUrl}/hours`, hourWithSavedIndex.hour)
-      )
+      hoursToPost.map((hourWithSavedIndex) => axios.post('/hours', hourWithSavedIndex.hour))
     )
     const sPRef = savedProjects
     const data = responses.map((response) => response.data)
@@ -127,12 +123,12 @@ const updateHours = async (
     })
   }
   if (hoursToPut.length > 0) {
-    await Promise.all(hoursToPut.map((hour) => axios.put(`${baseUrl}/hours`, hour)))
+    await Promise.all(hoursToPut.map((hour) => axios.put('/hours', hour)))
   }
 }
 
 const getProjectHours = async (projectId: string, start: Date, end: Date): Promise<TimeInput[]> => {
-  const { data } = await axios.get(`${baseUrl}/projects/${projectId}/hours`, {
+  const { data } = await axios.get(`/projects/${projectId}/hours`, {
     params: {
       userId: '9fa407f4-7375-446b-92c6-c578839b7780',
       startDate: format(start, 'yyyy-MM-dd'),

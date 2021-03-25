@@ -1,6 +1,6 @@
-import axios from 'axios'
 import qs from 'qs'
 import { format } from 'date-fns'
+import axios from 'axios'
 import {
   BillingReportFormValues,
   BillingReportData,
@@ -8,12 +8,10 @@ import {
   SalaryReportData,
 } from '../common/types'
 
-const baseUrl = process.env.REACT_APP_BACKEND_HOST
-
 const getBillingReportData = async (
   values: BillingReportFormValues
 ): Promise<BillingReportData> => {
-  const { data } = await axios.get(`${baseUrl}/report/client/${values.client}`, {
+  const { data } = await axios.get(`/report/client/${values.client}`, {
     params: {
       startDate: format(values.startDate, 'yyyy-MM-dd'),
       endDate: format(values.endDate, 'yyyy-MM-dd'),
@@ -30,7 +28,7 @@ const getBillingReportData = async (
 }
 
 const getSalaryReportData = async (values: SalaryReportFormValues): Promise<SalaryReportData> => {
-  const { data } = await axios.get(`${baseUrl}/report/employee/${values.employee}`, {
+  const { data } = await axios.get(`/report/employee/${values.employee}`, {
     params: {
       startDate: format(values.startDate, 'yyyy-MM-dd'),
       endDate: format(values.endDate, 'yyyy-MM-dd'),

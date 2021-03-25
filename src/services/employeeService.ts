@@ -1,16 +1,14 @@
-import axios from 'axios'
 import qs from 'qs'
+import axios from 'axios'
 import { Employee, User, UserContextType } from '../common/types'
 
-const baseUrl = process.env.REACT_APP_BACKEND_HOST
-
 const getAllEmployees = async (): Promise<Employee[]> => {
-  const { data } = await axios.get(`${baseUrl}/employees`)
+  const { data } = await axios.get('/employees')
   return data as Employee[]
 }
 
 const getEmployeesByProjectIds = async (projectIds: string[]): Promise<Employee[]> => {
-  const { data } = await axios.get(`${baseUrl}/projects/employees`, {
+  const { data } = await axios.get('/projects/employees', {
     params: {
       projects: projectIds,
     },

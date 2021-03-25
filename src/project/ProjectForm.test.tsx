@@ -227,7 +227,7 @@ describe('add project form', () => {
     })
 
     it('the form should post correct json', () => {
-      expect(axios.post).toBeCalledWith('undefined/projects', newTestProjectJson)
+      expect(axios.post).toBeCalledWith('/projects', newTestProjectJson)
     })
   })
 })
