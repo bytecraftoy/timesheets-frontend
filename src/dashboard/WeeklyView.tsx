@@ -11,12 +11,15 @@ import WeekRow from './WeekRow'
 import WeekdaysRow from './WeekdaysRow'
 import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 import TimeInputsFormControlRow from './TimeInputsFormControlRow'
+import { useUserContext } from '../context/UserContext'
 
 const WeeklyView: React.FC<{
   projects: Project[]
   debounceMs: number
 }> = ({ projects, debounceMs }) => {
   const { t } = useTranslation()
+  const { user } = useUserContext()
+
   const [projectsAndInputs, setProjectsAndInputs] = useState<ProjectAndInputsWithId[]>([])
   const [isLoading, setLoading] = useState(true)
   const [showDescription, toggleShowDescription] = useReducer((status) => !status, false)
@@ -37,13 +40,13 @@ const WeeklyView: React.FC<{
         id: project.id,
         name: project.name,
         inputs: timeInputsToWeekInputs(
-          await getProjectHours(project.id, timeIntervalStartDate, timeIntervalEndDate),
+          await getProjectHours(project.id, timeIntervalStartDate, timeIntervalEndDate, user.id),
           week
         ),
       }))
     )
     setProjectsAndInputs(projectsWithInputs)
-  }, [projects, week])
+  }, [projects, week, user])
 
   useAPIErrorHandlerWithFinally(
     fetchTimeInputs,

@@ -75,7 +75,8 @@ const timeStringToNumber = (value: string): number => {
 const updateHours = async (
   projects: ProjectAndInputs[],
   savedProjects: ProjectAndInputsWithId[],
-  week: Date[]
+  week: Date[],
+  userId: string
 ): Promise<void> => {
   const hoursToPost: HoursWithSavedIndex<Hours>[] = []
   const hoursToPut: HoursUpdate[] = []
@@ -96,8 +97,7 @@ const updateHours = async (
               input: timeStringToNumber(currentInput.time),
               description: currentInput.description,
               project: projects[i].id,
-              // TODO: decide how employee is passed to the server
-              employee: '9fa407f4-7375-446b-92c6-c578839b7780',
+              employee: userId,
             },
           })
         } else {
@@ -127,10 +127,15 @@ const updateHours = async (
   }
 }
 
-const getProjectHours = async (projectId: string, start: Date, end: Date): Promise<TimeInput[]> => {
+const getProjectHours = async (
+  projectId: string,
+  start: Date,
+  end: Date,
+  userId: string
+): Promise<TimeInput[]> => {
   const { data } = await axios.get(`/projects/${projectId}/hours`, {
     params: {
-      userId: '9fa407f4-7375-446b-92c6-c578839b7780',
+      userId,
       startDate: format(start, 'yyyy-MM-dd'),
       endDate: format(end, 'yyyy-MM-dd'),
     },
