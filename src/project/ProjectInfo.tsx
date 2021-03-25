@@ -176,7 +176,7 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
               </Typography>
               <Typography variant="h6">
                 {t('employee.labelPlural')}
-                <IconButton size="small" onClick={handleClick}>
+                <IconButton color="inherit" size="small" onClick={handleClick}>
                   <EditIcon />
                 </IconButton>
               </Typography>
