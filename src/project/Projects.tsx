@@ -22,14 +22,17 @@ import { useUserContext } from '../context/UserContext'
 import { getAllEmployees } from '../services/employeeService'
 
 const ProjectsTableHead: React.FC = () => {
+  const { t } = useTranslation()
+  const { user } = useUserContext()
+
   return (
     <TableHead>
       <TableRow>
         <TableCell />
-        <TableCell>Project name</TableCell>
-        <TableCell align="right">Client</TableCell>
-        <TableCell align="center">Owner</TableCell>
-        <TableCell align="right">Actions</TableCell>
+        <TableCell>{t('project.projectName')}</TableCell>
+        <TableCell align="right">{t('client.label')}</TableCell>
+        <TableCell align="center">{t('owner.label')}</TableCell>
+        {user.isManager && <TableCell align="right">{t('project.actions')}</TableCell>}
       </TableRow>
     </TableHead>
   )
