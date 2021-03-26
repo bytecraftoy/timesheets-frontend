@@ -95,7 +95,8 @@
         "selectAll": "Select all projects",
         "unselectAll": "Unselect all projects",
         "createNew": "Create new project",
-        "addProject": "Add project"
+        "addProject": "Add project",
+        "showAll": "Show all projects"
     },
     "report": {
         "title": "Reports",

@@ -1,85 +1,22 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { Switch, Route, Link, useRouteMatch, Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@material-ui/core'
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
-import { Employee, Project } from '../common/types'
-import ProjectInfo from './ProjectInfo'
+import { Button, Grid, Typography } from '@material-ui/core'
 import ProjectForm from './ProjectForm'
-import { getAllProjects } from '../services/projectService'
-import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 import { useUserContext } from '../context/UserContext'
-import { getAllEmployees } from '../services/employeeService'
-
-const ProjectsTableHead: React.FC = () => {
-  const { t } = useTranslation()
-  const { user } = useUserContext()
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell />
-        <TableCell>{t('project.projectName')}</TableCell>
-        <TableCell align="right">{t('client.label')}</TableCell>
-        <TableCell align="center">{t('owner.label')}</TableCell>
-        {user.isManager && <TableCell align="right">{t('project.actions')}</TableCell>}
-      </TableRow>
-    </TableHead>
-  )
-}
-
-const ProjectsTable: React.FC = () => {
-  const [isLoading, setLoading] = useState(true)
-  const [projects, setProjects] = useState<Project[]>([])
-  const [employees, setEmployees] = useState<Employee[]>([])
-
-  const fetchProjects = useCallback(async () => {
-    const projectPromise = getAllProjects()
-    setEmployees(await getAllEmployees())
-    setProjects(await projectPromise)
-  }, [])
-
-  useAPIErrorHandlerWithFinally(
-    fetchProjects,
-    useCallback(() => setLoading(false), [])
-  )
-
-  if (isLoading) {
-    return (
-      <div>
-        <HourglassEmptyIcon />
-      </div>
-    )
-  }
-
-  return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <ProjectsTableHead />
-        <TableBody data-cy="projects-table">
-          {projects.map((project: Project) => (
-            <ProjectInfo key={project.id} project={project} employees={employees} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  )
-}
+import FormSwitch from '../form/FormSwitch'
+import ProjectsTable from './ProjectsTable'
 
 const ProjectsView: React.FC = () => {
   const { path, url } = useRouteMatch()
   const { t } = useTranslation()
   const { user } = useUserContext()
+
+  const [showAllProjects, setShowAllProjects] = useState(false)
+
+  const handleShowAllProjects = () => {
+    setShowAllProjects(!showAllProjects)
+  }
 
   return (
     <div>
@@ -89,17 +26,30 @@ const ProjectsView: React.FC = () => {
       <Switch>
         <Route exact path={path}>
           {user.isManager && (
-            <Button
-              variant="outlined"
-              color="primary"
-              data-cy="add-project-button"
-              component={Link}
-              to={`${url}/new-project`}
-            >
-              {t('project.addProject')}
-            </Button>
+            <Grid container spacing={2}>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  data-cy="add-project-button"
+                  component={Link}
+                  to={`${url}/new-project`}
+                >
+                  {t('project.addProject')}
+                </Button>
+              </Grid>
+              <Grid item>
+                <FormSwitch
+                  name="show-all-projects"
+                  checked={showAllProjects}
+                  handleChange={handleShowAllProjects}
+                  ariaLabel="show-all-projects"
+                  label={t('project.showAll')}
+                />
+              </Grid>
+            </Grid>
           )}
-          <ProjectsTable />
+          <ProjectsTable showAllProjects={showAllProjects} />
         </Route>
         <Route path={`${path}/new-project`}>
           {!user.isManager ? <Redirect to={path} /> : <ProjectForm />}
