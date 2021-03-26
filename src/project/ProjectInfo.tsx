@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { Employee, Project } from '../common/types'
 import { getEmployeeFullName } from '../services/employeeService'
 import EditEmployeesDialog from './EditEmployeesDialog'
+import { useUserContext } from '../context/UserContext'
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +41,7 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
+  const { user } = useUserContext()
 
   const created = useMemo(() => new Date(project.creationTimestamp).toString(), [
     project.creationTimestamp,
@@ -57,12 +59,6 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
 
   return (
     <>
-      <EditEmployeesDialog
-        project={project}
-        employees={employees}
-        open={editDialogOpen}
-        toggleOpen={toggleEditDialogOpen}
-      />
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -76,10 +72,12 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
         <TableCell align="center">
           <Avatar style={{ margin: 'auto' }}>{projectOwner}</Avatar>
         </TableCell>
-        <TableCell align="right">
-          <EditIcon />
-          <DeleteOutlinedIcon />
-        </TableCell>
+        {user.isManager && (
+          <TableCell align="right">
+            <EditIcon />
+            <DeleteOutlinedIcon />
+          </TableCell>
+        )}
       </TableRow>
       {/* Collapsible part */}
       <TableRow>
@@ -94,9 +92,19 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
               </Typography>
               <Typography variant="h6">
                 {t('employee.labelPlural')}
-                <IconButton color="inherit" size="small" onClick={toggleEditDialogOpen}>
-                  <EditIcon />
-                </IconButton>
+                {user.isManager && (
+                  <>
+                    <IconButton color="inherit" size="small" onClick={toggleEditDialogOpen}>
+                      <EditIcon />
+                    </IconButton>
+                    <EditEmployeesDialog
+                      project={project}
+                      employees={employees}
+                      open={editDialogOpen}
+                      toggleOpen={toggleEditDialogOpen}
+                    />
+                  </>
+                )}
               </Typography>
               <Typography variant="body1">{projectEmployees}</Typography>
               <Table>
