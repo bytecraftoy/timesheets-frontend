@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useReducer, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Avatar,
@@ -11,29 +11,17 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from '@material-ui/core'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import EditIcon from '@material-ui/icons/Edit'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import { useFormik } from 'formik'
-import { useSetRecoilState } from 'recoil'
 import { useTranslation } from 'react-i18next'
 import { Employee, Project } from '../common/types'
 import { getEmployeeFullName } from '../services/employeeService'
-import { updateProject } from '../services/projectService'
-import notificationState from '../common/atoms'
-import { employeesToFormSelectItem } from '../form/formService'
-import FormSelectMultiple from '../form/FormSelectMultiple'
-import SubmitButton from '../button/SubmitButton'
-import { EMPLOYEES } from '../common/constants'
+import EditEmployeesDialog from './EditEmployeesDialog'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     '& > *': {
       borderBottom: 'unset',
@@ -43,12 +31,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0,
     paddingTop: 0,
   },
-  formControl: {
-    width: 230,
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
-}))
+})
 
 const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
   project,
@@ -57,7 +40,6 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
-  const setNotification = useSetRecoilState(notificationState)
 
   const created = useMemo(() => new Date(project.creationTimestamp).toString(), [
     project.creationTimestamp,
@@ -65,86 +47,22 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
   const edited = useMemo(() => new Date(project.lastEdited).toString(), [project.lastEdited])
 
   const projectOwner = project.owner.firstName.charAt(0) + project.owner.lastName.charAt(0)
+
+  const [editDialogOpen, toggleEditDialogOpen] = useReducer((value) => !value, false)
+
   const projectEmployees: string = useMemo(
     () => project.employees.map((employee) => getEmployeeFullName(employee)).join(', '),
     [project.employees]
   )
 
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
-    setAnchorEl(event.currentTarget)
-  const handleClose = () => setAnchorEl(null)
-  const openDialog = Boolean(anchorEl)
-  const initialValues: { employees: string[] } = useMemo(() => {
-    return {
-      employees: project.employees.map((employee) => employee.id),
-    }
-  }, [project.employees])
-
-  const formik = useFormik({
-    initialValues,
-    onSubmit: async (values) => {
-      const projectUpdate = {
-        id: project.id,
-        name: project.name,
-        description: project.description,
-        client: project.client.id,
-        owner: project.owner.id,
-        billable: project.billable,
-        employees: values.employees,
-      }
-      try {
-        const response = await updateProject(projectUpdate)
-        setNotification({
-          message: t('project.message.updateSuccess', { project: response.name }),
-          severity: 'success',
-        })
-        const proRef = project
-        proRef.employees = response.employees
-      } catch (error) {
-        setNotification({ message: error, severity: 'error' })
-      } finally {
-        handleClose()
-      }
-    },
-  })
-
-  const employeeSelectItems = useMemo(
-    () =>
-      employeesToFormSelectItem(employees.filter((employee) => employee.id !== project.owner.id)),
-    [employees, project.owner.id]
-  )
-
   return (
     <>
-      <Dialog open={openDialog} onClose={handleClose}>
-        <DialogTitle>Update employees</DialogTitle>
-        <DialogContent>
-          <form onSubmit={formik.handleSubmit}>
-            <FormSelectMultiple
-              objects={employeeSelectItems}
-              className={classes.formControl}
-              name={EMPLOYEES}
-              label={t('employee.label')}
-              handleChange={formik.handleChange}
-              handleBlur={formik.handleBlur}
-              value={formik.values.employees}
-              errors={formik.errors.employees}
-              touched={formik.touched.employees}
-            />
-            <DialogActions>
-              <Button disabled={formik.isSubmitting} variant="contained" onClick={handleClose}>
-                {t('button.cancel')}
-              </Button>
-              <SubmitButton
-                disabled={formik.isSubmitting}
-                testId="projectFormSubmit"
-                label={t('button.update')}
-              />
-            </DialogActions>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <EditEmployeesDialog
+        project={project}
+        employees={employees}
+        open={editDialogOpen}
+        toggleOpen={toggleEditDialogOpen}
+      />
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -176,7 +94,7 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
               </Typography>
               <Typography variant="h6">
                 {t('employee.labelPlural')}
-                <IconButton color="inherit" size="small" onClick={handleClick}>
+                <IconButton color="inherit" size="small" onClick={toggleEditDialogOpen}>
                   <EditIcon />
                 </IconButton>
               </Typography>
