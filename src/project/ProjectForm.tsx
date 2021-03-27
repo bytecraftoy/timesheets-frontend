@@ -4,7 +4,6 @@ import { useSetRecoilState } from 'recoil'
 import { useTranslation } from 'react-i18next'
 import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
 import { useFormik } from 'formik'
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import SubmitButton from '../button/SubmitButton'
 import { Client, Employee, Manager, ProjectFormValues } from '../common/types'
 import { createProject } from '../services/projectService'
@@ -17,10 +16,8 @@ import FormTextField from '../form/FormTextField'
 import FormSelect from '../form/FormSelect'
 import FormSelectMultiple from '../form/FormSelectMultiple'
 import { clientToFormSelectItem, employeesToFormSelectItem } from '../form/formService'
-import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
+import { useAPIErrorHandler } from '../services/errorHandlingService'
 import FormSwitch from '../form/FormSwitch'
-
-// TODO: refactor ProjectForm into smaller components
 
 const useStyles = makeStyles(() => ({
   formControl: {
@@ -32,7 +29,6 @@ const ProjectForm: React.FC = () => {
   const { t } = useTranslation()
   const classes = useStyles()
 
-  const [isLoading, setLoading] = useState(true)
   const [clients, setClients] = useState<Client[]>([])
   const [managers, setManagers] = useState<Manager[]>([])
   const [employees, setEmployees] = useState<Employee[]>([])
@@ -85,17 +81,12 @@ const ProjectForm: React.FC = () => {
   })
 
   const fetchEmployeesManagersAndClients = useCallback(async () => {
-    const clientPromise = getAllClients()
-    const employeePromise = getAllEmployees()
     setManagers(await getAllManagers())
-    setClients(await clientPromise)
-    setEmployees(await employeePromise)
+    setClients(await getAllClients())
+    setEmployees(await getAllEmployees())
   }, [])
 
-  useAPIErrorHandlerWithFinally(
-    fetchEmployeesManagersAndClients,
-    useCallback(() => setLoading(false), [])
-  )
+  useAPIErrorHandler(fetchEmployeesManagersAndClients)
 
   const clientSelectItems = useMemo(() => clientToFormSelectItem(clients), [clients])
   const managerSelectItems = useMemo(() => employeesToFormSelectItem(managers), [managers])
@@ -112,14 +103,6 @@ const ProjectForm: React.FC = () => {
       (employee) => employee !== formik.values.owner
     )
   }, [formik.values])
-
-  if (isLoading) {
-    return (
-      <div>
-        <HourglassEmptyIcon />
-      </div>
-    )
-  }
 
   return (
     <>
@@ -201,7 +184,7 @@ const ProjectForm: React.FC = () => {
               label={t('billable.label')}
             />
           </Grid>
-          {toNext && <Redirect to="/projects" />}
+          {toNext && <Redirect to={constants.PATHS.projects} />}
           <Grid container item spacing={1}>
             <SubmitButton
               disabled={formik.isSubmitting}
