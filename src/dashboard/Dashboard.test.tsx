@@ -342,13 +342,13 @@ describe('weekly view', () => {
       input: time * 60,
       description: '',
       date: format(monday, 'yyyy-MM-dd'),
-      employee: '9fa407f4-7375-446b-92c6-c578839b7780',
+      employee: '',
     }
 
     it('the form should post correct json', async () => {
       await changeFirstTimeInput(component, time.toString())
       await component.findByText(t('timeInputs.savedMessage'), { exact: false })
-      expect(axios.post).toBeCalledWith('undefined/hours', newTimeInputJson)
+      expect(axios.post).toBeCalledWith('/hours', newTimeInputJson)
       expect(axios.put).toBeCalledTimes(0)
     })
   })
@@ -393,7 +393,7 @@ describe('weekly view', () => {
     it('the form should put correct json', async () => {
       await changeFirstTimeInput(component, time.toString())
       await component.findByText(t('timeInputs.savedMessage'), { exact: false })
-      expect(axios.put).toBeCalledWith('undefined/hours', updateTimeInputJson)
+      expect(axios.put).toBeCalledWith('/hours', updateTimeInputJson)
       expect(axios.post).toBeCalledTimes(0)
     })
   })

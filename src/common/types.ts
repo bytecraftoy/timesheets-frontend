@@ -160,10 +160,6 @@ export interface NotificationMessage {
   severity: Severity
 }
 
-export interface OutlinedButtonProps {
-  label: string
-  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-}
 export interface Project {
   id: string
   name: string

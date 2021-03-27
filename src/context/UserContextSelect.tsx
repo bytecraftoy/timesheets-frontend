@@ -60,7 +60,7 @@ const UserContextSelect: React.FC = () => {
         >
           {users.length === 0 && (
             <MenuItem disabled value="">
-              {t('user.fetch')}
+              {t('user.fetching')}
             </MenuItem>
           )}
           {users.map((obj) => {

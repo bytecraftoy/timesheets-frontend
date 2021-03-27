@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import { makeStyles } from '@material-ui/core/styles'
@@ -7,6 +8,9 @@ import SideBar from '../navigation/SideBar'
 import Content from '../navigation/Content'
 import Notification from '../toast/Notification'
 import { UserProvider } from '../context/UserContext'
+
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_HOST
+axios.defaults.timeout = 10000
 
 const useStyles = makeStyles(() => ({
   root: {

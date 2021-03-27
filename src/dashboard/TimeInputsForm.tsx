@@ -14,6 +14,7 @@ import TimeInputsRow from './TimeInputsRow'
 import { TimeInputsFormProps } from '../common/types'
 import notificationState from '../common/atoms'
 import DailyTotalRow from './DailyTotalRow'
+import { useUserContext } from '../context/UserContext'
 
 const focusDifferentRow = (rowsToChange: number, length: number) => {
   const elem = document.activeElement
@@ -42,6 +43,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
   const { t } = useTranslation()
+  const { user } = useUserContext()
 
   const formik = useFormik({
     validateOnChange: false,
@@ -50,7 +52,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
     },
     onSubmit: async (values) => {
       try {
-        await updateHours(values.projects, projectsAndInputs, week)
+        await updateHours(values.projects, projectsAndInputs, week, user.id)
       } catch (error) {
         setNotification({ message: error, severity: 'error' })
       } finally {
