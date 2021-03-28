@@ -1,22 +1,15 @@
 import React from 'react'
-import { makeStyles, TableCell, TableRow } from '@material-ui/core'
-import { indigo } from '@material-ui/core/colors'
+import { TableCell, TableRow } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 
-const useStyles = makeStyles(() => ({
-  employeeRow: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: indigo[50],
-    },
-  },
-}))
+import useStyles from './styles'
 
 const NoHoursRow: React.FC<{ numberOfIndent: number }> = ({ numberOfIndent }) => {
   const classes = useStyles()
   const { t } = useTranslation()
 
   return (
-    <TableRow className={classes.employeeRow}>
+    <TableRow className={classes.stripedRow}>
       <TableCell />
       {numberOfIndent === 2 && <TableCell />}
       <TableCell align="center" colSpan={numberOfIndent === 2 ? 2 : 3}>

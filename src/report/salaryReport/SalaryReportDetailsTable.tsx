@@ -1,41 +1,20 @@
 import React, { useState } from 'react'
-import {
-  makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@material-ui/core'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
-import { indigo } from '@material-ui/core/colors'
 import { ClientWithProjectsAndInputs, ProjectWithInputsOfOneEmployee } from '../../common/types'
 import ReportTableTitle from '../ReportTableTitle'
 import DetailsTableHeaderRow from '../DetailsTableHeaderRow'
 import TimeInputRow from '../TimeInputRow'
 import NoHoursRow from '../NoHoursRow'
 
-const useStyles = makeStyles((theme) => ({
-  detailsTable: {
-    marginTop: theme.spacing(5),
-  },
-  clientRow: {
-    backgroundColor: indigo[100],
-  },
-  projectRow: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: indigo[50],
-    },
-  },
-}))
+import useStyles from '../styles'
 
 const ProjectRows: React.FC<{ project: ProjectWithInputsOfOneEmployee }> = ({ project }) => {
   const classes = useStyles()
 
   return (
     <>
-      <TableRow className={classes.projectRow}>
+      <TableRow className={classes.darkerRow}>
         <TableCell />
         <TableCell align="center">
           <strong>{project.name}</strong>
@@ -55,7 +34,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
 
   return (
     <>
-      <TableRow className={classes.clientRow}>
+      <TableRow className={classes.stripedRow}>
         <TableCell colSpan={4}>
           <strong>{client.name}</strong>
         </TableCell>

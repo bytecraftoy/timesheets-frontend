@@ -1,28 +1,9 @@
 import React from 'react'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import {
-  IconButton,
-  makeStyles,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@material-ui/core'
-import { indigo } from '@material-ui/core/colors'
+import { IconButton, TableCell, TableHead, TableRow, Typography } from '@material-ui/core'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    color: '#fff',
-  },
-  collapseButtonCell: {
-    width: theme.spacing(3),
-  },
-  tableHeaderRow: {
-    backgroundColor: indigo[400],
-    color: theme.palette.common.white,
-  },
-}))
+import useStyles from './styles'
 
 const ReportTableTitle: React.FC<{
   open: boolean

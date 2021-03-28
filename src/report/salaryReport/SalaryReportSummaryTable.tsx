@@ -1,14 +1,5 @@
 import React, { useState } from 'react'
-import {
-  makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@material-ui/core'
-import { indigo } from '@material-ui/core/colors'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import { ClientWithProjectsAndInputs, ProjectWithInputsOfOneEmployee } from '../../common/types'
 import { minutesToHoursAndMinutes } from '../../services/dateAndTimeService'
@@ -17,19 +8,7 @@ import SummaryTableHeaderRow from '../SummaryTableHeaderRow'
 import CountTotalRow from '../CountTotalRow'
 import SummaryTotalRow from '../SummaryTotalRow'
 
-const useStyles = makeStyles(() => ({
-  clientRow: {
-    backgroundColor: indigo[100],
-  },
-  grandTotalRow: {
-    backgroundColor: indigo[100],
-  },
-  stripedRow: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: indigo[50],
-    },
-  },
-}))
+import useStyles from '../styles'
 
 const ProjectRow: React.FC<{ project: ProjectWithInputsOfOneEmployee }> = ({ project }) => {
   const classes = useStyles()
@@ -48,7 +27,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
 
   return (
     <>
-      <TableRow className={classes.clientRow}>
+      <TableRow className={classes.darkerRow}>
         <TableCell colSpan={4}>
           <strong>{client.name}</strong>
         </TableCell>
@@ -89,7 +68,7 @@ const SalaryReportSummaryTable: React.FC<{
                   <ClientRows key={client.id} client={client} />
                 ))}
                 <CountTotalRow
-                  className={classes.grandTotalRow}
+                  className={classes.darkerRow}
                   label={t('report.preview.grandTotal')}
                   total={minutesToHoursAndMinutes(grandTotal)}
                 />
