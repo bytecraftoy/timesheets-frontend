@@ -15,7 +15,7 @@ import { useAPIErrorHandler } from '../services/errorHandlingService'
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(0.5),
-    minWidth: theme.spacing(24),
+    minWidth: 192,
   },
   icon: {
     marginRight: theme.spacing(1),

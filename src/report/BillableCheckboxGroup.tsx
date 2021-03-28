@@ -8,7 +8,7 @@ import { BillableCheckboxGroupProps } from '../common/types'
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: theme.spacing(30),
+    minWidth: constants.DRAWER_WIDTH,
   },
   errorText: {
     marginLeft: theme.spacing(1.5),
