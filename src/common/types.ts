@@ -317,6 +317,7 @@ export interface UserContextType {
   id: string
   firstName: string
   lastName: string
+  username: string
   isManager: boolean
 }
 
