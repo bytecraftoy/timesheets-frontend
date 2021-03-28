@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import { ClientWithProjectsAndInputs, ProjectWithInputsOfOneEmployee } from '../../common/types'
@@ -25,6 +25,8 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
   const classes = useStyles()
   const { t } = useTranslation()
 
+  const convertedClientTotal = useMemo(() => minutesToHoursAndMinutes(client.clientTotal), [client])
+
   return (
     <>
       <TableRow className={classes.darkerRow}>
@@ -38,7 +40,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
       <CountTotalRow
         className={classes.stripedRow}
         label={t('report.preview.clientSubTotal')}
-        total={minutesToHoursAndMinutes(client.clientTotal)}
+        total={convertedClientTotal}
       />
     </>
   )
@@ -51,6 +53,8 @@ const SalaryReportSummaryTable: React.FC<{
   const classes = useStyles()
   const { t } = useTranslation()
   const [open, setOpen] = useState(true)
+
+  const convertedGrandTotal = useMemo(() => minutesToHoursAndMinutes(grandTotal), [grandTotal])
 
   return (
     <>
@@ -70,7 +74,7 @@ const SalaryReportSummaryTable: React.FC<{
                 <CountTotalRow
                   className={classes.darkerRow}
                   label={t('report.preview.grandTotal')}
-                  total={minutesToHoursAndMinutes(grandTotal)}
+                  total={convertedGrandTotal}
                 />
               </TableBody>
             </>
