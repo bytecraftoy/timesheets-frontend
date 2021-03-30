@@ -55,18 +55,22 @@ describe('billing report form', () => {
   })
 
   describe('empty form', () => {
-    it('has client, projects and employees select fields, and start date and end date text fields', () => {
+    it('has client, projects and employees select fields, start date and end date text fields and billable checkboxes', () => {
       const clientSelect = component.getByLabelText(t('client.label'))
       const projectSelect = component.getByLabelText(t('project.labelPlural'))
       const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
       const startDateSelect = component.getByLabelText(t('startDate.label'))
       const endDateSelect = component.getByLabelText(t('endDate.label'))
+      const billableCheckbox = component.getByLabelText(t('billable.includeBillable'))
+      const nonBillableCheckbox = component.getByLabelText(t('billable.includeNonBillable'))
 
       expect(clientSelect).toHaveAttribute('role', 'button')
       expect(projectSelect).toHaveAttribute('role', 'button')
       expect(employeeSelect).toHaveAttribute('role', 'button')
       expect(startDateSelect).toHaveAttribute('type', 'text')
       expect(endDateSelect).toHaveAttribute('type', 'text')
+      expect(billableCheckbox).toHaveAttribute('type', 'checkbox')
+      expect(nonBillableCheckbox).toHaveAttribute('type', 'checkbox')
     })
 
     it('has client select containing fetched clients', async () => {
@@ -84,7 +88,6 @@ describe('billing report form', () => {
     describe('after having selected a client', () => {
       it('has project select containing fetched projects', async () => {
         await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-        await component.findByText(projectTestUtils.clients[0].name)
 
         const projectSelect = component.getByLabelText(t('project.labelPlural'))
 
@@ -101,10 +104,7 @@ describe('billing report form', () => {
     describe('after having selected a client and projects', () => {
       it('has employee select containing fetched employees', async () => {
         await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-        await component.findByText(projectTestUtils.clients[0].name)
-
         await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-        await component.findAllByText(projectTestUtils.projects[0].name)
 
         const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
 
@@ -137,7 +137,6 @@ describe('billing report form', () => {
 
       it('should unselect all projects with unselect all projects button', async () => {
         await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-        await component.findByText(projectTestUtils.clients[0].name)
 
         const selectAllButton = component.getByText(t('project.selectAll'))
         await act(async () => {
@@ -157,10 +156,7 @@ describe('billing report form', () => {
     describe('select and unselect all employees button', () => {
       it('should selects all employees with select all employees button', async () => {
         await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-        await component.findByText(projectTestUtils.clients[0].name)
-
         await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-        await component.findAllByText(projectTestUtils.projects[0].name)
 
         const selectAllButton = component.getByText(t('employee.selectAll'))
         await act(async () => {
@@ -174,10 +170,7 @@ describe('billing report form', () => {
 
       it('should unselect all employees with unselect all employees button', async () => {
         await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
-        await component.findByText(projectTestUtils.clients[0].name)
-
         await projectTestUtils.selectProject(component, projectTestUtils.projects[0])
-        await component.findAllByText(projectTestUtils.projects[0].name)
 
         const selectAllButton = component.getByText(t('employee.selectAll'))
         await act(async () => {
@@ -293,42 +286,51 @@ describe('billing report form', () => {
     it('should display validation error for empty client select field', async () => {
       await pressGenerateButton()
       await waitFor(expect(component.getByText(t('client.error.chooseOne'))).toBeInTheDocument)
-      expect(axios.post).toBeCalledTimes(0)
     })
 
     it('should display validation error for project field', async () => {
       await pressGenerateButton()
       await waitFor(expect(component.getByText(t('project.error.empty'))).toBeInTheDocument)
-      expect(axios.post).toBeCalledTimes(0)
     })
 
     it('should display validation error for employee field', async () => {
       await pressGenerateButton()
       await waitFor(expect(component.getByText(t('employee.error.atLeastOne'))).toBeInTheDocument)
-      expect(axios.post).toBeCalledTimes(0)
+    })
+
+    it('should display validation error for billable checkboxes', async () => {
+      const billableCheckbox = component.getByLabelText(t('billable.includeBillable'))
+      const nonBillableCheckbox = component.getByLabelText(t('billable.includeNonBillable'))
+
+      await act(async () => {
+        fireEvent.click(billableCheckbox)
+        fireEvent.click(nonBillableCheckbox)
+      })
+
+      await pressGenerateButton()
+      await waitFor(expect(component.getByText(t('billable.error'))).toBeInTheDocument)
     })
 
     it('should display validation error when startDate is after endDate', async () => {
       const startDateSelect = component.getByLabelText(t('startDate.label'))
       const endDateSelect = component.getByLabelText(t('endDate.label'))
 
-      const startDate = '01.01.2020'
-      const endDate = '01.12.2019'
+      const inValidStartDate = '01.01.2020'
+      const inValidEndDate = '01.12.2019'
 
       await act(async () => {
-        fireEvent.change(startDateSelect, { target: { value: startDate } })
-        await component.findByDisplayValue(startDate)
+        fireEvent.change(startDateSelect, { target: { value: inValidStartDate } })
+        await component.findByDisplayValue(inValidStartDate)
       })
 
       await act(async () => {
-        fireEvent.change(endDateSelect, { target: { value: endDate } })
-        await component.findByDisplayValue(endDate)
+        fireEvent.change(endDateSelect, { target: { value: inValidEndDate } })
+        await component.findByDisplayValue(inValidEndDate)
       })
 
       await pressGenerateButton()
       await waitFor(expect(component.getByText(t('startDate.error'))).toBeInTheDocument)
       await waitFor(expect(component.getByText(t('endDate.error'))).toBeInTheDocument)
-      expect(axios.post).toBeCalledTimes(0)
     })
   })
 })

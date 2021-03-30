@@ -7,12 +7,13 @@ const guestUser = {
   id: '',
   firstName: '',
   lastName: '',
+  username: '',
   isManager: true,
 }
 
 const setDefault: SetUserContextType = () => guestUser
 
-const UserContext = createContext<UserContextProps>({
+export const UserContext = createContext<UserContextProps>({
   user: guestUser,
   setUserContext: setDefault,
 })

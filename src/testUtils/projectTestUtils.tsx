@@ -3,7 +3,21 @@ import { Client, Employee, Manager, Project } from '../common/types'
 import { t } from './testUtils'
 import { getEmployeeFullName } from '../services/employeeService'
 
-const defaultPerson = { id: '1', firstName: 'A', lastName: 'A', username: 'x', isManager: true }
+export const defaultManager = {
+  id: '1',
+  firstName: 'A',
+  lastName: 'A',
+  username: 'xa',
+  isManager: true,
+}
+const anotherManager = { id: '3', firstName: 'C', lastName: 'C', username: 'xc', isManager: true }
+export const defaultEmployee = {
+  id: '2',
+  firstName: 'B',
+  lastName: 'B',
+  username: 'xb',
+  isManager: false,
+}
 
 const projects: Project[] = [
   {
@@ -11,30 +25,42 @@ const projects: Project[] = [
     name: 'Projekti',
     description: '',
     client: { id: '1', name: 'Client 1' },
-    owner: defaultPerson,
-    creator: defaultPerson,
-    managers: [defaultPerson],
+    owner: defaultManager,
+    creator: defaultManager,
+    managers: [defaultManager],
     billable: true,
-    employees: [],
-    tags: ['front-end'],
+    employees: [defaultEmployee],
     creationTimestamp: 1608652437257,
     lastEdited: 1608652437257,
-    lastEditor: defaultPerson,
+    lastEditor: defaultManager,
   },
   {
     id: '1001',
     name: 'Toinen projekti',
     description: '',
     client: { id: '1', name: 'Client 1' },
-    owner: defaultPerson,
-    creator: defaultPerson,
-    managers: [defaultPerson],
+    owner: defaultManager,
+    creator: defaultManager,
+    managers: [defaultManager],
     billable: true,
     employees: [],
-    tags: ['front-end'],
     creationTimestamp: 1608652437257,
     lastEdited: 1608652437257,
-    lastEditor: defaultPerson,
+    lastEditor: defaultManager,
+  },
+  {
+    id: '1002',
+    name: 'Kolmas projekti',
+    description: '',
+    client: { id: '2', name: 'Client 2' },
+    owner: anotherManager,
+    creator: anotherManager,
+    managers: [anotherManager],
+    billable: true,
+    employees: [defaultEmployee],
+    creationTimestamp: 1608652437257,
+    lastEdited: 1608652437257,
+    lastEditor: defaultManager,
   },
 ]
 

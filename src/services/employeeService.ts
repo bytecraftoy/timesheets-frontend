@@ -29,6 +29,7 @@ const employeesToUserContextItem = (employees: Employee[]): UserContextType[] =>
       id: employee.id,
       firstName: employee.firstName,
       lastName: employee.lastName,
+      username: employee.username,
       isManager: employee.isManager,
     }
   })

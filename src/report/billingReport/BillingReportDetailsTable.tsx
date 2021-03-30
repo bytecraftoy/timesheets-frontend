@@ -1,15 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@material-ui/core'
-import { indigo } from '@material-ui/core/colors'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
 import { ProjectStub, EmployeeWithInputs } from '../../common/types'
 import ReportTableTitle from '../ReportTableTitle'
 import DetailsTableHeaderRow from '../DetailsTableHeaderRow'
@@ -17,26 +8,14 @@ import TimeInputRow from '../TimeInputRow'
 import NoHoursRow from '../NoHoursRow'
 import { getEmployeeFullName } from '../../services/employeeService'
 
-const useStyles = makeStyles((theme) => ({
-  detailsTable: {
-    marginTop: theme.spacing(5),
-  },
-  projectRow: {
-    backgroundColor: indigo[100],
-  },
-  employeeRow: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: indigo[50],
-    },
-  },
-}))
+import useStyles from '../styles'
 
 const EmployeeRows: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) => {
   const classes = useStyles()
 
   return (
     <>
-      <TableRow className={classes.employeeRow}>
+      <TableRow className={classes.stripedRow}>
         <TableCell />
         <TableCell align="center">
           <strong>{getEmployeeFullName(employee)}</strong>
@@ -56,7 +35,7 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
 
   return (
     <>
-      <TableRow className={classes.projectRow}>
+      <TableRow className={classes.darkerRow}>
         <TableCell colSpan={4}>
           <strong>{project.name}</strong>
         </TableCell>

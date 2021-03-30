@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import { Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSetRecoilState } from 'recoil'
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import notificationState from '../../common/atoms'
 import {
   Employee,
@@ -32,15 +32,7 @@ import * as constants from '../../common/constants'
 import FormSelectMultipleWithButtons from '../../form/FormSelectMultipleWithButtons'
 import BillableCheckboxGroup from '../BillableCheckboxGroup'
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: theme.spacing(30),
-  },
-}))
+import useStyles from '../styles'
 
 const BillingReportForm: React.FC<{
   setReportData: React.Dispatch<React.SetStateAction<BillingReportData | undefined>>

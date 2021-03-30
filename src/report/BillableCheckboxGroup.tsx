@@ -1,24 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FormGroup, Grid, makeStyles, FormControl, FormHelperText } from '@material-ui/core'
+import { FormGroup, Grid, FormControl, FormHelperText } from '@material-ui/core'
 import * as constants from '../common/constants'
 import FormCheckbox from '../form/FormCheckbox'
+import { BillableCheckboxGroupProps } from '../common/types'
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: theme.spacing(30),
-  },
-  errorText: {
-    marginLeft: theme.spacing(1.5),
-  },
-}))
-
-interface BillableCheckboxGroupProps {
-  billable: boolean
-  nonBillable: boolean
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
-}
+import useStyles from './styles'
 
 const BillableCheckboxGroup: React.FC<BillableCheckboxGroupProps> = ({
   billable,

@@ -74,8 +74,17 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
         </TableCell>
         {user.isManager && (
           <TableCell align="right">
-            <EditIcon />
-            <DeleteOutlinedIcon />
+            <IconButton color="inherit" size="small" aria-label="edit-project" onClick={undefined}>
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              size="small"
+              aria-label="delete-project"
+              onClick={undefined}
+            >
+              <DeleteOutlinedIcon />
+            </IconButton>
           </TableCell>
         )}
       </TableRow>
@@ -94,7 +103,12 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
                 {t('employee.labelPlural')}
                 {user.isManager && (
                   <>
-                    <IconButton color="inherit" size="small" onClick={toggleEditDialogOpen}>
+                    <IconButton
+                      color="inherit"
+                      size="small"
+                      aria-label="edit-employees"
+                      onClick={toggleEditDialogOpen}
+                    >
                       <EditIcon />
                     </IconButton>
                     <EditEmployeesDialog

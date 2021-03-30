@@ -1,4 +1,4 @@
-import { format, isSameDay } from 'date-fns'
+import { isSameDay } from 'date-fns'
 import { FormikErrors } from 'formik'
 import axios from 'axios'
 import {
@@ -11,7 +11,7 @@ import {
   HoursWithSavedIndex,
   Input,
 } from '../common/types'
-import { minutesToHoursAndMinutes } from '../services/dateAndTimeService'
+import { formatUnixDateFromDate, minutesToHoursAndMinutes } from '../services/dateAndTimeService'
 
 const hoursToMinutes = (hours: string) => Math.round(Number(hours) * 60)
 
@@ -93,7 +93,7 @@ const updateHours = async (
             x: i,
             y: j,
             hour: {
-              date: format(week[j], 'yyyy-MM-dd'),
+              date: formatUnixDateFromDate(week[j]),
               input: timeStringToNumber(currentInput.time),
               description: currentInput.description,
               project: projects[i].id,
@@ -136,8 +136,8 @@ const getProjectHours = async (
   const { data } = await axios.get(`/projects/${projectId}/hours`, {
     params: {
       userId,
-      startDate: format(start, 'yyyy-MM-dd'),
-      endDate: format(end, 'yyyy-MM-dd'),
+      startDate: formatUnixDateFromDate(start),
+      endDate: formatUnixDateFromDate(end),
     },
   })
   return data as TimeInput[]

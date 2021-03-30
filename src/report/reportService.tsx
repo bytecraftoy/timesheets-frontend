@@ -1,6 +1,6 @@
 import qs from 'qs'
-import { format } from 'date-fns'
 import axios from 'axios'
+import { formatUnixDateFromDate } from '../services/dateAndTimeService'
 import {
   BillingReportFormValues,
   BillingReportData,
@@ -13,8 +13,8 @@ const getBillingReportData = async (
 ): Promise<BillingReportData> => {
   const { data } = await axios.get(`/report/client/${values.client}`, {
     params: {
-      startDate: format(values.startDate, 'yyyy-MM-dd'),
-      endDate: format(values.endDate, 'yyyy-MM-dd'),
+      startDate: formatUnixDateFromDate(values.startDate),
+      endDate: formatUnixDateFromDate(values.endDate),
       projects: values.projects,
       employees: values.employees,
       billable: values.billable,
@@ -30,8 +30,8 @@ const getBillingReportData = async (
 const getSalaryReportData = async (values: SalaryReportFormValues): Promise<SalaryReportData> => {
   const { data } = await axios.get(`/report/employee/${values.employee}`, {
     params: {
-      startDate: format(values.startDate, 'yyyy-MM-dd'),
-      endDate: format(values.endDate, 'yyyy-MM-dd'),
+      startDate: formatUnixDateFromDate(values.startDate),
+      endDate: formatUnixDateFromDate(values.endDate),
       clients: values.clients,
       billable: values.billable,
       nonBillable: values.nonBillable,

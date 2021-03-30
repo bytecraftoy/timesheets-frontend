@@ -2,26 +2,41 @@
 
 import { FormikErrors } from 'formik'
 
-export interface BillingReportData {
-  startDate: string
-  endDate: string
-  client: Client
-  projects: ProjectStub[]
-  creationMillis: number
-  grandTotal: number
+type Billable = {
   billable: boolean
   nonBillable: boolean
 }
 
-export interface BillingReportFormValues {
+type DatesAsStrings = {
+  startDate: string
+  endDate: string
+}
+
+type DatesAsDates = {
+  startDate: Date
+  endDate: Date
+}
+
+export type BillableCheckboxGroupProps = {
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
+} & Billable
+
+export type BillingReportData = {
+  client: Client
+  projects: ProjectStub[]
+  creationMillis: number
+  grandTotal: number
+} & Billable &
+  DatesAsStrings
+
+export type BillingReportFormValues = {
   startDate: Date
   endDate: Date
   client: string
   projects: string[]
   employees: string[]
-  billable: boolean
-  nonBillable: boolean
-}
+} & Billable &
+  DatesAsDates
 
 export interface Client {
   id: string
@@ -160,17 +175,12 @@ export interface NotificationMessage {
   severity: Severity
 }
 
-export interface Project {
-  id: string
-  name: string
-  description: string
+export interface Project extends Omit<ProjectStub, 'employees' | 'projectTotal'> {
   owner: Manager
   creator: Manager
   managers: Manager[]
   client: Client
-  billable: boolean
   employees: Employee[]
-  tags?: string[]
   creationTimestamp: number
   lastEdited: number
   lastEditor: Manager
@@ -214,29 +224,25 @@ export interface ProjectWithInputsOfOneEmployee {
   timeInputs: TimeInput[]
 }
 
-export interface SalaryReportData {
-  startDate: string
-  endDate: string
+export type SalaryReportData = {
   employee: Employee
   clients: ClientWithProjectsAndInputs[]
   created: number
   grandTotal: number
-  billable: boolean
-  nonBillable: boolean
-}
+} & Billable &
+  DatesAsStrings
 
-export interface SalaryReportFormValues {
-  startDate: Date
-  endDate: Date
+export type SalaryReportFormValues = {
   employee: string
   clients: string[]
-  billable: boolean
-  nonBillable: boolean
-}
+} & Billable &
+  DatesAsDates
 
 export interface SelectAllButtonProps extends UnselectAllButtonProps {
   objects: (Project | Employee | Client)[]
 }
+
+export type SetUserContextType = React.Dispatch<React.SetStateAction<UserContextType>>
 
 export type Severity = 'error' | 'success' | 'info' | 'warning' | undefined
 
@@ -311,14 +317,7 @@ export interface UserContextProps {
   setUserContext: SetUserContextType
 }
 
-export type SetUserContextType = React.Dispatch<React.SetStateAction<UserContextType>>
-
-export interface UserContextType {
-  id: string
-  firstName: string
-  lastName: string
-  isManager: boolean
-}
+export type UserContextType = Employee
 
 export interface WeekRowProps {
   week: Date[]
