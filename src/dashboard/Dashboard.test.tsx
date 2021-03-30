@@ -17,6 +17,7 @@ import {
   changeFirstDescriptionInput,
 } from '../testUtils/timeInputTestUtils'
 import Dashboard from './Dashboard'
+import { formatUnixDateFromDate } from '../services/dateAndTimeService'
 
 jest.mock('axios')
 
@@ -341,7 +342,7 @@ describe('weekly view', () => {
       project: projects[0].id,
       input: time * 60,
       description: '',
-      date: format(monday, 'yyyy-MM-dd'),
+      date: formatUnixDateFromDate(monday),
       employee: '',
     }
 

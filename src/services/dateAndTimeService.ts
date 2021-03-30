@@ -23,6 +23,10 @@ const formatDateFromDate = (date: Date): string => {
   return format(date, 'dd.MM.yyyy')
 }
 
+const formatUnixDateFromDate = (date: Date): string => {
+  return format(date, 'yyyy-MM-dd')
+}
+
 const formatDateFromStringWithWeekday = (dateString: string): string => {
   const date = new Date(dateString)
   const weekday = WEEKDAYS[getDay(date)]
@@ -81,6 +85,7 @@ const getHolidays = (week: Date[]): boolean[] => {
 export {
   formatDateFromString,
   formatDateFromDate,
+  formatUnixDateFromDate,
   formatDateFromStringWithWeekday,
   getFirstDayOfMonth,
   getLastDayOfThisMonth,

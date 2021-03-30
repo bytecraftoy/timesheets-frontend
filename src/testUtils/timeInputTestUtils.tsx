@@ -1,7 +1,6 @@
 import { act, fireEvent, RenderResult } from '@testing-library/react'
-import { format } from 'date-fns'
 import { TimeInput } from '../common/types'
-import { getCurrentWeek } from '../services/dateAndTimeService'
+import { formatUnixDateFromDate, getCurrentWeek } from '../services/dateAndTimeService'
 import { t } from './testUtils'
 
 const week: Date[] = getCurrentWeek()
@@ -11,7 +10,7 @@ const timeInputs1: TimeInput[] = [
     id: '1',
     input: 150,
     description: '',
-    date: format(week[0], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[0]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
@@ -19,7 +18,7 @@ const timeInputs1: TimeInput[] = [
     id: '2',
     input: 450,
     description: 'aaaaaaaaaaaaaaa',
-    date: format(week[1], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[1]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
@@ -27,7 +26,7 @@ const timeInputs1: TimeInput[] = [
     id: '3',
     input: 300,
     description: '',
-    date: format(week[3], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[3]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
@@ -35,7 +34,7 @@ const timeInputs1: TimeInput[] = [
     id: '4',
     input: 123,
     description: 'bbbbbbbbbbb',
-    date: format(week[6], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[6]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
@@ -46,7 +45,7 @@ const timeInputs2: TimeInput[] = [
     id: '5',
     input: 170,
     description: 'oargodbjnbarbno',
-    date: format(week[0], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[0]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
@@ -54,7 +53,7 @@ const timeInputs2: TimeInput[] = [
     id: '6',
     input: 1000,
     description: 'bbbbbbbbbbbbbbbbb',
-    date: format(week[1], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[1]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
@@ -62,7 +61,7 @@ const timeInputs2: TimeInput[] = [
     id: '7',
     input: 1200,
     description: 'Hello world',
-    date: format(week[3], 'yyyy-MM-dd'),
+    date: formatUnixDateFromDate(week[3]),
     creationTimestamp: 100000000000,
     lastEdited: 100000000000,
   },
