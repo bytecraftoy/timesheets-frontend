@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
-import { AccountCircle } from '@material-ui/icons'
-import { FormControl, MenuItem, Select } from '@material-ui/core'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount'
+import { FormControl, MenuItem, Select, Grid } from '@material-ui/core'
 import { useUserContext } from './UserContext'
 import { UserContextType } from '../common/types'
 import {
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(0.5),
     minWidth: 192,
+    minHeight: 57,
   },
   icon: {
     marginRight: theme.spacing(1),
@@ -65,8 +67,11 @@ const UserContextSelect: React.FC = () => {
           )}
           {users.map((obj) => {
             return (
-              <MenuItem key={obj.id} value={obj.id}>
-                {getEmployeeFullName(obj)}
+              <MenuItem key={obj.id} value={obj.id} dense>
+                <Grid container alignItems="center">
+                  {obj.isManager && <SupervisorAccount className={classes.icon} fontSize="small" />}
+                  {getEmployeeFullName(obj)}
+                </Grid>
               </MenuItem>
             )
           })}
