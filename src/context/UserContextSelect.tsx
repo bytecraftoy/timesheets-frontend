@@ -59,6 +59,7 @@ const UserContextSelect: React.FC = () => {
           id="user-select"
           value={user.id}
           onChange={handleChange}
+          data-cy="select-user"
         >
           {users.length === 0 && (
             <MenuItem disabled value="">

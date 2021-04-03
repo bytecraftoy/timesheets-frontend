@@ -61,7 +61,12 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
     <>
       <TableRow className={classes.root}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            data-cy="expand-project-row"
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -107,6 +112,7 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
                       color="inherit"
                       size="small"
                       aria-label="edit-employees"
+                      data-cy="edit-employees-button"
                       onClick={toggleEditDialogOpen}
                     >
                       <EditIcon />
