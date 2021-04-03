@@ -167,7 +167,7 @@ const ProjectForm: React.FC = () => {
               objects={employeeSelectItems}
               className={classes.formControl}
               name={constants.EMPLOYEES}
-              label={t('employee.label')}
+              label={t('employee.labelPlural')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.employees}

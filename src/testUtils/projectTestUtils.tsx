@@ -133,8 +133,12 @@ const selectClient = async (component: RenderResult, client: Client): Promise<vo
   })
 }
 
-const selectEmployee = async (component: RenderResult, employee: Employee): Promise<void> => {
-  const employeeSelect = component.getByLabelText(t('employee.label'))
+const selectEmployee = async (
+  component: RenderResult,
+  employee: Employee,
+  label: string = t('employee.label')
+): Promise<void> => {
+  const employeeSelect = component.getByLabelText(label)
   let listbox: HTMLElement
   await act(async () => {
     fireEvent.mouseDown(employeeSelect)
