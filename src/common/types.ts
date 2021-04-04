@@ -274,6 +274,7 @@ export interface TimeInputCellProps {
   errors: FormikErrors<{ projects: ProjectAndInputs[] }>
   showDescription: boolean
   isHoliday: boolean
+  dataCy?: string
 }
 
 export interface TimeInputsFormControlRowProps {

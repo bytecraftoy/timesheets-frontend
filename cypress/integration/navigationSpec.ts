@@ -113,3 +113,41 @@ describe('Navigating the app as employee', () => {
     )
   })
 })
+
+describe('accessing pages without authorisation', () => {
+  beforeEach(() => {
+    i18n.addResourceBundle('en', 'translations', translations)
+  })
+
+  it('add project form should redirect employee user to projects view', () => {
+    cy.visit('http://localhost:3000/projects/new-project')
+
+    cy.get('[data-cy=select-user]').click()
+    cy.contains(employee).click()
+    cy.get('[data-cy=select-user]').should('contain', employee)
+
+    cy.url().should('eq', 'http://localhost:3000/projects')
+  })
+
+  it('billing report form should redirect employee user to main page', () => {
+    cy.visit('http://localhost:3000/reports/billing')
+
+    cy.get('[data-cy=select-user]').click()
+    cy.contains(employee).click()
+    cy.get('[data-cy=select-user]').should('contain', employee)
+
+    cy.url().should('eq', 'http://localhost:3000/')
+  })
+
+  it('billing report preview without report data should redirect to billing report form', () => {
+    cy.visit('http://localhost:3000/reports/billing/preview')
+
+    cy.url().should('eq', 'http://localhost:3000/reports/billing')
+  })
+
+  it('salary report preview without report data should redirect to salary report form', () => {
+    cy.visit('http://localhost:3000/reports/salary/preview')
+
+    cy.url().should('eq', 'http://localhost:3000/reports/salary')
+  })
+})
