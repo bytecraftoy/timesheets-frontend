@@ -56,7 +56,7 @@ describe('add project form', () => {
       const clientSelect = component.getByLabelText(t('client.label'))
       const ownerSelect = component.getByLabelText(t('owner.label'))
       const billableCheckbox = component.getByLabelText(t('billable.label'))
-      const employeeSelect = component.getByLabelText(t('employee.label'))
+      const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
 
       expect(nameInput).toHaveAttribute('type', 'text')
       expect(desciptionInput).toBeInTheDocument()
@@ -69,7 +69,7 @@ describe('add project form', () => {
     it('has employee, client and owner selects containing fetched employees, clients and managers', async () => {
       const clientSelect = component.getByLabelText(t('client.label'))
       const ownerSelect = component.getByLabelText(t('owner.label'))
-      const employeeSelect = component.getByLabelText(t('employee.label'))
+      const employeeSelect = component.getByLabelText(t('employee.labelPlural'))
 
       await act(async () => {
         fireEvent.mouseDown(clientSelect)
@@ -219,8 +219,16 @@ describe('add project form', () => {
       await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
       await projectTestUtils.changeNameInput(component, newTestProjectJson.name)
       await projectTestUtils.changeDesciptionInput(component, newTestProjectJson.description)
-      await projectTestUtils.selectEmployee(component, projectTestUtils.employees[0])
-      await projectTestUtils.selectEmployee(component, projectTestUtils.employees[1])
+      await projectTestUtils.selectEmployee(
+        component,
+        projectTestUtils.employees[0],
+        t('employee.labelPlural')
+      )
+      await projectTestUtils.selectEmployee(
+        component,
+        projectTestUtils.employees[1],
+        t('employee.labelPlural')
+      )
 
       await pressSubmitButton()
       await component.findByText('Redirect')

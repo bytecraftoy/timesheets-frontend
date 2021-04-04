@@ -21,7 +21,13 @@ const Toast: React.FC = () => {
       <Snackbar open={open}>
         <Alert variant="filled" severity={notification.severity} data-cy="alert">
           {notification.message}
-          <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+          <IconButton
+            size="small"
+            data-cy="close-notification-button"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
             <CloseIcon fontSize="small" />
           </IconButton>
         </Alert>
