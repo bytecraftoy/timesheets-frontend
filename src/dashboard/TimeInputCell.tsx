@@ -72,6 +72,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
   errors,
   showDescription,
   isHoliday,
+  dataCy,
 }) => {
   const classes = useStyles()
   const { t } = useTranslation()
@@ -135,6 +136,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
               size="small"
               inputProps={{
                 'data-testid': timeName,
+                'data-cy': `${dataCy}-input`,
                 className: 'mousetrap',
               }}
             />
@@ -166,6 +168,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
                 size="small"
                 inputProps={{
                   'data-testid': descriptionName,
+                  'data-cy': `${dataCy}-description`,
                   className: 'mousetrap',
                 }}
               />

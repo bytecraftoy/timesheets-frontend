@@ -49,6 +49,7 @@ const TimeInputsRow: React.FC<TimeInputsRowProps> = ({
               key={j}
               input={projectAndInputs.inputs[j]}
               timeInputName={`projects[${i}].inputs[${j}]`}
+              dataCy={`${projectAndInputs.name}`.replace(/\s/g, '-')}
               handleChange={handleChange}
               handleBlur={handleBlur}
               errors={errors}
