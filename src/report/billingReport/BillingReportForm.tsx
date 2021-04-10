@@ -72,21 +72,21 @@ const BillingReportForm: React.FC<{
       }
     },
     validate: (values) => {
-      const errors = []
+      const errors: { [key: string]: string } = {}
       if (!values.client) {
-        errors.push({ client: t('client.error.chooseOne') })
+        errors.client = t('client.error.chooseOne')
       }
       if (values.projects.length === 0) {
-        errors.push({ projects: t('project.error.empty') })
+        errors.projects = t('project.error.empty')
       }
       if (values.employees.length === 0) {
-        errors.push({ employees: t('employee.error.atLeastOne') })
+        errors.employees = t('employee.error.atLeastOne')
       }
       if (isBefore(values.endDate, values.startDate)) {
-        errors.push({ startDate: t('startDate.error') })
-        errors.push({ endDate: t('endDate.error') })
+        errors.startDate = t('startDate.error')
+        errors.endDate = t('endDate.error')
       }
-      return Object.assign({}, ...errors)
+      return errors
     },
   })
 

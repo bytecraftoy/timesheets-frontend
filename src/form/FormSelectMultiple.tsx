@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
   Checkbox,
   Chip,
   FormControl,
   FormHelperText,
   InputLabel,
-  ListItemText,
+  Grid,
   makeStyles,
   MenuItem,
   Select,
 } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount'
 import { FormSelectMultipleProps } from '../common/types'
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: theme.spacing(0.25),
+  },
+  icon: {
+    marginRight: theme.spacing(1),
   },
 }))
 
@@ -37,9 +41,7 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
   const classes = useStyles()
   const { t } = useTranslation()
 
-  const getObjectName = (id: string) => {
-    return objects.find((obj) => obj.id === id)?.name
-  }
+  const getObject = useCallback((id: string) => objects.find((obj) => obj.id === id), [objects])
 
   return (
     <FormControl className={className}>
@@ -57,17 +59,19 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
         }}
         renderValue={(selected) => (
           <div className={classes.chips}>
-            {(selected as string[]).map(
-              (selectedValue) =>
-                // TODO: This is a temporary cosmetic fix and does not really fix the problem
-                getObjectName(selectedValue) && (
+            {(selected as string[]).map((selectedValue) => {
+              const obj = getObject(selectedValue)
+              return (
+                obj && (
                   <Chip
                     key={selectedValue}
-                    label={getObjectName(selectedValue)}
+                    avatar={obj.isManager ? <SupervisorAccount /> : undefined}
+                    label={obj.name}
                     className={classes.chip}
                   />
                 )
-            )}
+              )
+            })}
           </div>
         )}
       >
@@ -81,7 +85,10 @@ const FormSelect: React.FC<FormSelectMultipleProps> = ({
           return (
             <MenuItem key={obj.id} value={obj.id}>
               <Checkbox checked={value.indexOf(obj.id) > -1} color="primary" />
-              <ListItemText primary={obj.name} />
+              <Grid container alignItems="center">
+                {obj.isManager && <SupervisorAccount className={classes.icon} fontSize="small" />}
+                {obj.name}
+              </Grid>
             </MenuItem>
           )
         })}

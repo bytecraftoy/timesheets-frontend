@@ -70,18 +70,18 @@ const SalaryReportForm: React.FC<{
       }
     },
     validate: (values) => {
-      const errors = []
+      const errors: { [key: string]: string } = {}
       if (!values.employee) {
-        errors.push({ employee: t('employee.error.chooseOne') })
+        errors.employee = t('employee.error.chooseOne')
       }
       if (values.clients.length === 0) {
-        errors.push({ clients: t('client.error.atLeastOne') })
+        errors.clients = t('client.error.atLeastOne')
       }
       if (isBefore(values.endDate, values.startDate)) {
-        errors.push({ startDate: t('startDate.error') })
-        errors.push({ endDate: t('endDate.error') })
+        errors.startDate = t('startDate.error')
+        errors.endDate = t('endDate.error')
       }
-      return Object.assign({}, ...errors)
+      return errors
     },
   })
 

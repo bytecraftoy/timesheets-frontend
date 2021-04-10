@@ -98,6 +98,7 @@ export interface FormCheckboxProps {
 export interface FormSelectItem {
   id: string
   name: string
+  isManager?: boolean
 }
 export interface FormSelectProps extends Omit<FormTextFieldProps, 'handleChange' | 'multiline'> {
   handleChange: (

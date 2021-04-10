@@ -36,6 +36,11 @@ type DescFastFieldProps = FastFieldInnerProps<
 
 type TimeFastFieldProps = FastFieldInnerProps<unknown, unknown>
 
+/* These shouldUpdate functions have been created in order to make both of the fastfields rerender
+when needed. The description field needs to be rerendered when focused and hidden and the time field
+needs to be rerendered when the validation function changes since the function depends on the
+description field value. To understand how the shouldUpdate prop works read: 
+https://github.com/formium/formik/blob/master/packages/formik/src/FastField.tsx */
 const timeFieldShouldUpdate = (thisProps: TimeFastFieldProps, props: TimeFastFieldProps) => {
   if (
     props.name !== thisProps.name ||
@@ -111,6 +116,7 @@ const TimeInputCell: React.FC<TimeInputCellProps> = ({
     handleBlur(e)
   }
 
+  // Description FastField should not be hidden because validation will not run.
   return (
     <Grid
       className={isHoliday ? classes.grayBackground : ''}
