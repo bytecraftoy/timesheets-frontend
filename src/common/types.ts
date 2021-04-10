@@ -24,7 +24,7 @@ export type BillableCheckboxGroupProps = {
 export type BillingReportData = {
   client: Client
   projects: ProjectStub[]
-  creationMillis: number
+  created: number
   grandTotal: number
 } & Billable &
   DatesAsStrings
@@ -178,13 +178,13 @@ export interface NotificationMessage {
 
 export interface Project extends Omit<ProjectStub, 'employees' | 'projectTotal'> {
   owner: Manager
-  creator: Manager
+  createdBy: Manager
   managers: Manager[]
   client: Client
   employees: Employee[]
-  creationTimestamp: number
-  lastEdited: number
-  lastEditor: Manager
+  created: number
+  edited: number
+  editedBy: Manager
 }
 
 export interface ProjectFormValues {
@@ -263,8 +263,8 @@ export interface TimeInput {
   input: number
   description: string
   date: string
-  creationTimestamp: number
-  lastEdited: number
+  created: number
+  edited: number
 }
 
 export interface TimeInputCellProps {

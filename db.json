@@ -10,7 +10,7 @@
         "firstName": "A",
         "lastName": "A"
       },
-      "creator": {
+      "createdBy": {
         "id": "5",
         "username": "A",
         "firstName": "A",
@@ -52,9 +52,9 @@
         "Fullstack",
         "Planning"
       ],
-      "creationTimestamp": 100000010000,
-      "lastEdited": 100000010010,
-      "lastEditor": {
+      "created": 100000010000,
+      "edited": 100000010010,
+      "editedBy": {
         "id": 1,
         "firstName": "Some",
         "lastName": "Manager"
@@ -70,7 +70,7 @@
         "firstName": "Another",
         "lastName": "Manager"
       },
-      "creator": {
+      "createdBy": {
         "id": 1,
         "username": "manager1",
         "firstName": "Another",
@@ -94,9 +94,9 @@
           "lastName": "Developer"
         }
       ],
-      "creationTimestamp": 200000000100,
-      "lastEdited": 200000000130,
-      "lastEditor": {
+      "created": 200000000100,
+      "edited": 200000000130,
+      "editedBy": {
         "id": 1,
         "username": "manager1",
         "firstName": "Some",
@@ -113,7 +113,7 @@
         "firstName": "Another",
         "lastName": "Manager"
       },
-      "creator": {
+      "createdBy": {
         "id": 1,
         "username": "manager1",
         "firstName": "Another",
@@ -143,9 +143,9 @@
           "lastName": "Developer"
         }
       ],
-      "creationTimestamp": 100000051000,
-      "lastEdited": 100000051010,
-      "lastEditor": {
+      "created": 100000051000,
+      "edited": 100000051010,
+      "editedBy": {
         "id": 2,
         "username": "manager2",
         "firstName": "Some",
@@ -162,7 +162,7 @@
         "firstName": "Some",
         "lastName": "Manager"
       },
-      "creator": {
+      "createdBy": {
         "id": 2,
         "username": "manager2",
         "firstName": "Some",
@@ -204,9 +204,9 @@
         "Fullstack",
         "Planning"
       ],
-      "creationTimestamp": 100000000000,
-      "lastEdited": 100000000010,
-      "lastEditor": {
+      "created": 100000000000,
+      "edited": 100000000010,
+      "editedBy": {
         "id": 2,
         "username": "manager2",
         "firstName": "Some",
@@ -223,7 +223,7 @@
         "firstName": "Another",
         "lastName": "Manager"
       },
-      "creator": {
+      "createdBy": {
         "id": 1,
         "username": "manager1",
         "firstName": "Another",
@@ -253,9 +253,9 @@
         "Fullstack",
         "Planning"
       ],
-      "creationTimestamp": 200000000000,
-      "lastEdited": 200000000030,
-      "lastEditor": {
+      "created": 200000000000,
+      "edited": 200000000030,
+      "editedBy": {
         "id": 2,
         "username": "manager2",
         "firstName": "Some",

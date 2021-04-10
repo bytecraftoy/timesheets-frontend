@@ -43,10 +43,8 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
   const { t } = useTranslation()
   const { user } = useUserContext()
 
-  const created = useMemo(() => new Date(project.creationTimestamp).toString(), [
-    project.creationTimestamp,
-  ])
-  const edited = useMemo(() => new Date(project.lastEdited).toString(), [project.lastEdited])
+  const created = useMemo(() => new Date(project.created).toString(), [project.created])
+  const edited = useMemo(() => new Date(project.edited).toString(), [project.edited])
 
   const projectOwner = project.owner.firstName.charAt(0) + project.owner.lastName.charAt(0)
 
@@ -139,12 +137,12 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
                   <TableRow>
                     <TableCell>{t('project.created')}</TableCell>
                     <TableCell>{created}</TableCell>
-                    <TableCell>{getEmployeeFullName(project.creator)}</TableCell>
+                    <TableCell>{getEmployeeFullName(project.createdBy)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>{t('project.modified')}</TableCell>
                     <TableCell>{edited}</TableCell>
-                    <TableCell>{getEmployeeFullName(project.lastEditor)}</TableCell>
+                    <TableCell>{getEmployeeFullName(project.editedBy)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
