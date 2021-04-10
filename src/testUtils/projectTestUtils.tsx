@@ -140,13 +140,14 @@ const selectEmployee = async (
 ): Promise<void> => {
   const employeeSelect = component.getByLabelText(label)
   let listbox: HTMLElement
+  const employeeName = getEmployeeFullName(employee)
   await act(async () => {
     fireEvent.mouseDown(employeeSelect)
-    listbox = await component.findByText(getEmployeeFullName(employee))
+    listbox = await component.findByText(employeeName)
   })
   await act(async () => {
     fireEvent.click(listbox)
-    await component.findByText(getEmployeeFullName(employee))
+    await component.findByText(employeeName)
   })
 }
 
