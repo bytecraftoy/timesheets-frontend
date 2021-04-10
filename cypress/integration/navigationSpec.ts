@@ -20,7 +20,6 @@ describe('Navigating the app', () => {
   describe('as manager', () => {
     beforeEach(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
     })
 
@@ -58,7 +57,6 @@ describe('Navigating the app', () => {
   describe('as employee', () => {
     beforeEach(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(employee)
     })
 

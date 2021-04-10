@@ -33,7 +33,6 @@ describe('app', () => {
 
   beforeEach(() => {
     cy.openHomePage()
-    cy.closeNotification()
   })
 
   describe('creating and viewing project', () => {

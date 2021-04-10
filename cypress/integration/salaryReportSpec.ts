@@ -6,7 +6,6 @@ import * as translations from '../../src/locales/en_translation.json'
 const manager = 'Chrissy Teigen'
 const employee1 = 'Taina Taitava'
 const employee2 = 'Eppu Etevä'
-const client1 = 'Esimerkkiasiakas'
 const client2 = 'Asiakas Kakkonen'
 const client3 = 'Asiakas Kolmonen'
 
@@ -19,7 +18,6 @@ describe('generating salary report', () => {
     describe('selecting manually one client', () => {
       before(() => {
         cy.openHomePage()
-        cy.closeNotification()
         cy.selectUser(manager)
         cy.navigateToManagerSalaryReportForm()
       })
@@ -53,7 +51,6 @@ describe('generating salary report', () => {
     describe('selecting only billable projects', () => {
       before(() => {
         cy.openHomePage()
-        cy.closeNotification()
         cy.selectUser(manager)
         cy.navigateToManagerSalaryReportForm()
       })
@@ -89,7 +86,6 @@ describe('generating salary report', () => {
     describe('using select all buttons', () => {
       before(() => {
         cy.openHomePage()
-        cy.closeNotification()
         cy.selectUser(manager)
         cy.navigateToManagerSalaryReportForm()
       })
@@ -116,7 +112,6 @@ describe('generating salary report', () => {
   describe('as employee', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(employee1)
       cy.navigateToEmployeeSalaryReportForm()
     })

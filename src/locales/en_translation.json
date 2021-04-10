@@ -1,6 +1,8 @@
 {
     "app": {
-        "title": "Timesheets"
+        "title": "Timesheets",
+        "loginPlaceholderTitle": "Welcome to Timesheets app!",
+        "loginPlaceholderSubtitle": "Please log in by selecting user from top right corner."
     },
     "billable": {
         "label": "Is billable",
