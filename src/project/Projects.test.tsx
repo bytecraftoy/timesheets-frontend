@@ -1,5 +1,11 @@
-import React from 'react'
-import { act, fireEvent, render, RenderResult } from '@testing-library/react'
+import React, { useReducer } from 'react'
+import {
+  act,
+  fireEvent,
+  render,
+  RenderResult,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import axios from 'axios'
 import { MemoryRouter, Route } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
@@ -7,15 +13,26 @@ import { RecoilRoot } from 'recoil'
 import i18n from '../i18n'
 import { t } from '../testUtils/testUtils'
 import ProjectInfo from './ProjectInfo'
+import EditEmployeesDialog from './EditEmployeesDialog'
 import * as projectTestUtils from '../testUtils/projectTestUtils'
 import { UserContext } from '../context/UserContext'
 import ProjectsView from './Projects'
+import { Project } from '../common/types'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
 let component: RenderResult
 const project = projectTestUtils.projects[0]
+
+const expandRow = async (): Promise<void> => {
+  const row = component.getByLabelText('expand row')
+
+  await act(async () => {
+    fireEvent.click(row)
+    await component.findByText(t('employee.labelPlural'))
+  })
+}
 
 describe('<ProjectInfo>', () => {
   beforeEach(() => {
@@ -62,12 +79,7 @@ describe('<ProjectInfo> with employee user', () => {
   })
 
   it('should not show edit employees button', async () => {
-    const expandRow = component.getByLabelText('expand row')
-
-    await act(async () => {
-      fireEvent.click(expandRow)
-    })
-    await component.findByText(t('employee.labelPlural'))
+    await expandRow()
 
     const editEmployeesIcon = component.queryByLabelText('edit-employees')
     expect(editEmployeesIcon).not.toBeInTheDocument()
@@ -98,15 +110,97 @@ describe('<ProjectInfo> with manager user', () => {
   })
 
   it('should show edit employees button', async () => {
-    const expandRow = component.getByLabelText('expand row')
-
-    await act(async () => {
-      fireEvent.click(expandRow)
-    })
-    await component.findByText(t('employee.labelPlural'))
+    await expandRow()
 
     const editEmployeesIcon = component.queryByLabelText('edit-employees')
     expect(editEmployeesIcon).toBeInTheDocument()
+  })
+
+  it('should be able to open edit employees dialog', async () => {
+    await expandRow()
+
+    const editEmployeesIcon = component.getByLabelText('edit-employees')
+    await act(async () => {
+      fireEvent.click(editEmployeesIcon)
+    })
+
+    expect(component.getByText(t('project.updateEmployees'))).toBeInTheDocument()
+  })
+})
+
+describe('edit employees dialog', () => {
+  const projectCopy = JSON.parse(JSON.stringify(project)) as Project
+  beforeEach(async () => {
+    const TestComponent: React.FC = () => {
+      const [open, toggleOpen] = useReducer((value) => !value, true)
+
+      return (
+        <EditEmployeesDialog
+          project={projectCopy}
+          employees={projectTestUtils.employees}
+          open={open}
+          toggleOpen={toggleOpen}
+        />
+      )
+    }
+    component = render(
+      <RecoilRoot>
+        <I18nextProvider i18n={i18n}>
+          <TestComponent />
+        </I18nextProvider>
+      </RecoilRoot>
+    )
+  })
+
+  it('should have employees multipleselect, submit & cancel buttons', () => {
+    expect(component.getByLabelText(t('employee.labelPlural'))).toHaveAttribute('role', 'button')
+    expect(component.getByTestId('employeeDialogCancel')).toHaveAttribute('type', 'button')
+    expect(component.getByTestId('employeeDialogUpdate')).toHaveAttribute('type', 'submit')
+  })
+
+  describe('when updating employees', () => {
+    beforeEach(async () => {
+      mockedAxios.put.mockImplementationOnce((url: string) => {
+        if (url.includes('projects')) {
+          const projectCopy2 = JSON.parse(JSON.stringify(project))
+          projectCopy2.employees.push(projectTestUtils.employees[0])
+          return Promise.resolve({ data: projectCopy2 })
+        }
+        return Promise.reject(new Error('not found'))
+      })
+
+      await projectTestUtils.selectEmployee(
+        component,
+        projectTestUtils.employees[0],
+        t('employee.labelPlural')
+      )
+      const updateButton = component.getByTestId('employeeDialogUpdate')
+      await act(async () => {
+        fireEvent.click(updateButton)
+        await waitForElementToBeRemoved(component.getByText(t('project.updateEmployees')))
+      })
+    })
+
+    it('the form should update project object', () => {
+      expect(projectCopy.employees).toContain(projectTestUtils.employees[0])
+    })
+
+    it('the form should put correct json', () => {
+      const projectJson = {
+        name: projectCopy.name,
+        id: projectCopy.id,
+        description: projectCopy.description,
+        client: projectCopy.client.id,
+        owner: projectCopy.owner.id,
+        employees: projectCopy.employees.map((employee) => employee.id),
+        billable: projectCopy.billable,
+      }
+      expect(axios.put).toBeCalledWith('/projects', projectJson)
+    })
+
+    afterEach(() => {
+      projectCopy.employees = JSON.parse(JSON.stringify(project.employees))
+    })
   })
 })
 

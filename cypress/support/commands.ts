@@ -241,7 +241,7 @@ function submitProjectForm(projectName: string) {
 Cypress.Commands.add('submitProjectForm', submitProjectForm)
 
 function submitEditProjectEmployeesForm(projectName: string) {
-  cy.get('[data-testId="projectFormSubmit"]').click()
+  cy.get('[data-testId=employeeDialogUpdate]').click()
   cy.get('[data-cy=alert]').should(
     'contain',
     i18n.t('project.message.updateSuccess', { project: projectName })

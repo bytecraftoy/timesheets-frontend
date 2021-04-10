@@ -72,14 +72,14 @@ const EditEmployeesDialog: React.FC<{
 
   return (
     <Dialog open={open} onClose={toggleOpen}>
-      <DialogTitle>{t('project.updateProject')}</DialogTitle>
+      <DialogTitle>{t('project.updateEmployees')}</DialogTitle>
       <DialogContent>
         <form onSubmit={formik.handleSubmit}>
           <FormSelectMultiple
             objects={employeeSelectItems}
             className={classes.formControl}
             name={EMPLOYEES}
-            label={t('employee.label')}
+            label={t('employee.labelPlural')}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.employees}
@@ -87,12 +87,17 @@ const EditEmployeesDialog: React.FC<{
             touched={formik.touched.employees}
           />
           <DialogActions>
-            <Button disabled={formik.isSubmitting} variant="contained" onClick={toggleOpen}>
+            <Button
+              disabled={formik.isSubmitting}
+              variant="contained"
+              onClick={toggleOpen}
+              data-testid="employeeDialogCancel"
+            >
               {t('button.cancel')}
             </Button>
             <SubmitButton
               disabled={formik.isSubmitting}
-              testId="projectFormSubmit"
+              testId="employeeDialogUpdate"
               label={t('button.update')}
             />
           </DialogActions>
