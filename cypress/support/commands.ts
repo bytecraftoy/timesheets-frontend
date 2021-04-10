@@ -54,7 +54,7 @@ i18n.addResourceBundle('en', 'translations', translations)
 // misc
 
 function openHomePage() {
-  cy.visit('http://localhost:3000/')
+  cy.visit('/')
 }
 Cypress.Commands.add('openHomePage', openHomePage)
 

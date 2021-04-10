@@ -84,31 +84,31 @@ describe('Navigating the app', () => {
   describe('without authorisation', () => {
     describe('add project form', () => {
       it('should redirect employee user to projects view', () => {
-        cy.visit('http://localhost:3000/projects/new-project')
+        cy.visit('/projects/new-project')
         cy.selectUser(employee)
-        cy.url().should('eq', 'http://localhost:3000/projects')
+        cy.url().should('eq', `${Cypress.config().baseUrl}/projects`)
       })
     })
 
     describe('billing report form', () => {
       it('should redirect employee user to home page', () => {
-        cy.visit('http://localhost:3000/reports/billing')
+        cy.visit('/reports/billing')
         cy.selectUser(employee)
-        cy.url().should('eq', 'http://localhost:3000/')
+        cy.url().should('eq', `${Cypress.config().baseUrl}/`)
       })
     })
 
     describe('billing report preview without report data', () => {
       it('should redirect to billing report form', () => {
-        cy.visit('http://localhost:3000/reports/billing/preview')
-        cy.url().should('eq', 'http://localhost:3000/reports/billing')
+        cy.visit('/reports/billing/preview')
+        cy.url().should('eq', `${Cypress.config().baseUrl}/reports/billing`)
       })
     })
 
     describe('salary report preview without report data', () => {
       it('should redirect to salary report form', () => {
-        cy.visit('http://localhost:3000/reports/salary/preview')
-        cy.url().should('eq', 'http://localhost:3000/reports/salary')
+        cy.visit('/reports/salary/preview')
+        cy.url().should('eq', `${Cypress.config().baseUrl}/reports/salary`)
       })
     })
   })
