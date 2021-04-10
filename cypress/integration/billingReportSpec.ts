@@ -17,7 +17,6 @@ describe('generating billing report', () => {
   describe('selecting specs manually', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToBillingReportForm()
     })
@@ -46,7 +45,6 @@ describe('generating billing report', () => {
   describe('using select all buttons', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToBillingReportForm()
     })
@@ -80,7 +78,6 @@ describe('generating billing report', () => {
   describe('selecting only non-billable projects', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToBillingReportForm()
     })

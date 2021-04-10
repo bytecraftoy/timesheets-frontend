@@ -8,6 +8,7 @@ import BillingReport from '../report/billingReport/BillingReport'
 import Dashboard from '../dashboard/Dashboard'
 import useStyles from './styles'
 import { useUserContext } from '../context/UserContext'
+import LoginPagePlaceholder from '../login/LoginPagePlaceholder'
 
 // Routes to different content go here inside Switch component.
 const Content: React.FC = () => {
@@ -29,7 +30,7 @@ const Content: React.FC = () => {
             <SalaryReport />
           </Route>
           <Route path="/">
-            <Dashboard debounceMs={DEBOUNCEMS} />
+            {!user.id ? <LoginPagePlaceholder /> : <Dashboard debounceMs={DEBOUNCEMS} />}
           </Route>
         </Switch>
       </Container>

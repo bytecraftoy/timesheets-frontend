@@ -9,7 +9,6 @@ declare global {
   namespace Cypress {
     interface Chainable {
       openHomePage: typeof openHomePage
-      closeNotification: typeof closeNotification
       // check
       checkShowAllProjects: typeof checkShowAllProjects
       checkShowDescription: typeof checkShowDescription
@@ -58,11 +57,6 @@ function openHomePage() {
   cy.visit('http://localhost:3000/')
 }
 Cypress.Commands.add('openHomePage', openHomePage)
-
-function closeNotification() {
-  cy.get('[data-cy=close-notification-button]').click()
-}
-Cypress.Commands.add('closeNotification', closeNotification)
 
 // check
 

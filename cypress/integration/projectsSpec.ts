@@ -22,7 +22,6 @@ describe('creating and editing projects', () => {
   describe('new project with employees', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToAddProjectsForm()
     })
@@ -61,7 +60,6 @@ describe('creating and editing projects', () => {
   describe('new project without employees', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToAddProjectsForm()
     })
@@ -91,7 +89,6 @@ describe('creating and editing projects', () => {
   describe('new non-billable project', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToAddProjectsForm()
     })
@@ -126,7 +123,6 @@ describe('creating and editing projects', () => {
   describe('new project with owner other than current user', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToAddProjectsForm()
     })
@@ -166,7 +162,6 @@ describe('creating and editing projects', () => {
   describe('add employees for existing project', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager)
       cy.navigateToAddProjectsForm()
       cy.inputProjectName(`${projectName}5`)
@@ -208,7 +203,6 @@ describe('creating and editing projects', () => {
   describe('removing current manager-user from employees', () => {
     before(() => {
       cy.openHomePage()
-      cy.closeNotification()
       cy.selectUser(manager2)
       cy.navigateToAddProjectsForm()
       cy.inputProjectName(`${projectName}6`)
