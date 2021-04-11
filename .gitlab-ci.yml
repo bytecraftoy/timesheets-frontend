@@ -11,7 +11,7 @@ include:
 build:
   stage: build
   before_script:
-    - yarn install
+    - yarn install --frozen-lockfile
   script:
     - echo "Start building App"
     - yarn build
@@ -44,6 +44,13 @@ code_quality:
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
+
+code_quality_html:
+  extends: code_quality
+  variables:
+    REPORT_FORMAT: html
+  artifacts:
+    paths: [gl-code-quality-report.html]
 
 staging:
   type: deploy
