@@ -199,7 +199,6 @@ describe('creating and editing projects', () => {
     })
   })
 
-  // this should not pass currently
   describe('removing current manager-user from employees', () => {
     before(() => {
       cy.openHomePage()
@@ -213,7 +212,8 @@ describe('creating and editing projects', () => {
       cy.get('[data-cy=projects-table]').should('contain', `${projectName}6`)
     })
 
-    it("should remove project from manager-user's own projects", () => {
+    // this should not pass currently
+    it("should remove project from manager-user's own projects (does not pass)", () => {
       cy.get('[data-cy=expand-project-row]').last().click()
       cy.get('body').should('contain', manager2)
       cy.get('[data-cy=edit-employees-button]').click()
