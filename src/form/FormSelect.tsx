@@ -1,6 +1,14 @@
 import React from 'react'
-import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from '@material-ui/core'
+import { FormControl, InputLabel, MenuItem, Select, FormHelperText, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount'
 import { FormSelectProps } from '../common/types'
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(1),
+  },
+}))
 
 const FormSelect: React.FC<FormSelectProps> = ({
   objects,
@@ -13,6 +21,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
   errors,
   touched,
 }) => {
+  const classes = useStyles()
   return (
     <FormControl className={className}>
       <InputLabel id={`mui-component-select-${name}`}>{label}</InputLabel>
@@ -30,7 +39,10 @@ const FormSelect: React.FC<FormSelectProps> = ({
         {objects.map((obj) => {
           return (
             <MenuItem key={obj.id} value={obj.id}>
-              {obj.name}
+              <Grid container alignItems="center">
+                {obj.isManager && <SupervisorAccount className={classes.icon} fontSize="small" />}
+                {obj.name}
+              </Grid>
             </MenuItem>
           )
         })}
