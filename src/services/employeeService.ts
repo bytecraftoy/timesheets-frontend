@@ -35,9 +35,13 @@ const employeesToUserContextItem = (employees: Employee[]): UserContextType[] =>
   })
 }
 
+const filterOwner = (employees: Employee[], owner: Employee): Employee[] =>
+  employees.filter((employee) => employee.id !== owner.id)
+
 export {
   getAllEmployees,
   getEmployeesByProjectIds,
   getEmployeeFullName,
   employeesToUserContextItem,
+  filterOwner,
 }

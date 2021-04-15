@@ -18,7 +18,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import { useTranslation } from 'react-i18next'
 import { Employee, Project } from '../common/types'
-import { getEmployeeFullName } from '../services/employeeService'
+import { getEmployeeFullName, filterOwner } from '../services/employeeService'
 import EditEmployeesDialog from './EditEmployeesDialog'
 import { useUserContext } from '../context/UserContext'
 
@@ -53,8 +53,11 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
   const [editDialogOpen, toggleEditDialogOpen] = useReducer((value) => !value, false)
 
   const projectEmployees: string = useMemo(
-    () => project.employees.map((employee) => getEmployeeFullName(employee)).join(', '),
-    [project.employees]
+    () =>
+      filterOwner(project.employees, project.owner)
+        .map((employee) => getEmployeeFullName(employee))
+        .join(', '),
+    [project.employees, project.owner]
   )
 
   return (
