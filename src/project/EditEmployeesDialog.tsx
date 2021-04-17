@@ -8,6 +8,7 @@ import FormSelectMultiple from '../form/FormSelectMultiple'
 import SubmitButton from '../button/SubmitButton'
 import { EMPLOYEES } from '../common/constants'
 import { updateProject } from '../services/projectService'
+import { filterOwner } from '../services/employeeService'
 import notificationState from '../common/atoms'
 import { Employee, Project } from '../common/types'
 import { employeesToFormSelectItem } from '../form/formService'
@@ -32,9 +33,9 @@ const EditEmployeesDialog: React.FC<{
 
   const initialValues: { employees: string[] } = useMemo(() => {
     return {
-      employees: project.employees.map((employee) => employee.id),
+      employees: filterOwner(project.employees, project.owner).map((employee) => employee.id),
     }
-  }, [project.employees])
+  }, [project.employees, project.owner])
 
   const formik = useFormik({
     initialValues,
@@ -65,9 +66,8 @@ const EditEmployeesDialog: React.FC<{
   })
 
   const employeeSelectItems = useMemo(
-    () =>
-      employeesToFormSelectItem(employees.filter((employee) => employee.id !== project.owner.id)),
-    [employees, project.owner.id]
+    () => employeesToFormSelectItem(filterOwner(employees, project.owner)),
+    [employees, project.owner]
   )
 
   return (
