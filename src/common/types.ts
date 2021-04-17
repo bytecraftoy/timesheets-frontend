@@ -51,6 +51,8 @@ export interface ClientWithProjectsAndInputs {
   projects: ProjectWithInputsOfOneEmployee[]
 }
 
+export type IsChangeWeekType = 'forward' | 'backward' | undefined
+
 export interface DateErrorProps {
   errors: FormikErrors<Date> | undefined
 }
@@ -291,6 +293,7 @@ export interface TimeInputsFormProps {
   debounceMs: number
   showDescription: boolean
   setSaveMessage: React.Dispatch<React.SetStateAction<string>>
+  setSaving: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface TimeInputsRowProps {
@@ -323,6 +326,6 @@ export type UserContextType = Employee
 
 export interface WeekRowProps {
   week: Date[]
-  setWeek: React.Dispatch<React.SetStateAction<Date[]>>
   disableWeekChangeButtons: boolean
+  setChangeWeek: React.Dispatch<React.SetStateAction<IsChangeWeekType>>
 }

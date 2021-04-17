@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
-import { addDays, subDays, getISOWeek, getYear } from 'date-fns'
+import { getISOWeek, getYear } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Grid, Typography } from '@material-ui/core'
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos'
@@ -14,24 +14,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const WeekRow: React.FC<WeekRowProps> = ({ week, setWeek, disableWeekChangeButtons }) => {
+const WeekRow: React.FC<WeekRowProps> = ({ week, setChangeWeek, disableWeekChangeButtons }) => {
   const { t } = useTranslation()
   const classes = useStyles()
 
-  const changeWeek = useCallback(
-    (change: (a: Date) => Date): void => {
-      if (disableWeekChangeButtons) {
-        return
-      }
-      const newWeek = week.map((date) => change(date))
-      setWeek(newWeek)
-    },
-    [week, setWeek, disableWeekChangeButtons]
-  )
+  const changeWeekBackwards = useCallback(() => setChangeWeek('backward'), [setChangeWeek])
 
-  const changeWeekBackwards = useCallback(() => changeWeek((a) => subDays(a, 7)), [changeWeek])
-
-  const changeWeekForward = useCallback(() => changeWeek((a) => addDays(a, 7)), [changeWeek])
+  const changeWeekForward = useCallback(() => setChangeWeek('forward'), [setChangeWeek])
 
   const getWeekNumber = useCallback((): number => getISOWeek(week[0]), [week])
 
