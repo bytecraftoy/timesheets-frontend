@@ -39,6 +39,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
   debounceMs,
   showDescription,
   setSaveMessage,
+  setSaving,
 }) => {
   const setNotification = useSetRecoilState(notificationState)
   const isMounted = useRef(true)
@@ -58,6 +59,7 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
       } finally {
         const now = new Date()
         setSaveMessage(`${t('timeInputs.savedMessage')}: ${now.toLocaleTimeString()}`)
+        setSaving(false)
       }
     },
   })
@@ -75,12 +77,13 @@ const TimeInputsForm: React.FC<TimeInputsFormProps> = ({
       if (formik.dirty) {
         debouncedSubmit.current()
         setSaveMessage(t('timeInputs.savingMessage'))
+        setSaving(true)
       } else {
         const now = new Date()
         setSaveMessage(`${t('timeInputs.savedMessage')}: ${now.toLocaleTimeString()}`)
       }
     }
-  }, [debouncedSubmit, formik.values, formik.dirty, formik.errors, setSaveMessage, t])
+  }, [debouncedSubmit, formik.values, formik.dirty, formik.errors, setSaveMessage, t, setSaving])
 
   useEffect(() => {
     return () => {

@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback, useReducer } from 'react'
+import React, { useEffect, useState, useCallback, useReducer, useLayoutEffect } from 'react'
 import { Typography } from '@material-ui/core'
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import Mousetrap from 'mousetrap'
 import { useTranslation } from 'react-i18next'
+import { addDays, subDays } from 'date-fns'
 import { getProjectHours, timeInputsToWeekInputs } from './dashboardService'
 import { getCurrentWeek, getHolidays } from '../services/dateAndTimeService'
 import TimeInputsForm from './TimeInputsForm'
@@ -28,6 +29,8 @@ const WeeklyView: React.FC<{
   const [saveMessage, setSaveMessage] = useState<string>(
     `${t('timeInputs.savedMessage')}: ${new Date().toLocaleTimeString()}`
   )
+  const [isChangeWeek, setChangeWeek] = useState<'forward' | 'backward' | undefined>()
+  const [isSaving, setSaving] = useState(false)
 
   const fetchTimeInputs = useCallback(async () => {
     setLoading(true)
@@ -67,6 +70,29 @@ const WeeklyView: React.FC<{
     }
   }, [changeShowDescription])
 
+  const changeWeek = useCallback(
+    (change: (a: Date) => Date): void => {
+      const newWeek = week.map((date) => change(date))
+      setWeek(newWeek)
+    },
+    [week]
+  )
+
+  const changeWeekBackwards = useCallback(() => changeWeek((a) => subDays(a, 7)), [changeWeek])
+
+  const changeWeekForward = useCallback(() => changeWeek((a) => addDays(a, 7)), [changeWeek])
+
+  useLayoutEffect(() => {
+    if (isChangeWeek && !isSaving) {
+      if (isChangeWeek === 'forward') {
+        changeWeekForward()
+      } else {
+        changeWeekBackwards()
+      }
+      setChangeWeek(undefined)
+    }
+  }, [isChangeWeek, isSaving, changeWeekForward, changeWeekBackwards])
+
   return (
     <>
       <Typography variant="body1">{saveMessage}</Typography>
@@ -75,7 +101,11 @@ const WeeklyView: React.FC<{
         changeShowDescription={changeShowDescription}
         showDescription={showDescription}
       />
-      <WeekRow week={week} setWeek={setWeek} disableWeekChangeButtons={isLoading} />
+      <WeekRow
+        week={week}
+        setChangeWeek={setChangeWeek}
+        disableWeekChangeButtons={isLoading || Boolean(isChangeWeek)}
+      />
       <WeekdaysRow week={week} holidays={holidays} />
       {isLoading && (
         <div>
@@ -90,6 +120,7 @@ const WeeklyView: React.FC<{
           holidays={holidays}
           showDescription={showDescription}
           setSaveMessage={setSaveMessage}
+          setSaving={setSaving}
         />
       )}
     </>
