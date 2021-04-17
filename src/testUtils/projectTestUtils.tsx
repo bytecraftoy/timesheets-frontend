@@ -33,6 +33,10 @@ const projects: Project[] = [
     created: 1608652437257,
     edited: 1608652437257,
     editedBy: defaultManager,
+    hourlyCost: {
+      value: 2,
+      currency: 'EUR',
+    },
   },
   {
     id: '1001',
@@ -47,6 +51,10 @@ const projects: Project[] = [
     created: 1608652437257,
     edited: 1608652437257,
     editedBy: defaultManager,
+    hourlyCost: {
+      value: 1,
+      currency: 'EUR',
+    },
   },
   {
     id: '1002',
@@ -61,6 +69,10 @@ const projects: Project[] = [
     created: 1608652437257,
     edited: 1608652437257,
     editedBy: defaultManager,
+    hourlyCost: {
+      value: 10,
+      currency: 'EUR',
+    },
   },
 ]
 
@@ -194,6 +206,14 @@ const changeDesciptionInput = async (component: RenderResult, value: string): Pr
   })
 }
 
+const changeHourlyCostInput = async (component: RenderResult, value: string): Promise<void> => {
+  const hourlyCostInput = component.getByLabelText(t('hourlyCost.label'))
+  await act(async () => {
+    fireEvent.change(hourlyCostInput, { target: { value } })
+    await component.findByDisplayValue(value)
+  })
+}
+
 export {
   projects,
   employees,
@@ -205,4 +225,5 @@ export {
   selectProject,
   changeNameInput,
   changeDesciptionInput,
+  changeHourlyCostInput,
 }

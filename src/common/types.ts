@@ -58,8 +58,6 @@ export interface ClientWithProjectsAndInputs {
   projects: ProjectWithInputsOfOneEmployee[]
 }
 
-export type IsChangeWeekType = 'forward' | 'backward' | undefined
-
 export interface DateErrorProps {
   errors: FormikErrors<Date> | undefined
 }
@@ -149,6 +147,7 @@ export interface FormTextFieldProps {
   errors: string | undefined
   touched: boolean | undefined
   multiline?: boolean
+  InputProps?: { [key: string]: unknown }
 }
 
 export interface Hours {
@@ -180,6 +179,8 @@ export interface InputWithId extends Input {
   id: string | null
 }
 
+export type IsChangeWeekType = 'forward' | 'backward' | undefined
+
 export type Manager = Employee
 
 export interface NotificationMessage {
@@ -197,6 +198,7 @@ export interface Project
   created: number
   edited: number
   editedBy: Manager
+  hourlyCost: Cost
 }
 
 export interface ProjectFormValues {
@@ -206,6 +208,10 @@ export interface ProjectFormValues {
   owner: string
   billable: boolean
   employees: string[]
+  hourlyCost: {
+    value: string
+    currency: string
+  }
 }
 
 export interface ProjectUpdateValues extends ProjectFormValues {

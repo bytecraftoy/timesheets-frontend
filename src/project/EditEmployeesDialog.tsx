@@ -48,6 +48,10 @@ const EditEmployeesDialog: React.FC<{
         owner: project.owner.id,
         billable: project.billable,
         employees: values.employees,
+        hourlyCost: {
+          value: String(project.hourlyCost.value),
+          currency: project.hourlyCost.currency,
+        },
       }
       try {
         const response = await updateProject(projectUpdate)

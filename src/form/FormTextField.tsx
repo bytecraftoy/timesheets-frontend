@@ -12,6 +12,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
   errors,
   touched,
   multiline = false,
+  InputProps,
 }) => {
   return (
     <TextField
@@ -26,6 +27,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
       helperText={errors && touched && errors}
       multiline={multiline}
       rows={3}
+      InputProps={InputProps}
     />
   )
 }

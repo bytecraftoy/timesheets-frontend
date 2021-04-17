@@ -61,6 +61,14 @@
         "name": "owner",
         "error": "You must choose an owner."
     },
+    "hourlyCost": {
+        "label": "Hourly cost",
+        "error": {
+            "empty": "Project must have a cost",
+            "format": "Hourly cost must be a number",
+            "negative":"Hourly cost cannot be negative"
+        } 
+    },
     "project": {
         "label": "Project",
         "myProjectsLabel": "My projects",

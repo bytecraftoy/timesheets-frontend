@@ -15,6 +15,7 @@ declare global {
       // input
       inputProjectName(name: string): typeof inputProjectName
       inputProjectDescription(description: string): typeof inputProjectDescription
+      inputProjectHoulyCost(cost: string): typeof inputProjectHoulyCost
       inputDescriptionToHours(
         projectName: string,
         weekday: number,
@@ -85,6 +86,13 @@ function inputProjectDescription(description: string) {
   cy.get('textarea[name="description"]').should('have.value', description)
 }
 Cypress.Commands.add('inputProjectDescription', inputProjectDescription)
+
+function inputProjectHoulyCost(cost: string) {
+  cy.get('input[name="hourlyCost.value"]').clear()
+  cy.get('input[name="hourlyCost.value"]').type(cost)
+  cy.get('input[name="hourlyCost.value"]').should('have.value', cost)
+}
+Cypress.Commands.add('inputProjectHoulyCost', inputProjectHoulyCost)
 
 function inputHours(projectName: string, weekday: number, input: string) {
   cy.get(`[data-cy=${projectName}-input]`).eq(weekday).type(input)

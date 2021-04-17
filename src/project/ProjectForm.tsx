@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useLayoutEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import { useTranslation } from 'react-i18next'
-import { Button, Grid, Typography, makeStyles } from '@material-ui/core'
+import { Button, Grid, Typography, makeStyles, InputAdornment } from '@material-ui/core'
 import { useFormik } from 'formik'
 import SubmitButton from '../button/SubmitButton'
 import { Client, Employee, Manager, ProjectFormValues } from '../common/types'
@@ -42,6 +42,10 @@ const ProjectForm: React.FC = () => {
     owner: '',
     employees: [],
     billable: true,
+    hourlyCost: {
+      value: '0',
+      currency: 'EUR',
+    },
   }
 
   const formik = useFormik({
@@ -60,11 +64,10 @@ const ProjectForm: React.FC = () => {
       }
     },
     validate: (values) => {
-      const errors: { [key: string]: string } = {}
+      const errors: { [key: string]: string | { [key: string]: string } } = {}
       if (!values.name) {
         errors.name = t('project.error.name.empty')
-      }
-      if (values.name.length > 100) {
+      } else if (values.name.length > 100) {
         errors.name = t('project.error.tooLong')
       }
       if (values.description.length > 400) {
@@ -75,6 +78,16 @@ const ProjectForm: React.FC = () => {
       }
       if (!values.owner) {
         errors.owner = t('owner.error')
+      }
+      if (!values.hourlyCost.value) {
+        errors.hourlyCost = { value: t('hourlyCost.error.empty') }
+      } else {
+        const hourlyCostNumber = Number(values.hourlyCost.value)
+        if (Number.isNaN(hourlyCostNumber)) {
+          errors.hourlyCost = { value: t('hourlyCost.error.format') }
+        } else if (hourlyCostNumber < 0) {
+          errors.hourlyCost = { value: t('hourlyCost.error.negative') }
+        }
       }
       return errors
     },
@@ -103,6 +116,13 @@ const ProjectForm: React.FC = () => {
       (employee) => employee !== formik.values.owner
     )
   }, [formik.values])
+
+  const billableHandleChange = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+    if (!checked) {
+      formik.values.hourlyCost.value = '0'
+    }
+    formik.handleChange(e)
+  }
 
   return (
     <>
@@ -179,11 +199,25 @@ const ProjectForm: React.FC = () => {
             <FormSwitch
               name={constants.BILLABLE}
               checked={formik.values.billable}
-              handleChange={formik.handleChange}
+              handleChange={billableHandleChange}
               ariaLabel={constants.BILLABLE}
               label={t('billable.label')}
             />
           </Grid>
+          {formik.values.billable && (
+            <Grid item>
+              <FormTextField
+                name="hourlyCost.value"
+                label={t('hourlyCost.label')}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                value={formik.values.hourlyCost.value}
+                errors={formik.errors.hourlyCost?.value}
+                touched={formik.touched.hourlyCost?.value}
+                InputProps={{ endAdornment: <InputAdornment position="end">€</InputAdornment> }}
+              />
+            </Grid>
+          )}
           {toNext && <Redirect to={constants.PATHS.projects} />}
           <Grid container item spacing={1}>
             <SubmitButton
