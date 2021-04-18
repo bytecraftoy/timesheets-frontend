@@ -87,6 +87,11 @@ export interface EmployeeWithInputs extends Omit<Employee, 'isManager'> {
   employeeTotalCost: Cost
 }
 
+type FormikHandleChangeAndBlur = {
+  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
+}
+
 export interface FormikSetFieldValue {
   setFieldValue: (
     field: string,
@@ -137,19 +142,16 @@ export interface FormSwitchProps extends FormCheckboxProps {
   disabled?: boolean
 }
 
-export interface FormTextFieldProps {
+export type FormTextFieldProps = {
   className?: string
   name: string
   label: string
-  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   value: string
   errors: string | undefined
   touched: boolean | undefined
   multiline?: boolean
   InputProps?: { [key: string]: unknown }
-}
-
+} & FormikHandleChangeAndBlur
 export interface Hours {
   input: number
   description: string
@@ -293,16 +295,14 @@ export interface TimeInputWithCost extends TimeInput {
   cost: Cost
 }
 
-export interface TimeInputCellProps {
+export type TimeInputCellProps = {
   input: Input
   timeInputName: string
-  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   errors: FormikErrors<{ projects: ProjectAndInputs[] }>
   showDescription: boolean
   isHoliday: boolean
   dataCy?: string
-}
+} & FormikHandleChangeAndBlur
 
 export interface TimeInputsFormControlRowProps {
   disableShowDescription: boolean
@@ -320,15 +320,13 @@ export interface TimeInputsFormProps {
   setSaving: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export interface TimeInputsRowProps {
+export type TimeInputsRowProps = {
   i: number
   projectAndInputs: ProjectAndInputs
-  handleChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void
-  handleBlur: (e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement>) => void
   errors: FormikErrors<{ projects: ProjectAndInputs[] }>
   showDescription: boolean
   holidays: boolean[]
-}
+} & FormikHandleChangeAndBlur
 
 export interface TimeIntervalSelectsProps extends FormikSetFieldValue, DateErrorsProps {
   values: BillingReportFormValues | SalaryReportFormValues
