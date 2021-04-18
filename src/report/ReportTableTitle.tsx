@@ -24,7 +24,7 @@ const ReportTableTitle: React.FC<{
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell colSpan={3} align="center">
+        <TableCell colSpan={4} align="center">
           <Typography classes={{ root: classes.root }} variant="h6">
             {title}
           </Typography>

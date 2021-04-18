@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from 'react'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
-import { ClientWithProjectsAndInputs, ProjectWithInputsOfOneEmployee } from '../../common/types'
+import {
+  ClientWithProjectsAndInputs,
+  ProjectWithInputsOfOneEmployee,
+  Cost,
+} from '../../common/types'
 import { minutesToHoursAndMinutes } from '../../services/dateAndTimeService'
 import ReportTableTitle from '../ReportTableTitle'
 import SummaryTableHeaderRow from '../SummaryTableHeaderRow'
@@ -15,7 +19,8 @@ const ProjectRow: React.FC<{ project: ProjectWithInputsOfOneEmployee }> = ({ pro
   return (
     <SummaryTotalRow
       label={project.name}
-      total={project.projectTotal}
+      totalTime={project.projectTotal}
+      totalCost={project.projectTotalCost.value}
       className={classes.stripedRow}
     />
   )
@@ -30,7 +35,7 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
   return (
     <>
       <TableRow className={classes.darkerRow}>
-        <TableCell colSpan={4}>
+        <TableCell colSpan={5}>
           <strong>{client.name}</strong>
         </TableCell>
       </TableRow>
@@ -40,7 +45,8 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
       <CountTotalRow
         className={classes.stripedRow}
         label={t('report.preview.clientSubTotal')}
-        total={convertedClientTotal}
+        totalTime={convertedClientTotal}
+        totalCost={client.clientTotalCost.value}
       />
     </>
   )
@@ -49,7 +55,8 @@ const ClientRows: React.FC<{ client: ClientWithProjectsAndInputs }> = ({ client 
 const SalaryReportSummaryTable: React.FC<{
   clients: ClientWithProjectsAndInputs[]
   grandTotal: number
-}> = ({ clients, grandTotal }) => {
+  grandTotalCost: Cost
+}> = ({ clients, grandTotal, grandTotalCost }) => {
   const classes = useStyles()
   const { t } = useTranslation()
   const [open, setOpen] = useState(true)
@@ -66,6 +73,7 @@ const SalaryReportSummaryTable: React.FC<{
               <SummaryTableHeaderRow
                 leftLabel={t('client.label')}
                 centerLabel={t('project.label')}
+                currency={grandTotalCost.currency}
               />
               <TableBody>
                 {clients.map((client) => (
@@ -74,7 +82,8 @@ const SalaryReportSummaryTable: React.FC<{
                 <CountTotalRow
                   className={classes.darkerRow}
                   label={t('report.preview.grandTotal')}
-                  total={convertedGrandTotal}
+                  totalTime={convertedGrandTotal}
+                  totalCost={grandTotalCost.value}
                 />
               </TableBody>
             </>

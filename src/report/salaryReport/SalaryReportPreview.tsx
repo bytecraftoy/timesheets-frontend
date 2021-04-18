@@ -23,7 +23,11 @@ const SalaryReportPreview: React.FC<{ data: SalaryReportData }> = ({ data }) => 
       {!data.billable && data.nonBillable && (
         <Typography>{t('billable.onlyNonBillable')}</Typography>
       )}
-      <SalaryReportSummaryTable clients={data.clients} grandTotal={data.grandTotal} />
+      <SalaryReportSummaryTable
+        clients={data.clients}
+        grandTotal={data.grandTotal}
+        grandTotalCost={data.grandTotalCost}
+      />
       <SalaryReportDetailsTable clients={data.clients} />
     </>
   )
