@@ -33,6 +33,10 @@ describe('creating and editing projects', () => {
       cy.inputProjectDescription(`${projectName}1 with employees`)
     })
 
+    it('should input project cost', () => {
+      cy.inputProjectHoulyCost('2')
+    })
+
     it('should select a client', () => {
       cy.selectClient(client)
     })
@@ -69,6 +73,10 @@ describe('creating and editing projects', () => {
 
     it('should input project description', () => {
       cy.inputProjectDescription(`${projectName}2 without employees`)
+    })
+
+    it('should input project cost', () => {
+      cy.inputProjectHoulyCost('1')
     })
 
     it('should select a client', () => {
@@ -111,6 +119,10 @@ describe('creating and editing projects', () => {
     it('should uncheck billable checkbox', () => {
       cy.get('[type=checkbox]').uncheck()
       cy.get('[type=checkbox]').should('not.be.checked')
+    })
+
+    it('should not contain cost', () => {
+      cy.get('input[name="hourlyCost.value"]').should('not.exist')
     })
 
     it('should add a new non-billable project succesfully', () => {

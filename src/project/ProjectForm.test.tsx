@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils'
 import axios from 'axios'
 import { RecoilRoot } from 'recoil'
 import { I18nextProvider } from 'react-i18next'
+import { ProjectFormValues } from '../common/types'
 import { t } from '../testUtils/testUtils'
 import * as projectTestUtils from '../testUtils/projectTestUtils'
 import i18n from '../i18n'
@@ -22,6 +23,12 @@ describe('add project form', () => {
     const submitButton = component.getByTestId('projectFormSubmit')
     await act(async () => {
       fireEvent.click(submitButton)
+    })
+  }
+  const pressBillableCheckbox = async (): Promise<void> => {
+    const billableCheckbox = component.getByLabelText(t('billable.label'))
+    await act(async () => {
+      fireEvent.click(billableCheckbox)
     })
   }
 
@@ -50,9 +57,10 @@ describe('add project form', () => {
       })
     })
 
-    it('has name, description text fields, billabe info and employee, client & owner selects', () => {
+    it('has name, description, hourly cost text fields, billabe info and employee, client & owner selects', () => {
       const nameInput = component.getByLabelText(t('project.form.nameLabel'))
       const desciptionInput = component.getByLabelText(t('project.description.label'))
+      const hourlyCostInput = component.getByLabelText(t('hourlyCost.label'))
       const clientSelect = component.getByLabelText(t('client.label'))
       const ownerSelect = component.getByLabelText(t('owner.label'))
       const billableCheckbox = component.getByLabelText(t('billable.label'))
@@ -60,6 +68,7 @@ describe('add project form', () => {
 
       expect(nameInput).toHaveAttribute('type', 'text')
       expect(desciptionInput).toBeInTheDocument()
+      expect(hourlyCostInput).toHaveAttribute('type', 'text')
       expect(billableCheckbox).toHaveAttribute('type', 'checkbox')
       expect(clientSelect).toHaveAttribute('role', 'button')
       expect(ownerSelect).toHaveAttribute('role', 'button')
@@ -88,6 +97,14 @@ describe('add project form', () => {
       projectTestUtils.employees.forEach((employee) => {
         expect(component.getByText(getEmployeeFullName(employee))).toBeInTheDocument()
       })
+    })
+
+    it('setting project non-billable should hide and reset hourly cost', async () => {
+      await projectTestUtils.changeHourlyCostInput(component, '1')
+      await pressBillableCheckbox()
+      expect(component.queryByLabelText(t('hourlyCost.label'))).not.toBeInTheDocument()
+      await pressBillableCheckbox()
+      expect(component.getByDisplayValue('0')).toBeInTheDocument()
     })
   })
 
@@ -123,7 +140,20 @@ describe('add project form', () => {
 
         await pressSubmitButton()
         await waitFor(expect(component.getByText(t('project.error.name.empty'))).toBeInTheDocument)
+        expect(axios.post).toBeCalledTimes(0)
+      })
 
+      it('displays validation error hourly cost field cannot be empty', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+        await projectTestUtils.changeNameInput(component, 'a')
+        const hourlyCostInput = component.getByLabelText(t('hourlyCost.label'))
+        await act(async () => {
+          fireEvent.change(hourlyCostInput, { target: { value: '' } })
+        })
+
+        await pressSubmitButton()
+        await waitFor(expect(component.getByText(t('hourlyCost.error.empty'))).toBeInTheDocument)
         expect(axios.post).toBeCalledTimes(0)
       })
 
@@ -168,16 +198,44 @@ describe('add project form', () => {
         expect(axios.post).toBeCalledTimes(0)
       })
     })
+
+    describe('with incorrectly formated values', () => {
+      it('displays validation error hourly cost field has to be number', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+        await projectTestUtils.changeNameInput(component, 'a')
+        await projectTestUtils.changeHourlyCostInput(component, 'a')
+
+        await pressSubmitButton()
+        await waitFor(expect(component.getByText(t('hourlyCost.error.format'))).toBeInTheDocument)
+        expect(axios.post).toBeCalledTimes(0)
+      })
+
+      it('displays validation error hourly cost field cannot be negative', async () => {
+        await projectTestUtils.selectClient(component, projectTestUtils.clients[0])
+        await projectTestUtils.selectManager(component, projectTestUtils.managers[0])
+        await projectTestUtils.changeNameInput(component, 'a')
+        await projectTestUtils.changeHourlyCostInput(component, '-1')
+
+        await pressSubmitButton()
+        await waitFor(expect(component.getByText(t('hourlyCost.error.negative'))).toBeInTheDocument)
+        expect(axios.post).toBeCalledTimes(0)
+      })
+    })
   })
 
   describe('submitting with correct field values', () => {
-    const newTestProjectJson = {
+    const newTestProjectJson: ProjectFormValues = {
       name: 'a',
       description: 'a',
       client: projectTestUtils.clients[0].id,
       owner: projectTestUtils.managers[0].id,
       employees: projectTestUtils.employees.map((employee) => employee.id),
       billable: true,
+      hourlyCost: {
+        value: '3',
+        currency: 'EUR',
+      },
     }
 
     beforeEach(async () => {
@@ -229,6 +287,7 @@ describe('add project form', () => {
         projectTestUtils.employees[1],
         t('employee.labelPlural')
       )
+      await projectTestUtils.changeHourlyCostInput(component, newTestProjectJson.hourlyCost.value)
 
       await pressSubmitButton()
       await component.findByText('Redirect')

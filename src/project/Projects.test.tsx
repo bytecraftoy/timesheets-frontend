@@ -17,7 +17,7 @@ import EditEmployeesDialog from './EditEmployeesDialog'
 import * as projectTestUtils from '../testUtils/projectTestUtils'
 import { UserContext } from '../context/UserContext'
 import ProjectsView from './Projects'
-import { Project } from '../common/types'
+import { Project, ProjectUpdateValues } from '../common/types'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -186,7 +186,7 @@ describe('edit employees dialog', () => {
     })
 
     it('the form should put correct json', () => {
-      const projectJson = {
+      const projectJson: ProjectUpdateValues = {
         name: projectCopy.name,
         id: projectCopy.id,
         description: projectCopy.description,
@@ -194,6 +194,10 @@ describe('edit employees dialog', () => {
         owner: projectCopy.owner.id,
         employees: projectCopy.employees.map((employee) => employee.id),
         billable: projectCopy.billable,
+        hourlyCost: {
+          value: String(projectCopy.hourlyCost.value),
+          currency: projectCopy.hourlyCost.currency,
+        },
       }
       expect(axios.put).toBeCalledWith('/projects', projectJson)
     })
