@@ -80,15 +80,10 @@ const ProjectInfo: React.FC<{ project: Project; employees: Employee[] }> = ({
         </TableCell>
         {user.isManager && (
           <TableCell align="right">
-            <IconButton color="inherit" size="small" aria-label="edit-project" onClick={undefined}>
+            <IconButton color="inherit" size="small" aria-label="edit-project" disabled>
               <EditIcon />
             </IconButton>
-            <IconButton
-              color="inherit"
-              size="small"
-              aria-label="delete-project"
-              onClick={undefined}
-            >
+            <IconButton color="inherit" size="small" aria-label="delete-project" disabled>
               <DeleteOutlinedIcon />
             </IconButton>
           </TableCell>
