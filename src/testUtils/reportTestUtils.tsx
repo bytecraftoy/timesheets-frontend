@@ -1,6 +1,6 @@
 import { BillingReportData, SalaryReportData } from '../common/types'
 
-const billingReportData: BillingReportData = {
+export const billingReportData: BillingReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
   created: 1612329726188,
@@ -17,6 +17,10 @@ const billingReportData: BillingReportData = {
       description: 'Bytecraft Timesheets project',
       billable: true,
       projectTotal: 4500,
+      projectTotalCost: {
+        value: 899.64,
+        currency: 'EUR',
+      },
       employees: [
         {
           id: '3',
@@ -31,6 +35,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -39,6 +47,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -47,6 +59,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -55,6 +71,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -63,9 +83,17 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
           employeeTotal: 2250,
+          employeeTotalCost: {
+            value: 299.88,
+            currency: 'EUR',
+          },
         },
         {
           id: '4',
@@ -80,6 +108,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -88,6 +120,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -96,6 +132,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -104,6 +144,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -112,9 +156,17 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
           employeeTotal: 2250,
+          employeeTotalCost: {
+            value: 299.88,
+            currency: 'EUR',
+          },
         },
       ],
     },
@@ -124,6 +176,10 @@ const billingReportData: BillingReportData = {
       description: 'Just a random dummy project',
       billable: true,
       projectTotal: 4567,
+      projectTotalCost: {
+        value: 899.64,
+        currency: 'EUR',
+      },
       employees: [
         {
           id: '3',
@@ -138,6 +194,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -146,6 +206,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -154,6 +218,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -162,6 +230,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -170,9 +242,17 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
           employeeTotal: 2250,
+          employeeTotalCost: {
+            value: 299.88,
+            currency: 'EUR',
+          },
         },
         {
           id: '4',
@@ -187,6 +267,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -195,6 +279,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -203,6 +291,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -211,6 +303,10 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -219,17 +315,29 @@ const billingReportData: BillingReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
           employeeTotal: 2250,
+          employeeTotalCost: {
+            value: 299.88,
+            currency: 'EUR',
+          },
         },
       ],
     },
   ],
   grandTotal: 12345,
+  grandTotalCost: {
+    value: 1799.28,
+    currency: 'EUR',
+  },
 }
 
-const salaryReportData: SalaryReportData = {
+export const salaryReportData: SalaryReportData = {
   startDate: '2021-01-01',
   endDate: '2021-01-31',
   created: 1612329726188,
@@ -247,11 +355,19 @@ const salaryReportData: SalaryReportData = {
       id: '1',
       name: 'Client 1',
       clientTotal: 50,
+      clientTotalCost: {
+        value: 949.62,
+        currency: 'EUR',
+      },
       projects: [
         {
           id: '1000',
           name: 'Projekti 1',
           projectTotal: 35,
+          projectTotalCost: {
+            value: 474.81,
+            currency: 'EUR',
+          },
           timeInputs: [
             {
               id: '1',
@@ -260,6 +376,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -268,6 +388,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -276,6 +400,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -284,6 +412,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -292,6 +424,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
         },
@@ -299,6 +435,10 @@ const salaryReportData: SalaryReportData = {
           id: '1002',
           name: 'Projekti 2',
           projectTotal: 10,
+          projectTotalCost: {
+            value: 474.81,
+            currency: 'EUR',
+          },
           timeInputs: [
             {
               id: '1',
@@ -307,6 +447,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -315,6 +459,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -323,6 +471,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -331,6 +483,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -339,6 +495,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
         },
@@ -348,11 +508,19 @@ const salaryReportData: SalaryReportData = {
       id: '2',
       name: 'Client 2',
       clientTotal: 100,
+      clientTotalCost: {
+        value: 949.62,
+        currency: 'EUR',
+      },
       projects: [
         {
           id: '1003',
           name: 'Projekti B',
           projectTotal: 100,
+          projectTotalCost: {
+            value: 474.81,
+            currency: 'EUR',
+          },
           timeInputs: [
             {
               id: '1',
@@ -361,6 +529,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '2',
@@ -369,6 +541,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '3',
@@ -377,6 +553,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '4',
@@ -385,6 +565,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
             {
               id: '5',
@@ -393,6 +577,10 @@ const salaryReportData: SalaryReportData = {
               input: 450,
               created: 100,
               edited: 100,
+              cost: {
+                value: 49.98,
+                currency: 'EUR',
+              },
             },
           ],
         },
@@ -401,6 +589,8 @@ const salaryReportData: SalaryReportData = {
   ],
 
   grandTotal: 12345,
+  grandTotalCost: {
+    value: 1424.43,
+    currency: 'EUR',
+  },
 }
-
-export { billingReportData, salaryReportData }

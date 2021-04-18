@@ -108,7 +108,8 @@
             "grandTotal": "Grand total",
             "projectSubTotal": "Project subtotal",
             "clientSubTotal": "Client subtotal",
-            "noHours": "No hours"
+            "noHours": "No hours",
+            "cost": "Cost ({{currency}})"
         },
         "billing": {
             "form": {

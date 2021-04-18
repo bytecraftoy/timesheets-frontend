@@ -1,11 +1,12 @@
 import React from 'react'
 import { TableCell, TableRow } from '@material-ui/core'
 
-const CountTotalRow: React.FC<{ className?: string; label: string; total: string }> = ({
-  className,
-  label,
-  total,
-}) => {
+const CountTotalRow: React.FC<{
+  className?: string
+  label: string
+  totalTime: string
+  totalCost: number
+}> = ({ className, label, totalTime, totalCost }) => {
   return (
     <TableRow className={className}>
       <TableCell colSpan={2} />
@@ -13,7 +14,10 @@ const CountTotalRow: React.FC<{ className?: string; label: string; total: string
         <strong>{label}</strong>
       </TableCell>
       <TableCell align="right">
-        <strong>{total}</strong>
+        <strong>{totalTime}</strong>
+      </TableCell>
+      <TableCell align="right">
+        <strong>{totalCost}</strong>
       </TableCell>
     </TableRow>
   )

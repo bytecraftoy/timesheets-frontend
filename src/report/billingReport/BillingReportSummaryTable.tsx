@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core'
-import { ProjectStub, EmployeeWithInputs } from '../../common/types'
+import { ProjectStub, EmployeeWithInputs, Cost } from '../../common/types'
 import { minutesToHoursAndMinutes } from '../../services/dateAndTimeService'
 import { getEmployeeFullName } from '../../services/employeeService'
 import ReportTableTitle from '../ReportTableTitle'
@@ -17,7 +17,8 @@ const EmployeeRow: React.FC<{ employee: EmployeeWithInputs }> = ({ employee }) =
   return (
     <SummaryTotalRow
       label={getEmployeeFullName(employee)}
-      total={employee.employeeTotal}
+      totalTime={employee.employeeTotal}
+      totalCost={employee.employeeTotalCost.value}
       className={classes.stripedRow}
     />
   )
@@ -34,7 +35,7 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
   return (
     <>
       <TableRow className={classes.darkerRow}>
-        <TableCell colSpan={4}>
+        <TableCell colSpan={5}>
           <strong>{project.name}</strong>
         </TableCell>
       </TableRow>
@@ -44,16 +45,18 @@ const ProjectRows: React.FC<{ project: ProjectStub }> = ({ project }) => {
       <CountTotalRow
         className={classes.stripedRow}
         label={t('report.preview.projectSubTotal')}
-        total={convertedProjectTotal}
+        totalTime={convertedProjectTotal}
+        totalCost={project.projectTotalCost.value}
       />
     </>
   )
 }
 
-const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal: number }> = ({
-  projects,
-  grandTotal,
-}) => {
+const BillingReportSummaryTable: React.FC<{
+  projects: ProjectStub[]
+  grandTotal: number
+  grandTotalCost: Cost
+}> = ({ projects, grandTotal, grandTotalCost }) => {
   const classes = useStyles()
   const { t } = useTranslation()
   const [open, setOpen] = useState(true)
@@ -70,6 +73,7 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
               <SummaryTableHeaderRow
                 leftLabel={t('project.label')}
                 centerLabel={t('employee.label')}
+                currency={grandTotalCost.currency}
               />
               <TableBody>
                 {projects.map((project) => (
@@ -78,7 +82,8 @@ const BillingReportSummaryTable: React.FC<{ projects: ProjectStub[]; grandTotal:
                 <CountTotalRow
                   className={classes.darkerRow}
                   label={t('report.preview.grandTotal')}
-                  total={convertedGrandTotal}
+                  totalTime={convertedGrandTotal}
+                  totalCost={grandTotalCost.value}
                 />
               </TableBody>
             </>

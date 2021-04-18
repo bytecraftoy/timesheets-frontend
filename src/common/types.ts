@@ -7,6 +7,11 @@ type Billable = {
   nonBillable: boolean
 }
 
+export interface Cost {
+  value: number
+  currency: string
+}
+
 type DatesAsStrings = {
   startDate: string
   endDate: string
@@ -26,6 +31,7 @@ export type BillingReportData = {
   projects: ProjectStub[]
   created: number
   grandTotal: number
+  grandTotalCost: Cost
 } & Billable &
   DatesAsStrings
 
@@ -48,6 +54,7 @@ export interface ClientWithProjectsAndInputs {
   id: string
   name: string
   clientTotal: number
+  clientTotalCost: Cost
   projects: ProjectWithInputsOfOneEmployee[]
 }
 
@@ -77,8 +84,9 @@ export interface Employee {
 }
 
 export interface EmployeeWithInputs extends Omit<Employee, 'isManager'> {
-  timeInputs: TimeInput[]
+  timeInputs: TimeInputWithCost[]
   employeeTotal: number
+  employeeTotalCost: Cost
 }
 
 export interface FormikSetFieldValue {
@@ -142,6 +150,7 @@ export interface FormTextFieldProps {
   touched: boolean | undefined
   multiline?: boolean
 }
+
 export interface Hours {
   input: number
   description: string
@@ -178,7 +187,8 @@ export interface NotificationMessage {
   severity: Severity
 }
 
-export interface Project extends Omit<ProjectStub, 'employees' | 'projectTotal'> {
+export interface Project
+  extends Omit<ProjectStub, 'employees' | 'projectTotal' | 'projectTotalCost'> {
   owner: Manager
   createdBy: Manager
   managers: Manager[]
@@ -218,13 +228,15 @@ export interface ProjectStub {
   billable: boolean
   employees: EmployeeWithInputs[]
   projectTotal: number
+  projectTotalCost: Cost
 }
 
 export interface ProjectWithInputsOfOneEmployee {
   id: string
   name: string
   projectTotal: number
-  timeInputs: TimeInput[]
+  projectTotalCost: Cost
+  timeInputs: TimeInputWithCost[]
 }
 
 export type SalaryReportData = {
@@ -232,6 +244,7 @@ export type SalaryReportData = {
   clients: ClientWithProjectsAndInputs[]
   created: number
   grandTotal: number
+  grandTotalCost: Cost
 } & Billable &
   DatesAsStrings
 
@@ -259,14 +272,19 @@ export interface SubmitButtonProps {
 export interface TableHeaderRowProps {
   leftLabel: string
   centerLabel: string
+  currency?: string
 }
-export interface TimeInput {
+export type TimeInput = {
   id: string
   input: number
   description: string
   date: string
   created: number
   edited: number
+}
+
+export interface TimeInputWithCost extends TimeInput {
+  cost: Cost
 }
 
 export interface TimeInputCellProps {

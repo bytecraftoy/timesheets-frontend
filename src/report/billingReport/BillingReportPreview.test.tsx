@@ -18,14 +18,17 @@ import BillingReportDetailsTable from './BillingReportDetailsTable'
 let component: RenderResult
 
 describe('BillingReportSummaryTable', () => {
-  const { projects } = billingReportData
-  const { grandTotal } = billingReportData
+  const { projects, grandTotal, grandTotalCost } = billingReportData
 
   beforeEach(async () => {
     await act(async () => {
       component = render(
         <I18nextProvider i18n={i18n}>
-          <BillingReportSummaryTable projects={projects} grandTotal={grandTotal} />
+          <BillingReportSummaryTable
+            projects={projects}
+            grandTotal={grandTotal}
+            grandTotalCost={grandTotalCost}
+          />
         </I18nextProvider>
       )
       await component.findByText(t('report.preview.summary'))

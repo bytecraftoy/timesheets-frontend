@@ -22,7 +22,11 @@ const BillingReportPreview: React.FC<{ data: BillingReportData }> = ({ data }) =
       {!data.billable && data.nonBillable && (
         <Typography>{t('billable.onlyNonBillable')}</Typography>
       )}
-      <BillingReportSummaryTable projects={data.projects} grandTotal={data.grandTotal} />
+      <BillingReportSummaryTable
+        projects={data.projects}
+        grandTotal={data.grandTotal}
+        grandTotalCost={data.grandTotalCost}
+      />
       <BillingReportDetailsTable projects={data.projects} />
     </>
   )
