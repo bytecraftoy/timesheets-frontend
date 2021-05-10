@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+# timesheets-frontend
+**Bytecraft** collaborated with a group of talented students (**team Codeflow**)
+from Aalto University in [Software Project Course](https://mycourses.aalto.fi/course/view.php?id=28162).
+
+The output is an open-source application, timesheets app. The app is used to input, track, and report working hours related to projects.
+The frontend is **Typescript Create React App (CRA)**. Further information about architecture is found in [ARCHITECTURE.md](ARCHITECTURE.md).
+
+The known defects and the backlog of user stories and individual tasks are in backend-project's [BACKLOG.md](https://github.com/bytecraftoy/timesheets-backend/blob/master/BACKLOG.md). 
+Instructions for contributing to the development of the application are in [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -66,12 +76,6 @@ Formats all .ts and .tsx files in the `src` folder with Prettier.
 ### `yarn run cypress open`
 
 Open cypress test suite.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
 
 # Documentation
 
