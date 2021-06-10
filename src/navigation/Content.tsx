@@ -4,6 +4,7 @@ import { Container } from '@material-ui/core'
 import { DEBOUNCEMS, PATHS } from '../common/constants'
 import SalaryReport from '../report/salaryReport/SalaryReport'
 import ProjectsView from '../project/Projects'
+import ClientsView from '../client/Clients'
 import BillingReport from '../report/billingReport/BillingReport'
 import Dashboard from '../dashboard/Dashboard'
 import useStyles from './styles'
@@ -22,6 +23,9 @@ const Content: React.FC = () => {
         <Switch>
           <Route path={PATHS.projects}>
             <ProjectsView />
+          </Route>
+          <Route path={PATHS.clients}>
+            <ClientsView />
           </Route>
           <Route path={PATHS.billingReport}>
             {!user.isManager ? <Redirect to="/" /> : <BillingReport />}

@@ -6,6 +6,7 @@ import FolderOpenIcon from '@material-ui/icons/FolderOpen'
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+import WorkIcon from '@material-ui/icons/Work'
 import { PATHS } from '../common/constants'
 import useStyles from './styles'
 import NavListItem from './NavListItem'
@@ -32,6 +33,12 @@ const NavList: React.FC = () => {
         icon={<InputHoursIcon />}
         testId="dashboard-nav"
         label={t('dashboard.title')}
+      />
+      <NavListItem
+        linkTo="/clients"
+        icon={<WorkIcon />}
+        testId="clients-nav"
+        label={t('client.title')}
       />
       <NavListItem
         linkTo={PATHS.projects}

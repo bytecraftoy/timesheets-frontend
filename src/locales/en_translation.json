@@ -26,6 +26,7 @@
     "client": {
         "label": "Client",
         "labelPlural": "Clients",
+        "title": "Clients",
         "name": "client",
         "error": {
             "chooseOne": "You must choose a client.",

@@ -1,5 +1,6 @@
 export const PATHS = {
   projects: '/projects',
+  clients: '/clients',
   billingReport: '/reports/billing',
   billingReportPreview: '/reports/billing/preview',
   salaryReport: '/reports/salary',
