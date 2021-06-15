@@ -1,10 +1,17 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Typography } from '@material-ui/core'
+import ClientsTable from './ClientsTable'
 
 const ClientsView: React.FC = () => {
+  const { t } = useTranslation()
+
   return (
     <div>
-      <h2>This is the clients view</h2>
-      <p>Here you should see a list of clients</p>
+      <Typography variant="h2" data-cy="clients-title">
+        {t('client.title')}
+      </Typography>
+      <ClientsTable />
     </div>
   )
 }

@@ -26,6 +26,13 @@
     "client": {
         "label": "Client",
         "labelPlural": "Clients",
+        "clientName": "Client name",
+        "actions": "Actions",
+        "details": "Client Details",
+        "time": "Time",
+        "createdBy": "By",
+        "created": "Created",
+        "modified": "Last modified",
         "title": "Clients",
         "name": "client",
         "error": {
