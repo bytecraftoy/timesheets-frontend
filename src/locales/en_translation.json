@@ -40,7 +40,9 @@
             "atLeastOne": "You must choose at least one client."
         },
         "selectAll": "Select all clients",
-        "unselectAll": "Unselect all clients"
+        "unselectAll": "Unselect all clients",
+        "createNew": "Create new client",
+        "addClient": "Add client"
     },
     "dashboard": {
         "title": "Dashboard",
