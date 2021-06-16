@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Box,
@@ -11,13 +11,16 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core'
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import EditIcon from '@material-ui/icons/Edit'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import { useTranslation } from 'react-i18next'
-import { Client } from '../common/types'
+import { Client, Project } from '../common/types'
 import { useUserContext } from '../context/UserContext'
+import { getProjectsByClientId } from '../services/projectService'
+import { useAPIErrorHandlerWithFinally } from '../services/errorHandlingService'
 
 const useStyles = makeStyles({
   root: {
@@ -32,10 +35,33 @@ const useStyles = makeStyles({
 })
 
 const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
+  const [isLoading, setLoading] = useState(true)
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const { t } = useTranslation()
   const { user } = useUserContext()
+  const [projects, setProjects] = useState<Project[]>([])
+
+  const fetchProjectsOfClient = useCallback(async () => {
+    setProjects(await getProjectsByClientId(client.id))
+  }, [client])
+
+  useAPIErrorHandlerWithFinally(
+    fetchProjectsOfClient,
+    useCallback(() => setLoading(false), [])
+  )
+
+  const clientProjects: string = useMemo(() => projects.map((project) => project.name).join(', '), [
+    projects,
+  ])
+
+  if (isLoading) {
+    return (
+      <div>
+        <HourglassEmptyIcon />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -76,7 +102,7 @@ const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
                 {t('client.details')}
               </Typography>
               <Typography variant="h6">{t('project.labelPlural')}</Typography>
-              <Typography variant="body1">List of projects goes here</Typography>
+              <Typography variant="body1">{clientProjects}</Typography>
               <Table>
                 <TableHead>
                   <TableRow>
