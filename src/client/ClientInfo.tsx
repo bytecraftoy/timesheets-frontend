@@ -75,6 +75,8 @@ const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
               <Typography variant="h5" gutterBottom component="div">
                 {t('client.details')}
               </Typography>
+              <Typography variant="h6">{t('project.labelPlural')}</Typography>
+              <Typography variant="body1">List of projects goes here</Typography>
               <Table>
                 <TableHead>
                   <TableRow>
