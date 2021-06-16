@@ -50,6 +50,11 @@ export interface Client {
   email?: string
 }
 
+export interface ClientFormValues {
+  name: string
+  email: string
+}
+
 export interface ClientWithProjectsAndInputs {
   id: string
   name: string

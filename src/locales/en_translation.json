@@ -35,9 +35,20 @@
         "modified": "Last modified",
         "title": "Clients",
         "name": "client",
+        "form": {
+            "nameLabel": "Client's Name"
+        },
+        "message": {
+            "createSuccess":"{{client}} created succesfully!"
+        },
         "error": {
             "chooseOne": "You must choose a client.",
-            "atLeastOne": "You must choose at least one client."
+            "atLeastOne": "You must choose at least one client.",
+            "name": {
+                "empty": "Client must have a name.",
+                "tooLong": "Client's name cannot be over 100 letters long."
+            },
+            "email": "Client must have a valid email."
         },
         "selectAll": "Select all clients",
         "unselectAll": "Unselect all clients",
