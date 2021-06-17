@@ -42,7 +42,7 @@ const ClientsTableBody: React.FC<{ clients: Client[] }> = ({ clients }) => {
   )
 }
 
-const ClientsTable: React.FC = () => {
+const ClientsTable: React.FC<{ showAllClients: boolean }> = ({ showAllClients }) => {
   const [isLoading, setLoading] = useState(true)
   const [clients, setClients] = useState<Client[]>([])
   const [allClients, setAllClients] = useState<Client[]>([])
@@ -59,7 +59,7 @@ const ClientsTable: React.FC = () => {
   }, [user])
 
   useAPIErrorHandlerWithFinally(
-    fetchAllClients,
+    user.isManager ? fetchAllClients : fetchOnlyEmployeesClients,
     useCallback(() => setLoading(false), [])
   )
 
@@ -75,7 +75,8 @@ const ClientsTable: React.FC = () => {
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <ClientsTableHead />
-        <ClientsTableBody clients={allClients} />
+        {user.isManager && showAllClients && <ClientsTableBody clients={allClients} />}
+        {(!user.isManager || !showAllClients) && <ClientsTableBody clients={clients} />}
       </Table>
     </TableContainer>
   )

@@ -53,7 +53,8 @@
         "selectAll": "Select all clients",
         "unselectAll": "Unselect all clients",
         "createNew": "Create new client",
-        "addClient": "Add client"
+        "addClient": "Add client",
+        "showAll": "Show all clients"
     },
     "dashboard": {
         "title": "Dashboard",
