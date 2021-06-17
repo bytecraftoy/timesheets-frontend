@@ -9,6 +9,9 @@ export const billingReportData: BillingReportData = {
   client: {
     id: '1',
     name: 'Client 1',
+    email: 'client@1.com',
+    created: 0,
+    edited: 0,
   },
   projects: [
     {

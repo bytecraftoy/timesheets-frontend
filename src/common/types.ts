@@ -47,7 +47,9 @@ export type BillingReportFormValues = {
 export interface Client {
   id: string
   name: string
-  email?: string
+  email: string
+  created: number
+  edited: number
 }
 
 export interface ClientFormValues {

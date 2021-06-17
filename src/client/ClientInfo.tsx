@@ -42,6 +42,9 @@ const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
   const { user } = useUserContext()
   const [projects, setProjects] = useState<Project[]>([])
 
+  const created = useMemo(() => new Date(client.created).toString(), [client.created])
+  const edited = useMemo(() => new Date(client.edited).toString(), [client.edited])
+
   const fetchProjectsOfClient = useCallback(async () => {
     setProjects(await getProjectsByClientId(client.id))
   }, [client])
@@ -114,12 +117,12 @@ const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
                 <TableBody>
                   <TableRow>
                     <TableCell>{t('client.created')}</TableCell>
-                    <TableCell />
+                    <TableCell>{created}</TableCell>
                     <TableCell />
                   </TableRow>
                   <TableRow>
-                    <TableCell>{t('project.modified')}</TableCell>
-                    <TableCell />
+                    <TableCell>{t('client.modified')}</TableCell>
+                    <TableCell>{edited}</TableCell>
                     <TableCell />
                   </TableRow>
                 </TableBody>

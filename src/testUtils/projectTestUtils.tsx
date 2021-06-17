@@ -19,12 +19,36 @@ export const defaultEmployee = {
   isManager: false,
 }
 
+const clients: Client[] = [
+  {
+    id: '1',
+    name: 'Client 1',
+    email: 'client@1.com',
+    created: 0,
+    edited: 0,
+  },
+  {
+    id: '2',
+    name: 'Client 2',
+    email: 'client@2.com',
+    created: 0,
+    edited: 0,
+  },
+  {
+    id: '3',
+    name: 'Client 3',
+    email: 'client@3.com',
+    created: 0,
+    edited: 0,
+  },
+]
+
 const projects: Project[] = [
   {
     id: '1000',
     name: 'Projekti',
     description: '',
-    client: { id: '1', name: 'Client 1' },
+    client: clients[0],
     owner: defaultManager,
     createdBy: defaultManager,
     managers: [defaultManager],
@@ -42,7 +66,7 @@ const projects: Project[] = [
     id: '1001',
     name: 'Toinen projekti',
     description: '',
-    client: { id: '1', name: 'Client 1' },
+    client: clients[0],
     owner: defaultManager,
     createdBy: defaultManager,
     managers: [defaultManager],
@@ -60,7 +84,7 @@ const projects: Project[] = [
     id: '1002',
     name: 'Kolmas projekti',
     description: '',
-    client: { id: '2', name: 'Client 2' },
+    client: clients[1],
     owner: anotherManager,
     createdBy: anotherManager,
     managers: [anotherManager],
@@ -90,21 +114,6 @@ const employees: Employee[] = [
     firstName: 'Another',
     lastName: 'Developer',
     isManager: false,
-  },
-]
-
-const clients: Client[] = [
-  {
-    id: '1',
-    name: 'Client 1',
-  },
-  {
-    id: '2',
-    name: 'Client 2',
-  },
-  {
-    id: '3',
-    name: 'Client 3',
   },
 ]
 
