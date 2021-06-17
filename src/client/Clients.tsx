@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, Link, useRouteMatch, Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button, Grid, Typography } from '@material-ui/core'
 import ClientForm from './ClientForm'
@@ -52,7 +52,7 @@ const ClientsView: React.FC = () => {
           <ClientsTable showAllClients={showAllClients} />
         </Route>
         <Route path={`${path}/new-client`}>
-          <ClientForm />
+          {!user.isManager ? <Redirect to={path} /> : <ClientForm />}
         </Route>
       </Switch>
     </div>
