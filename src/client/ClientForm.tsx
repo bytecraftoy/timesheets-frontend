@@ -57,7 +57,7 @@ const ClientForm: React.FC = () => {
         {t('client.createNew')}
       </Typography>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container direction="column" justify="flex-start" alignItems="flex-start">
+        <Grid container direction="column" justify="flex-start" alignItems="flex-start" spacing={3}>
           <Grid item>
             <FormTextField
               name="name"
