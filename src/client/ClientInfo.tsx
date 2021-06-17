@@ -80,7 +80,7 @@ const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
           <p>{client.name}</p>
         </TableCell>
         <TableCell align="right">
-          <p>{client.email}</p>
+          <a href={`mailto:${client.email}`}>{client.email}</a>
         </TableCell>
         {user.isManager && (
           <TableCell align="right">
