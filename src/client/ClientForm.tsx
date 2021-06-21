@@ -32,7 +32,7 @@ const ClientForm: React.FC = () => {
           severity: 'success',
         })
       } catch (error) {
-        setNotification({ message: error, severity: 'error' })
+        setNotification({ message: error.message, severity: 'error' })
       } finally {
         setToNext(true)
       }
