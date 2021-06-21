@@ -36,7 +36,8 @@
         "title": "Clients",
         "name": "client",
         "form": {
-            "nameLabel": "Client's Name"
+            "nameLabel": "Client's Name",
+            "emailLabel": "Client's Email"
         },
         "message": {
             "createSuccess":"{{client}} created succesfully!"

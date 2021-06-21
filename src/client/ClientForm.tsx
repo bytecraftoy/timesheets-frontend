@@ -72,7 +72,7 @@ const ClientForm: React.FC = () => {
           <Grid item>
             <FormTextField
               name="email"
-              label={t('client.form.nameLabel')}
+              label={t('client.form.emailLabel')}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
               value={formik.values.email}
