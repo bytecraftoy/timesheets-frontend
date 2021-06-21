@@ -60,9 +60,13 @@ const ClientInfo: React.FC<{ client: Client }> = ({ client }) => {
 
   if (isLoading) {
     return (
-      <div>
-        <HourglassEmptyIcon />
-      </div>
+      <>
+        <TableRow>
+          <TableCell>
+            <HourglassEmptyIcon />
+          </TableCell>
+        </TableRow>
+      </>
     )
   }
 
